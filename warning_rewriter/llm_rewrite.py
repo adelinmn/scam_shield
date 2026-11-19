@@ -10,7 +10,7 @@ Design rules:
   * Nothing is logged.
 
 Works with a local Ollama server (default http://localhost:11434), e.g.:
-    ollama pull gemma3:4b
+    ollama pull qwen3:0.6b
 """
 from __future__ import annotations
 

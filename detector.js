@@ -6,16 +6,25 @@
 
 const ENDPOINT = "./api/analyze";
 
+function post(scenario) {
+  return fetch(ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(scenario),
+  });
+}
+
 export async function analyzeScenario(scenario) {
   let response;
   try {
-    response = await fetch(ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(scenario),
-    });
+    response = await post(scenario);
   } catch {
-    throw new Error("Serverul local nu răspunde. Porniți aplicația cu python3 server.py.");
+    // Browsers can drop a reused connection between two requests; one retry is enough.
+    try {
+      response = await post(scenario);
+    } catch {
+      throw new Error("Serverul local nu răspunde. Porniți-l cu: .venv/bin/python server.py");
+    }
   }
 
   if (!response.ok) {
@@ -23,8 +32,7 @@ export async function analyzeScenario(scenario) {
     throw new Error(detail.error || `Detectorul a răspuns cu eroarea ${response.status}.`);
   }
 
-  const result = await response.json();
   // app.js validates verdict / risk_score / scam_type / first_alert / red_flags and
   // expects red_flags as [{ code, message_number }]; the server already sends that shape.
-  return result;
+  return response.json();
 }

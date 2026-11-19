@@ -36,6 +36,17 @@ into `models/multilingual-MiniLMv2-L6-mnli-xnli/`. Once setup finishes, you can
 disconnect. Inference loads the tokenizer and safetensors weights from disk in
 local-only mode. Missing or unreadable model files produce a setup error.
 
+Warnings can also be polished by a local [Ollama](https://ollama.com/download)
+model. Install Ollama if you do not have it, then pull the model once:
+
+```sh
+ollama serve
+ollama pull qwen3:0.6b
+```
+
+Without Ollama everything still runs; the warnings fall back to the built-in
+templates.
+
 CPU is the default. To select a CUDA GPU, install a compatible CUDA build of
 PyTorch 2.8.0 and set `SCAM_SHIELD_DEVICE=cuda:0` before the first analysis.
 Set `SCAM_SHIELD_MODEL_DIR` before setup and inference to use a different local

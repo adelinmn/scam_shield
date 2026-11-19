@@ -4,7 +4,7 @@ Evaluate the pipeline on a labelled set (default: the 100-case testing set).
     python evaluate_set.py                                  # ../testing_set/input + ../testing_set/validation_expected_results_100.csv
     python evaluate_set.py --inputs D --csv F               # other locations
     python evaluate_set.py --detector mypkg.mymodel:my_fn   # YOUR detector (the real test)
-    python evaluate_set.py --llm 10 --model gemma3:4b       # also polish 10 final warnings with the local model
+    python evaluate_set.py --llm 10 --model qwen3:0.6b       # also polish 10 final warnings with the local model
 
 --detector
   stub (default)   regex placeholder. Gives a rough, honest score; not your model.

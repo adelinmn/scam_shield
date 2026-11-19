@@ -89,6 +89,7 @@ def probe_detector() -> str | None:
 
 
 class AppHandler(SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"   # keep-alive; every reply sets Content-Length
     def do_GET(self):
         if urlsplit(self.path).path != "/api/validation-set":
             return super().do_GET()
