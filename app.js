@@ -66,7 +66,7 @@ async function analyze(scenario) {
     const warning = warnings ? await warnings.buildWarning(scenario, result) : null;
     return { scenario, result, warning };
   } catch {
-    return { scenario, result, warning: "Avertismentul nu a putut fi afișat." };
+    return { scenario, result, warningError: "Avertismentul nu a putut fi afișat." };
   }
 }
 
@@ -78,6 +78,7 @@ const appSet = {
   importSummary: "",
 };
 let importQueue = Promise.resolve();
+let openedAlertRoute;
 const renderDashboard = setupDashboard();
 const navLinks = [...document.querySelectorAll("nav [data-view]")];
 const channelView = document.querySelector("#channel-view");
@@ -119,7 +120,9 @@ function renderImportStatus(entries) {
 }
 
 function showView(focusDetail = false) {
-  const [requestedView, encodedId] = location.hash.slice(1).split("/");
+  const route = location.hash;
+  const [requestedView, encodedId, destination] = route.slice(1).split("/");
+  if (focusDetail) openedAlertRoute = undefined;
   const isChannel = Object.hasOwn(channels, requestedView);
   const activeView = isChannel ? requestedView : "dashboard";
   channelView.hidden = !isChannel;
@@ -136,8 +139,12 @@ function showView(focusDetail = false) {
   } catch {
     selectedId = undefined;
   }
-  renderChannel(activeView, appSet.entries.values(), selectedId);
-  if (focusDetail && selectedId) {
+  const alert = renderChannel(activeView, appSet.entries.values(), selectedId);
+  if (destination === "alert" && alert && openedAlertRoute !== route) {
+    openedAlertRoute = route;
+    alert.focus({ preventScroll: true });
+    alert.scrollIntoView({ block: "start", inline: "nearest" });
+  } else if (focusDetail && selectedId) {
     document.querySelector("#inbox-content h2")?.focus();
   }
 }

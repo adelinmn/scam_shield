@@ -70,13 +70,23 @@ export function setupDashboard() {
       channel.href = entryUrl(scenario);
       channel.textContent = channels[scenario.channel].title;
       channel.setAttribute("aria-label", `Deschide scenariul ${scenario.id} în ${channel.textContent}`);
+
+      let firstAlert = "";
+      if (result?.first_alert != null) {
+        firstAlert = document.createElement("a");
+        firstAlert.className = "channel-link";
+        firstAlert.href = entryUrl(scenario, { alert: true });
+        firstAlert.textContent = `Mesajul ${result.first_alert}`;
+        firstAlert.setAttribute("aria-label",
+          `Mergi la alerta de la mesajul ${result.first_alert} din scenariul ${scenario.id}, în ${channel.textContent}`);
+      }
       const codes = [...new Set(result?.red_flags.map((flag) => flag.code))];
       const cells = [
         channel,
         error ?? verdictBadge(result?.verdict, "technical"),
         result?.scam_type ?? "—",
         result?.risk_score ?? "—",
-        result ? result.first_alert ?? "" : "—",
+        result ? firstAlert : "—",
         codes.join(", ") || "—",
       ];
       for (const value of cells) row.insertCell().append(value);

@@ -41,8 +41,8 @@ function groupBySender(entries, channelId) {
   }));
 }
 
-export function entryUrl({ channel, id }) {
-  return `#${channel}/${encodeURIComponent(id)}`;
+export function entryUrl({ channel, id }, { alert = false } = {}) {
+  return `#${channel}/${encodeURIComponent(id)}${alert ? "/alert" : ""}`;
 }
 
 function createElement(tag, className, text) {
@@ -123,10 +123,10 @@ export function renderChannel(channelId, entries, selectedId) {
   detail.append(header);
 
   const analysis = createElement("div", "detail-analysis");
-  renderResult(analysis, analysisEntry);
+  renderResult(analysis, analysisEntry, { showExplanation: analysisEntry.result?.first_alert == null });
   if (selected.entries.length > 1) {
     analysis.prepend(createElement("p", "entry-context analysis-source", `Analiză pentru ${analysisEntry.scenario.id}`));
   }
   detail.append(analysis);
-  renderConversation(detail, selected.entries, channel.layout);
+  return renderConversation(detail, selected.entries, { layout: channel.layout, alertScenarioId: selectedId });
 }

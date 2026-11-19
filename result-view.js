@@ -18,18 +18,17 @@ export function verdictBadge(verdict, mode = "full") {
   return badge;
 }
 
-export function renderResult(container, { result, warning, loading, error }) {
+export function renderResult(container, { result, warning, warningError, loading, error }, { showExplanation = true } = {}) {
   container.replaceChildren();
 
   const banner = document.createElement("div");
   banner.className = `result-banner ${verdicts[result?.verdict]?.style ?? pending.style}`;
   banner.append(verdictBadge(result?.verdict));
-  const explanationText = warning || error || (loading ? "Se analizează scenariul…" : result
-    ? "Textul de avertizare va fi afișat după integrarea modulului de avertismente."
-    : "Scenariul a fost încărcat. Rezultatul va fi afișat după integrarea detectorului.");
-  if (warning || result?.verdict !== "SAFE") {
+  if (showExplanation && (warning || warningError || result?.verdict !== "SAFE")) {
     const explanation = document.createElement("p");
-    explanation.textContent = explanationText;
+    explanation.textContent = warning || warningError || error || (loading ? "Se analizează scenariul…" : result
+      ? "Textul de avertizare va fi afișat după integrarea modulului de avertismente."
+      : "Scenariul a fost încărcat. Rezultatul va fi afișat după integrarea detectorului.");
     banner.append(explanation);
   }
   container.append(banner);
@@ -45,7 +44,7 @@ export function renderResult(container, { result, warning, loading, error }) {
   }
 }
 
-export function renderConversation(container, entries, layout) {
+export function renderConversation(container, entries, { layout, alertScenarioId } = {}) {
   const heading = document.createElement("h3");
   heading.className = "conversation-heading";
   const grouped = entries.length > 1;
@@ -60,8 +59,9 @@ export function renderConversation(container, entries, layout) {
   const messages = document.createElement("ol");
   messages.className = "conversation";
   if (layout) messages.classList.add(layout);
+  let alertMessage;
 
-  for (const { scenario, result } of entries) {
+  for (const { scenario, result, warning } of entries) {
     for (const message of scenario.messages) {
       const item = document.createElement("li");
       item.className = "message";
@@ -77,10 +77,25 @@ export function renderConversation(container, entries, layout) {
         : `${author} · Mesajul ${message.n}`;
       if (grouped) label.prepend(`${scenario.id} · `);
       if (firstAlert) label.append(" · Prima alertă");
+      item.append(label);
+
+      if (layout && firstAlert) {
+        const notice = document.createElement("div");
+        notice.className = "message-warning";
+        const action = document.createElement("p");
+        action.textContent = warning || "Verificați cererea printr-un canal oficial pe care îl cunoașteți.";
+        notice.append(verdictBadge(result.verdict), action);
+        item.append(notice);
+        if (scenario.id === alertScenarioId) {
+          item.tabIndex = -1;
+          alertMessage = item;
+        }
+      }
+
       const body = document.createElement("p");
       body.dir = "auto";
       body.textContent = message.text;
-      item.append(label, body);
+      item.append(body);
 
       const flags = [...new Set(result?.red_flags
         .filter((flag) => flag.message_number === message.n)
@@ -96,4 +111,5 @@ export function renderConversation(container, entries, layout) {
   }
 
   container.append(heading, messages);
+  return alertMessage;
 }
