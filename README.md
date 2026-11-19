@@ -128,7 +128,7 @@ messages, phone numbers and links are omitted from generated results.
 ## Flag wording and thresholds
 
 Edit `phrases` and `threshold` for any flag in the detector's configuration
-file. Each flag starts with one Romanian phrase and a threshold of 0.75.
+file. Each flag has Romanian hypotheses and its own threshold.
 [`scam_detector/flag_config.json`](scam_detector/flag_config.json)
 
 ```json
@@ -143,11 +143,11 @@ file. Each flag starts with one Romanian phrase and a threshold of 0.75.
 }
 ```
 
-Each phrase gets its own model input with the message. The detector takes the
-highest phrase score and adds the flag if that score is at least the flag's
-threshold. Keep phrases short and use a threshold from 0 to 1. Save the file
-and rerun `python test.py ./validation_set` to try a change. Restart a running Python
-application to load the new settings.
+Each phrase gets its own model input with the message. The default aggregation is
+`max`. You can set an optional `aggregation` per flag to `max`, `mean`, `top2`, or
+`top3`. Top-N uses the mean of up to N phrases. The aggregate is compared against
+the flag's threshold. Keep phrases short and use a threshold from 0 to 1.
+Restart a running Python application to load the new settings.
 
 For `RF_SUSPICIOUS_CONTACT`, the rules check declared organization details against
 `official_catalog.json`. They compare the exact hostname, including permitted
@@ -156,9 +156,10 @@ affiliation can carry forward to later sender messages in the same conversation.
 The official point values and verdict bands are fixed.
 
 Edit the array of phrases for each scam type. An entry can be an array directly
-or an object containing a `phrases` array. Each phrase is scored separately,
-and the type with the highest score is selected for a suspicious or scam result.
-A safe result uses `NONE`. Restart the detector after editing the config.
+or an object containing a `phrases` array. Each phrase is scored separately.
+For a suspicious or scam result, the selector ranks compatible types with strong
+behavioral evidence first. `OTHER` is the fallback. A safe result uses `NONE`.
+Restart the detector after editing the config.
 [`scam_detector/scam_type_config.json`](scam_detector/scam_type_config.json)
 
 ## Rules and detector modes
@@ -171,10 +172,10 @@ numbers, sender metadata, channel, and earlier turns.
 `CONFIRMED` flags, and suppresses `REJECTED` flags.
 
 `scam_type_rule_evidence` contains the evidence strength, reasons and matched
-terms. The type selector adds 0.15 for strong compatible evidence and 0.025
-for a weak cue. Weak evidence needs a neural score of at least 0.75 to enter
-the selection. These bonuses apply to selection scores. The JSON
-`scam_type_scores` field exposes the raw model scores.
+terms. The selector uses the model to rank ties between strongly supported types.
+When rules supply no strong candidate, the selector considers compatible types
+with a model score of at least 0.75 and gives weak rule support a 0.025 bonus.
+`scam_type_scores` contains raw model ranking scores.
 
 `context_flags` and `context_flag_messages` expose informational signals such as
 `INFO_BANK_CONTEXT` and `INFO_OTP_NOTICE`. They appear in the terminal and the full
@@ -185,9 +186,13 @@ the flags used by the official score.
 python test.py ./validation_set --mode hybrid
 python test.py ./validation_set --mode model-only
 python test.py ./validation_set --mode rules-only
+python test.py ./validation_set/V04.json --debug --output ./outputs/debug
 ```
 
 The default mode is `hybrid`. `rules-only` can run without model weights.
+With `--debug`, each scenario JSON includes per-turn thresholds, hypothesis
+scores in configuration order, rule reasons, overrides and the type
+selection. The diagnostic output omits raw message text.
 
 ## Tests and validation
 
@@ -212,3 +217,25 @@ The comparison command evaluates all three modes on the 11 validation cases
 and 100 additional cases. It writes the results, per-flag precision, recall
 and F1, false positives on `SAFE` cases, and cases that improved or
 regressed to `outputs/rule_comparison/comparison.json`.
+
+## Accuracy audit and threshold trials
+
+Use a dedicated output directory for each batch. The evaluator checks exact
+scenario ID coverage and reports verdict, scam type, risk score, first alert,
+exact red-flag sets, and per-class precision, recall and F1.
+
+```sh
+python test.py ./testing_set2/input --output ./outputs/audit_improved
+python -m scripts.evaluate ./testing_set2/validation_expected_results.csv ./outputs/audit_improved/results.csv --output ./outputs/audit/comparison.json
+python -m scripts.score_cache ./testing_set2/input ./outputs/audit/scores.json
+python -m scripts.tune_flags ./testing_set2/input ./testing_set2/validation_expected_results.csv ./outputs/audit/scores.json ./outputs/audit/trials.json
+```
+
+The cache stores each hypothesis score alongside the source JSON hash. Regenerate
+it after changing the inputs, hypotheses, or model weights. The tuning command
+compares aggregation methods, rules-only and model-only ablations. It groups
+related scenarios before making three folds and tests each fold using thresholds
+fitted on the other two. It saves the thresholds and metrics for each trial.
+Set `--minimum`, `--maximum`, and `--step` to change the search range or
+`--baseline-config` to repeat a trial with older thresholds and the same phrases.
+See [the audit](AUDIT.md) for this version's evaluation and limitations.

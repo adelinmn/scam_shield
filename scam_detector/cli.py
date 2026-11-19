@@ -227,13 +227,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("input", type=Path, help="JSON scenario file or directory")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="result directory")
     parser.add_argument("--mode", choices=list(DetectionMode), default=DetectionMode.HYBRID)
+    parser.add_argument("--debug", action="store_true", help="include flag decisions and model evidence in scenario JSON")
     args = parser.parse_args(argv)
 
     print("Scam Shield - Offline Detector")
     print(f"\nInput: {args.input}")
     print(f"\n{'Scenario':12} {'Verdict':12} {'Score':>5} {'First alert':>11}  Scam type", flush=True)
     try:
-        analyzer = partial(analyze_scenario, mode=args.mode)
+        analyzer = partial(analyze_scenario, mode=args.mode, debug=args.debug)
         summary, skipped = run_batch(args.input, args.output, analyzer, on_result=print_result)
     except (OSError, ValueError, ModelSetupError, Timeout) as exc:
         print(f"Scam Shield: {exc}", file=sys.stderr)

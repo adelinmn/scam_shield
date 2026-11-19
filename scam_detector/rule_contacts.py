@@ -2,6 +2,7 @@
 
 import re
 from dataclasses import dataclass
+from difflib import SequenceMatcher
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -14,13 +15,15 @@ _EMAIL_DOMAIN = re.compile(r"[\w.!#$%&'*+/=?^{}|~-]+@([\w.-]+\.[a-z]{2,63})", re
 _NON_WORD = re.compile(r"[^a-z0-9]+")
 MARKET_ACCOUNT = pattern(r"cumparator[a-z]*|vanzator[a-z]*|buyer_[a-z0-9]+|seller_[a-z0-9]+")
 _PERSONAL_LABEL = re.compile(r"^(?:client(?:ul|a)?|contribuabil(?:ul)?)\b")
-_AFFILIATION = re.compile(
+_AFFILIATION_GRAMMAR = (
     r"(?:\b(?:sunt(?:em)?|lucrez|(?:va |te )?(?:sun|scriu))\s+"
     r"(?:(?!(?:client(?:ul|a)?|contribuabil(?:ul)?|cumparator(?:ul)?|vanzator(?:ul)?)\b)\w+\s+){0,5}"
     r"(?:de la|din partea|in numele)|\breprezint(?:am)?"
     r"|(?:^|\bsunt(?:em)?\s+)(?:in numele|din partea|"
-    r"(?:reprezentant(?:ul)?|angajat(?:ul)?|operator(?:ul)?) (?:al|a)))\s*$"
+    r"(?:reprezentant(?:ul)?|angajat(?:ul)?|operator(?:ul)?) (?:al|a)))"
 )
+_AFFILIATION = re.compile(_AFFILIATION_GRAMMAR + r"\s*$")
+AFFILIATION_CLAIM = re.compile(_AFFILIATION_GRAMMAR + r"\b")
 
 
 def hostname(address: str) -> str | None:
@@ -70,6 +73,16 @@ class Organization:
                 return True
         return False
 
+    def resembles_domain(self, host: str) -> bool:
+        if self.mentioned_in(host):
+            return True
+        labels = [_NON_WORD.sub("", label) for label in host.split(".")[:-1]]
+        official_labels = {domain.removeprefix("www.").split(".")[0] for domain in self.domains}
+        return any(
+            len(original) >= 6 and SequenceMatcher(None, original, label).ratio() >= 0.88
+            for original in official_labels for label in labels
+        )
+
 
 def load_contacts(path: Path) -> tuple[Organization, ...]:
     if not path.is_file():
@@ -107,6 +120,7 @@ class ContactEvidence:
     official: bool
     suspicious: bool
     affiliation_claim: bool = False
+    reason: str = ""
 
 
 def check_contacts(
@@ -116,6 +130,7 @@ def check_contacts(
     *,
     directed: bool,
     phone_requested: bool,
+    credential_request: bool = False,
     previous: tuple[Message, ...] = (),
 ) -> ContactEvidence:
     if not catalog:
@@ -137,7 +152,11 @@ def check_contacts(
                 explicit = tuple(org for org in catalog if org.claimed_in(turn.text))
                 if explicit:
                     break
-    mentioned = tuple(org for org in catalog if org.mentioned_in(identity + " " + message.text))
+    mentioned = tuple(
+        org for org in catalog
+        if org.mentioned_in(identity + " " + message.text)
+        or any(org.resembles_domain(host) for host in sender_domains | message_domains)
+    )
     sender_phone = phone_key(address)
     sender_matches = tuple(
         org for org in catalog if org.domains & sender_domains or (org.phone and org.phone == sender_phone)
@@ -145,7 +164,10 @@ def check_contacts(
     # An explicit claim determines which catalog entry applies even if the URL names another brand.
     organizations = explicit or sender_matches or mentioned
     if not organizations:
-        return ContactEvidence(False, False, False)
+        suspicious = credential_request and bool(message_domains)
+        return ContactEvidence(
+            False, False, suspicious, reason="credential_request_via_unverified_contact" if suspicious else ""
+        )
     official_domains = frozenset().union(*(org.domains for org in organizations))
     official_phones = {org.phone for org in organizations if org.phone}
     presented_phones = set(filter(None, map(phone_key, message.phone_numbers)))
@@ -157,7 +179,8 @@ def check_contacts(
         or presented_phones & official_phones
     )
     branded_link = any(
-        org.mentioned_in(host) for org in organizations for host in message_domains - official_domains
+        org.resembles_domain(host)
+        for org in organizations for host in (sender_domains | message_domains) - official_domains
     )
     scoped = directed or bool(explicit) or branded_link
     mismatched_domains = scoped and bool(
@@ -168,6 +191,6 @@ def check_contacts(
         bool(explicit and sender_phone and sender_phone not in official_phones)
         or bool(presented_phones - official_phones)
     )
-    return ContactEvidence(
-        bool(mentioned or explicit), official, mismatched_domains or mismatched_phones, bool(explicit)
-    )
+    suspicious = mismatched_domains or mismatched_phones
+    return ContactEvidence(bool(mentioned or explicit), official, suspicious, bool(explicit),
+                           "contact_mismatch_with_official_catalog" if suspicious else "")

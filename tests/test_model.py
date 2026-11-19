@@ -6,10 +6,17 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from scam_detector.flag_definitions import FLAG_DEFINITIONS, load_flag_config
-from scam_detector.model import FlagClassifier, ModelSetupError
+from scam_detector.model import FlagClassifier, ModelSetupError, aggregate_scores
 
 
 class ModelSetupTests(unittest.TestCase):
+    def test_aggregation_and_short_phrase_lists(self):
+        self.assertAlmostEqual(aggregate_scores([0.1, 0.3, 0.8, 0.9], "max"), 0.9)
+        self.assertAlmostEqual(aggregate_scores([0.1, 0.3, 0.8, 0.9], "mean"), 0.525)
+        self.assertAlmostEqual(aggregate_scores([0.1, 0.3, 0.8, 0.9], "top2"), 0.85)
+        self.assertAlmostEqual(aggregate_scores([0.1, 0.3, 0.8, 0.9], "top3"), 2 / 3)
+        self.assertEqual(aggregate_scores([0.6], "top3"), 0.6)
+
     def test_missing_local_model_gives_setup_error(self):
         with TemporaryDirectory() as directory:
             with self.assertRaisesRegex(ModelSetupError, "python -m scripts.download_model"):

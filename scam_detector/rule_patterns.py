@@ -24,11 +24,15 @@ TERMS = {
     "courier": pattern(r"curier[a-z]*|colet[a-z]*|awb|tracking|sameday|cargus|dpd|dhl|gls|ramburs|livrare"),
     "authority": pattern(
         r"anaf|fisc[a-z]*|casa de pensii|pensi[aei][a-z]*|politi[a-z]*|parchet|procuror|primari[a-z]*"
-        r"|minister[a-z]*|guvern[a-z]*|autoritat[a-z]*|instituti[ae] public[a-z]*|amend[aei]"
+        r"|minister[a-z]*|guvern[a-z]*|autoritat[a-z]*|instituti[ae] public[a-z]*|serviciu[a-z]* public[a-z]*|amend[aei]"
     ),
     "family": pattern(
         r"mam[ai]|tat[ai]|taticule|fiul tau|fiica ta|fiule|fiu|fiica|copil[a-z]*|baiatul tau|fata ta"
         r"|bunic[a-z]*|nepot[a-z]*|nepoat[a-z]*|frat[a-z]*|sor[a-z]*|sot[a-z]*|rud[a-z]*|familie"
+    ),
+    "kinship": pattern(
+        r"mam[ai]|tat[ai]|taticule|fiule|fiica mea|familia ta|"
+        r"(?:fiul|fiica|copilul|fratele|sora|nepotul|nepoata|varul|verisoara|baiatul|fata) (?:tau|ta)"
     ),
     "identity": pattern(r"sunt|lucrez|va sun|va scriu|vorbesc|suna[mti]*|reprezint|de la|in numele"),
     "friend": pattern(r"prieten[a-z]*|vecin[a-z]*|sunt eu"),
@@ -38,7 +42,7 @@ TERMS = {
     ),
     "emergency": pattern(
         r"accident[a-z]*|spital[a-z]*|urgent[a-z]*|am o problema|operati[aei]|m-am lovit"
-        r"|am ramas blocat"
+        r"|am ramas blocat|tratament[a-z]*|incident[a-z]*|urgenta medicala"
     ),
     "tech": pattern(
         r"suport(?:ul)? (?:tehnic|it)|asistenta tehnica|helpdesk|microsoft|windows|apple|google"
@@ -70,7 +74,7 @@ TERMS = {
     ),
     "money": pattern(
         r"bani[i]?|suma|lei|eur|euro|transfer[a-z]*|tax[a-z]*|avans[a-z]*|depozit[a-z]*|garanti[a-z]*"
-        r"|plata|comision[a-z]*|numerar"
+        r"|plata|factur[a-z]*|comision[a-z]*|numerar"
     ),
     "investment": pattern(
         r"invest[a-z]*|randament[a-z]*|crypto|criptomonede|bitcoin|ethereum|forex|trading|broker[a-z]*"
@@ -95,13 +99,16 @@ TERMS = {
     ),
     "prize": pattern(r"premi[a-z]*|tombol[a-z]*|loteri[a-z]*|jackpot|voucher[a-z]*|concurs[a-z]*|recompens[a-z]*"),
     "winner": pattern(
-        r"(?:ai|ati|a[st]i fost) (?:fost |ales )?castig[a-z]*|ales[a-z]* castigator[a-z]*"
+        r"(?:ai|ati) (?:fost )?(?:(?:ales[a-z]*|desemnat[a-z]*|selectat[a-z]*) )?castig[a-z]*"
+        r"|(?:ales[a-z]*|desemnat[a-z]*) castigator[a-z]*"
         r"|esti castigator[a-z]*|revendic[a-z]* premi[a-z]*"
     ),
     "urgency": pattern(
-        r"urgent[a-z]*|imediat|chiar acum|(?:plateste|platiti|achita(?:ti)?|trimite(?:ti)?) acum"
+        r"urgent[a-z]*|imediat|chiar acum|daca nu [a-z]+ acum"
+        r"|(?:plateste|platiti|achita(?:ti)?|trimite(?:ti)?|confirma(?:ti)?) acum"
         r"|in (?:urmatoarea ora|\d+\s*(?:de )?(?:h|ore|min[utec]*))"
-        r"|pana (?:la (?:\d+|[a-z]+)|azi|astazi|maine)|azi|astazi|grab[a-z]*va|grabeste te|inainte de"
+        r"|pana (?:la (?:\d+|[a-z]+)|azi|astazi|maine|diseara)|azi|astazi|grab[a-z]*va|grabeste te"
+        r"|inainte (?:de|sa)|in cursul zilei|cat mai (?:repede|rapid)|fara intarziere"
         r"|expir[a-z]*|ultima sansa|altfel pierzi"
     ),
     "threat": pattern(
@@ -110,17 +117,27 @@ TERMS = {
         r"|(?:amenda|sanctiuni) (?:daca|pentru neplata)|risc de inchisoare|consecinte legale"
         r"|(?:infect[a-z]* (?:cu )?|trimite |are |are un )viru[sz][a-z]*|dispozitiv compromis"
         r"|pierde[a-z]* accesul"
+        r"|(?:restrang[a-z]*|limitea[a-z]*|dezactiv[a-z]*) (?:cont[a-z]*|acces[a-z]*)"
+        r"|(?:va|vei|veti) (?:fi (?:amendat[a-z]*|suspendat[a-z]*|restrictionat[a-z]*)|raspunde legal)"
+        r"|(?:poate|pot) atrage (?:amend[a-z]*|sanctiun[a-z]*)|risc[a-z]* (?:o amenda|sanctiun[a-z]*)"
     ),
     "secrecy": pattern(
         r"nu(?:[ -]i)? (?:spune|spuneti|zice|ziceti) (?:nimanui|lui |mamei|tatalui|familiei)[a-z ]*"
-        r"|tine(?:ti)? (?:asta )?intre noi|pastrea[zz][a-z]* (?:asta )?secret[a-z]*|sa nu afle"
-        r"|ramane intre noi|nu (?:verifica|verificati) cu|nu suna(?:ti)? la (?:banca|politie)"
-        r"|nu discuta(?:ti)? cu (?:politia|familia)"
+        r"|tine(?:ti)? (?:asta |discutia )?(?:doar )?intre noi|pastrea[zz][a-z]* (?:asta )?secret[a-z]*"
+        r"|(?:ramane|ramana) (?:doar )?intre noi|(?:doar|strict|numai) intre noi|sa nu afle"
+        r"|nu (?:verifica|verificati) (?:cu|la)|nu suna(?:ti)? la (?:banca|politie)"
+        r"|nu (?:discuta(?:ti)?|vorbi(?:ti)?) cu (?:politia|familia|prietenii|altcineva)"
+        r"|nu (?:le |i |ii )?(?:spune|spuneti|povesti|povestiti|vei povesti|vei spune) "
+        r"(?:nimanui|prietenilor|apropiatilor|parintilor)"
+        r"|nu intreba(?:ti)? (?:pe )?nimeni"
     ),
     "emotion": pattern(
         r"am facut (?:un )?accident|sunt la spital|nu ma lasa singur[a-z]*|sunt disperat[a-z]*"
         r"|daca ma iubesti|numai tu ma poti salva|mi[ -]e frica|nu stiu ce sa fac"
-        r"|am nevoie urgent[a-z]* de ajutor"
+        r"|am nevoie urgent[a-z]* de ajutor|nu ma abandona|daca nu ma ajuti"
+        r"|(?:sunt|ma simt)(?: foarte)? speriat[a-z]*|mi[ -]e teama"
+        r"|(?:in|de) panica|nimeni altcineva nu (?:ma|il|o) poate ajuta"
+        r"|ma (?:intristeaza|doare) cand|nu ma lasa sa"
     ),
     "channel": pattern(
         r"(?:hai|scrie(?:ti)?[ -]mi|mutam discutia|continuam|vorbeste cu mine) (?:pe|in) (?:telegram|whatsapp|signal|messenger|alta aplicatie)"
@@ -148,11 +165,12 @@ ACTIONS = {
     "share": pattern(
         r"(?:re)?trimite(?:ti)?|trimiti|spune(?:ti)?|comunic[a-z]*|citi(?:ti)?|citeste|"
         r"da(?:ti)?[ -]mi|introdu(?:c[a-z]*)?|completea[zz][a-z]*|completati|furni[sz][a-z]*|"
-        r"transmit[a-z]*|redirection[a-z]*|scrie(?:ti)?|confirmati"
+        r"transmit[a-z]*|redirection[a-z]*|scrie(?:ti)?|tastea[zz][a-z]*|tastati|confirmati"
     ),
     "pay": pattern(
-        r"achit[a-z]*|plateste|platiti|transfera(?:ti)?|depune(?:ti)?|vireaza|virati|preda(?:ti)?"
-        r"|(?:fa|faceti|faci)(?:[ -]mi)? (?:tu )?un transfer|trimite(?:ti)?"
+        r"achita(?:ti)?|achiti|plateste|platiti|platesti|transfera(?:ti)?|transferi"
+        r"|depune(?:ti)?|depui|vireaza|virati|virezi|preda(?:ti)?|predai"
+        r"|(?:fa|faceti|faci)(?:[ -]mi)? (?:tu )?un transfer|trimite(?:ti)?|trimiti|imprumuta(?:ti)?"
     ),
     "remote": pattern(
         r"instalea[zz][a-z]*|instala(?:ti)?|permite(?:ti)?|ofera|oferiti|partajea[zz][a-z]*|partajati"
@@ -168,13 +186,30 @@ ACTIONS = {
 _CLAUSE = re.compile(r"[.!?;](?=\s|$)|(?:,\s*|\s+)(?:dar|insa|totusi)\s+")
 _NEGATION = re.compile(
     r"\b(?:nu|niciodata|fara sa|evita(?:ti)? sa)[ -]+"
-    r"(?:(?:i|il|le|l|mi|ni|te|va|mai|trebuie|sa|o sa|rog)\b[ -]*){0,6}$"
+    r"(?:(?:i|il|le|l|mi|ni|te|va|vi|se|mai|trebuie|sa|o sa|rog)\b[ -]*){0,6}$"
 )
 _PRONOUN = re.compile(r"\b(?:mi[ -](?:l|le)|ni[ -](?:l|le)|il|l[ -]mi|le|inapoi)\b")
+_PAYMENT_DOCUMENT = re.compile(r"\b(?:dovada|confirmarea|chitanta) (?:de |a )?$")
+_PRIVATE_DATA = pattern(r"cod[a-z]*|otp|pin[a-z]*|parol[a-z]*|date[a-z]* (?:personale|sensibile|bancare)")
+_PROTECTIVE_ADVICE = pattern(
+    r"nu (?:comunic[a-z]*|dezvalui[a-z]*|divulg[a-z]*|trimit[a-z]*|spun[a-z]*)|"
+    r"pastreaz[a-z]*|pastrati|proteja[a-z]*"
+)
+_RETURNS_DISCLAIMER = pattern(
+    r"nu (?:exista|oferim|promitem|garantam) (?:niciun )?"
+    r"(?:profit[a-z]*|castig[a-z]*|randament[a-z]*|venit[a-z]*)"
+    r"|(?:profit[a-z]*|castig[a-z]*|randament[a-z]*|venit[a-z]*) nu (?:este|e|sunt) garantat[a-z]*"
+)
 OTP_NOTICE = pattern(r"cod(?:ul)?(?: [a-z]+){0,6} (?:este|e|pentru):?\s*\d{4,8}|(?:otp|cod de (?:verificare|confirmare)):?\s*\d{4,8}")
 NO_PAYMENT = pattern(
     r"ramburs\s*:\s*0(?:[,.]0+)?\s*(?:lei|ron)|fara (?:ramburs|plata)|"
-    r"am primit plata|am platit(?: deja)?|plata primita"
+    r"am primit plata|am (?:platit|achitat)(?: deja)?|plata primita|"
+    r"(?:factur[a-z]*|plata|taxa)(?: [a-z]+){0,4} (?:este|a fost|e) "
+    r"(?:deja )?(?:achitat[a-z]*|platit[a-z]*|inregistrat[a-z]*)|"
+    r"nu (?:va |vi se |iti |iti mai |mai )?(?:cer[a-z]*|solicit[a-z]*) "
+    r"(?:[a-z]+ ){0,6}(?:bani|avans[a-z]*|plat[a-z]*|tax[a-z]*|depuner[a-z]*|transfer[a-z]*)|"
+    r"nu (?:am nevoie de|implic[a-z]*|presupun[a-z]*|este necesar[a-z]*) "
+    r"(?:[a-z]+ ){0,4}(?:bani|avans[a-z]*|garanti[a-z]*|plat[a-z]*|tax[a-z]*)"
 )
 DELIVERY_NOTICE = pattern(
     r"(?:colet[a-z]*|pachet[a-z]*|livrare[a-z]*|awb).{0,70}"
@@ -190,7 +225,7 @@ SOCIAL = re.compile(
 )
 PAYMENT_ACTION = {key: pattern(body) for key, body in {
     "login": r"(?:intra(?:ti)?|conect[a-z]*|autentific[a-z]*) (?:in |la )?(?:cont[a-z]*|aplicati[a-z]*)",
-    "deadline": r"in \d+\s*(?:h|ore|min[utec]*)|pana la (?:\d+|maine|azi|astazi)|expir[a-z]*|ultima sansa|grab[a-z]*",
+    "deadline": r"in \d+\s*(?:de )?(?:h|ore|min[utec]*)|pana (?:la (?:\d+|maine|azi|astazi)|diseara)|expir[a-z]*|ultima sansa|grab[a-z]*",
     "support": r"(?:verific[a-z]*|repar[a-z]*|ajut[a-z]*) (?:noi |de la distanta )?(?:calculatorul|dispozitivul|contul|sistemul)",
 }.items()}
 
@@ -206,6 +241,8 @@ def request(text: str, action: str, target: str) -> tuple[bool, bool]:
     clauses = _CLAUSE.split(text)
     for clause in clauses:
         objects = list(TERMS[target].finditer(clause))
+        if action == "pay":
+            objects = [obj for obj in objects if not _PAYMENT_DOCUMENT.search(clause[:obj.start()])]
         reference = previous_object and _PRONOUN.search(clause)
         for verb in ACTIONS[action].finditer(clause):
             if not reference and not any(
@@ -218,6 +255,26 @@ def request(text: str, action: str, target: str) -> tuple[bool, bool]:
                 affirmative = True
         previous_object = bool(objects) or bool(reference)
     return affirmative, denied
+
+
+def isolation(text: str) -> tuple[bool, bool]:
+    """Recognize efforts to prevent verification, separately from advice about private data."""
+    isolating = protective = False
+    for clause in _CLAUSE.split(text):
+        private_advice = bool(_PRIVATE_DATA.search(clause) and _PROTECTIVE_ADVICE.search(clause))
+        protective |= private_advice
+        if matches("secrecy", clause) and not private_advice:
+            isolating = True
+    return isolating, protective
+
+
+def investment_return(text: str) -> tuple[bool, bool]:
+    promised = disclaimed = False
+    for clause in _CLAUSE.split(text):
+        disclaimer = bool(_RETURNS_DISCLAIMER.search(clause))
+        disclaimed |= disclaimer
+        promised |= bool(matches("returns", clause)) and not disclaimer
+    return promised, disclaimed
 
 
 def positive_action(text: str, *kinds: str) -> bool:

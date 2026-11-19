@@ -31,18 +31,7 @@ def load_scam_type_hypotheses() -> dict[str, tuple[str, ...]]:
     return hypotheses
 
 
-def classify_scam_type(
-    classifier: FlagClassifier | None,
-    conversation: Conversation,
-    verdict: str,
-    rule_evidence: Mapping[str, TypeEvidence] | None = None,
-    *,
-    strong_bonus: float = 0.15,
-    weak_bonus: float = 0.025,
-) -> tuple[str, dict[str, float]]:
-    if verdict == "SAFE":
-        return "NONE", {}
-
+def type_premise(conversation: Conversation) -> str:
     lines = []
     if conversation.sender.name:
         lines.append(f"Numele afișat al expeditorului: {normalize_text(conversation.sender.name)}")
@@ -51,25 +40,51 @@ def classify_scam_type(
     for message in conversation.messages:
         speaker = "Expeditor" if message.role == "sender" else "Destinatar"
         lines.append(f"{speaker}: {message.text}")
+    return "\n".join(lines)
+
+
+def classify_scam_type(
+    classifier: FlagClassifier | None,
+    conversation: Conversation,
+    verdict: str,
+    rule_evidence: Mapping[str, TypeEvidence] | None = None,
+    *,
+    strong_bonus: float = 0.15,
+    weak_bonus: float = 0.025,
+    diagnostics: dict | None = None,
+) -> tuple[str, dict[str, float]]:
+    if verdict == "SAFE":
+        if diagnostics is not None:
+            diagnostics.update(reason="safe_verdict", candidates={})
+        return "NONE", {}
+
     scores = (
-        classifier.score_hypotheses(["\n".join(lines)], load_scam_type_hypotheses())[0]
+        classifier.score_hypotheses([type_premise(conversation)], load_scam_type_hypotheses())[0]
         if classifier is not None else {}
     )
     if rule_evidence is None:
-        return max(scores, key=scores.__getitem__, default="OTHER"), scores
+        specific = {code: score for code, score in scores.items() if code != "OTHER" and score >= 0.75}
+        if diagnostics is not None:
+            diagnostics.update(reason="model_score" if specific else "fallback", candidates=specific)
+        return max(specific, key=specific.__getitem__, default="OTHER"), scores
 
     eligible = {
         code: evidence for code, evidence in rule_evidence.items()
         if code != "OTHER" and not evidence.contradicted
     }
-    has_strong = any(item.strength == TypeStrength.STRONG for item in eligible.values())
-    specific = {}
-    for code, evidence in eligible.items():
-        confidence = scores.get(code, 0.0)
-        if evidence.strength == TypeStrength.STRONG:
-            specific[code] = confidence + strong_bonus
-        elif confidence >= 0.75 and (not has_strong or evidence.supported):
-            specific[code] = confidence + (weak_bonus if evidence.supported else 0.0)
-    if specific:
-        return max(specific, key=specific.__getitem__), scores
-    return "OTHER", scores
+    strong = {
+        code: scores.get(code, 0.0) + strong_bonus
+        for code, evidence in eligible.items()
+        if evidence.strength == TypeStrength.STRONG
+    }
+    specific = strong or {
+        code: scores[code] + (weak_bonus if evidence.supported else 0.0)
+        for code, evidence in eligible.items()
+        if scores.get(code, 0.0) >= 0.75
+    }
+    if diagnostics is not None:
+        diagnostics.update(
+            reason="strong_rule_evidence" if strong else "model_score" if specific else "fallback",
+            candidates=specific,
+        )
+    return max(specific, key=specific.__getitem__, default="OTHER"), scores
