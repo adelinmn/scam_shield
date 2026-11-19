@@ -1,5 +1,5 @@
 import { setupDashboard } from "./dashboard.js";
-import { channels, renderAlerts, renderChannel } from "./channels.js";
+import { channels, renderChannel } from "./channels.js";
 
 let detectorModule;
 let warningModule;
@@ -70,22 +70,32 @@ async function analyze(scenario) {
   }
 }
 
-const appSet = { entries: new Map(), failures: [], loading: false };
+const appSet = {
+  entries: new Map(),
+  failures: [],
+  loading: false,
+  latestImportKeys: [],
+  importSummary: "",
+};
 let importQueue = Promise.resolve();
 const renderDashboard = setupDashboard();
 const navLinks = [...document.querySelectorAll("nav [data-view]")];
 const channelView = document.querySelector("#channel-view");
 const dashboard = document.querySelector("#dashboard-view");
 
-function countResults(entries) {
-  const counts = { total: entries.length, SCAM: 0, SUSPICIOUS: 0, SAFE: 0 };
-  for (const { result } of entries) {
-    if (result) counts[result.verdict] += 1;
-  }
-  return counts;
+function formatImportSummary({ added, updated, invalid }) {
+  const parts = [];
+  if (added) parts.push(added === 1 ? "1 scenariu adăugat" : `${added} scenarii adăugate`);
+  if (updated) parts.push(updated === 1 ? "1 scenariu actualizat" : `${updated} scenarii actualizate`);
+  if (invalid) parts.push(invalid === 1 ? "1 fișier invalid" : `${invalid} fișiere invalide`);
+  return parts.length ? `${parts.join(", ")}.` : "Niciun scenariu importat.";
 }
 
 function renderImportStatus(entries) {
+  const summary = document.querySelector("#import-summary");
+  summary.textContent = appSet.importSummary;
+  summary.hidden = appSet.loading || !appSet.importSummary;
+
   const pending = entries.filter((entry) => !entry.result && !entry.error).length;
   const failed = entries.filter((entry) => entry.error).length;
   const status = document.querySelector("#dashboard-status");
@@ -133,20 +143,21 @@ function showView(focusDetail = false) {
 }
 
 function renderDataset() {
-  const entries = [...appSet.entries.values()].sort((a, b) => a.scenario.id.localeCompare(b.scenario.id, "ro"));
-  renderAlerts(entries, appSet.loading);
-  renderDashboard(entries, countResults(entries));
+  const entries = [...appSet.entries.values()];
+  const latestImportEntries = appSet.latestImportKeys.map((key) => appSet.entries.get(key));
+  renderDashboard(entries, latestImportEntries);
   renderImportStatus(entries);
   showView();
 }
 
-function enqueueImport(loadSources) {
+function enqueueImport(loadSources, { manual = false } = {}) {
   importQueue = importQueue.then(async () => {
     appSet.loading = true;
     appSet.failures = [];
     renderDataset();
 
     const imported = new Map();
+    const counts = { added: 0, updated: 0, invalid: 0 };
     try {
       const sources = await loadSources();
       for (const source of sources) {
@@ -154,11 +165,16 @@ function enqueueImport(loadSources) {
         try {
           const scenario = await readScenario(source);
           const key = `${scenario.channel}/${scenario.id}`;
+          if (!imported.has(key)) {
+            const change = appSet.entries.has(key) ? "updated" : "added";
+            counts[change] += 1;
+          }
           imported.set(key, scenario);
           // Reimporting a scenario makes it the latest entry for its sender.
           appSet.entries.delete(key);
           appSet.entries.set(key, { scenario, loading: true });
         } catch (error) {
+          counts.invalid += 1;
           appSet.failures.push(`${source.name} — ${error.message}`);
         }
       }
@@ -172,6 +188,10 @@ function enqueueImport(loadSources) {
     renderDataset();
     for (const [key, scenario] of imported) {
       appSet.entries.set(key, await analyze(scenario));
+    }
+    if (manual) {
+      if (imported.size) appSet.latestImportKeys = [...imported.keys()];
+      appSet.importSummary = formatImportSummary(counts);
     }
     appSet.loading = false;
     renderDataset();
@@ -201,7 +221,7 @@ for (const [buttonId, inputId] of [
   input.addEventListener("change", () => {
     const files = Array.from(input.files);
     input.value = "";
-    if (files.length) enqueueImport(() => files);
+    if (files.length) enqueueImport(() => files, { manual: true });
   });
 }
 

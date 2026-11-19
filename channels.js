@@ -41,7 +41,7 @@ function groupBySender(entries, channelId) {
   }));
 }
 
-function entryUrl({ channel, id }) {
+export function entryUrl({ channel, id }) {
   return `#${channel}/${encodeURIComponent(id)}`;
 }
 
@@ -57,39 +57,6 @@ function avatarFor(scenario) {
   const avatar = createElement("span", "avatar", Array.from(name)[0].toUpperCase());
   avatar.setAttribute("aria-hidden", "true");
   return avatar;
-}
-
-export function renderAlerts(entries, loading) {
-  const list = document.querySelector("#alerts-list");
-  const empty = document.querySelector("#alerts-empty");
-  const alerts = entries.filter(({ result }) => result && result.verdict !== "SAFE");
-  const fragment = document.createDocumentFragment();
-
-  for (const { scenario, result, warning } of alerts) {
-    const channel = channels[scenario.channel];
-    const label = result.verdict === "SCAM" ? "Scam detectat" : "Mesaj de verificat";
-    const item = createElement("li", "alert-row");
-    const link = createElement("a", "alert-link");
-    link.href = entryUrl(scenario);
-    const heading = createElement("strong", "entry-title", `${label} · ${channel.title}`);
-    const caption = createElement("p", "entry-context", `${contactName(scenario)} · ${scenario.id}`);
-    const content = createElement("div", "alert-copy");
-    content.append(heading, caption);
-    if (warning) content.append(createElement("p", "alert-warning", warning));
-    link.append(content, verdictBadge(result.verdict, "compact"));
-    item.append(link);
-    fragment.append(item);
-  }
-
-  list.replaceChildren(fragment);
-  empty.hidden = alerts.length !== 0;
-  if (loading) {
-    empty.textContent = "Se încarcă și se analizează scenariile…";
-  } else if (entries.some((entry) => !entry.result)) {
-    empty.textContent = "Alertele vor apărea aici după finalizarea analizelor.";
-  } else {
-    empty.textContent = entries.length ? "Detectorul nu a semnalat nicio intrare." : "Niciun scenariu încărcat.";
-  }
 }
 
 export function renderChannel(channelId, entries, selectedId) {

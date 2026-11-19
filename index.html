@@ -59,29 +59,43 @@
         </div>
       </header>
 
-      <dl class="summary" aria-label="Sumarul scenariilor">
-        <div><dt>Scenarii încărcate</dt><dd id="count-total">0</dd></div>
-        <div><dt><span class="summary-mark scam" aria-hidden="true">!</span> SCAM</dt><dd id="count-scam">0</dd></div>
-        <div><dt><span class="summary-mark suspicious" aria-hidden="true">?</span> SUSPICIOUS</dt><dd id="count-suspicious">0</dd></div>
-        <div><dt><span class="summary-mark safe" aria-hidden="true">✓</span> SAFE</dt><dd id="count-safe">0</dd></div>
-      </dl>
-
+      <p id="import-summary" class="import-summary" role="status" hidden></p>
       <p id="dashboard-status" class="import-status" role="status" hidden></p>
       <ul id="dashboard-errors" class="feedback error-list" aria-label="Probleme la încărcare" hidden></ul>
 
-      <section class="card alert-card" aria-labelledby="alerts-title">
-        <h2 id="alerts-title">Alerte din aplicații</h2>
-        <p id="alerts-empty" class="empty-state">Se încarcă setul de validare…</p>
-        <ul id="alerts-list" class="alerts-list"></ul>
-      </section>
+      <div class="scope-filters" role="group" aria-label="Set de scenarii" aria-controls="dashboard-table">
+        <button class="button secondary" type="button" data-scope="all" aria-pressed="true">Toate importurile</button>
+        <button class="button secondary" type="button" data-scope="latest" aria-pressed="false" disabled>Ultimul import</button>
+      </div>
+
+      <div class="summary" role="group" aria-label="Filtrează după verdict" aria-controls="dashboard-table">
+        <button class="summary-filter" type="button" data-verdict="all" aria-pressed="true">
+          <span class="summary-label">Toate scenariile</span><span class="summary-count" id="count-total">0</span>
+        </button>
+        <button class="summary-filter" type="button" data-verdict="SCAM" aria-pressed="false">
+          <span class="summary-label"><span class="summary-mark scam" aria-hidden="true">!</span> Scam</span>
+          <span class="summary-count" id="count-scam">0</span>
+        </button>
+        <button class="summary-filter" type="button" data-verdict="SUSPICIOUS" aria-pressed="false">
+          <span class="summary-label"><span class="summary-mark suspicious" aria-hidden="true">?</span> De verificat</span>
+          <span class="summary-count" id="count-suspicious">0</span>
+        </button>
+        <button class="summary-filter" type="button" data-verdict="SAFE" aria-pressed="false">
+          <span class="summary-label"><span class="summary-mark safe" aria-hidden="true">✓</span> În regulă</span>
+          <span class="summary-count" id="count-safe">0</span>
+        </button>
+      </div>
 
       <section aria-labelledby="results-title">
-        <h2 class="results-title" id="results-title">Rezultate pe scenarii</h2>
+        <div class="results-heading">
+          <h2 id="results-title">Rezultate pe scenarii</h2>
+          <p id="results-count" role="status" hidden></p>
+        </div>
         <p id="dashboard-empty" class="card dashboard-empty">Niciun scenariu încărcat.</p>
         <div class="card table-scroll" id="dashboard-table" role="region" aria-labelledby="results-title" tabindex="0" hidden>
           <table aria-labelledby="results-title">
             <thead><tr>
-              <th scope="col">ID</th><th scope="col">Verdict</th><th scope="col">Tip de fraudă</th>
+              <th scope="col">ID</th><th scope="col">Canal</th><th scope="col">Verdict</th><th scope="col">Tip de fraudă</th>
               <th scope="col">Scor</th><th scope="col">Prima alertă</th><th scope="col">Indicii</th>
             </tr></thead>
             <tbody id="dashboard-rows"></tbody>
