@@ -1,0 +1,16 @@
+{
+  "id": "N391",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Victor",
+    "address": "+40 7xx xxx 475",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, sunt Victor, fratele tău, de pe alt număr fiindcă am schimbat cartela. Sunt în drum spre casă, dar a apărut o problemă neprevăzută. Poți să îmi împrumuți 2.150 lei prin transfer, am nevoie înainte să se închidă ghișeul? Nu mă întreba la numărul vechi, acesta e singurul pe care îl folosesc."
+    }
+  ]
+}

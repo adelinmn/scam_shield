@@ -1,0 +1,16 @@
+{
+  "id": "N330",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 323",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Avem un algoritm de tranzacționare despre care vă putem povesti. Performanța este garantată: investiția se triplează fără pierderi. Trimiteți 870 lei într-un portofel pentru a vă activa poziția. Înscrierea se termină în această oră; haideți pe Telegram pentru instrucțiuni."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "N282",
+  "channel": "chat",
+  "sender": {
+    "name": "Cumpărător verificat",
+    "address": "buyer_10082",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, sunt interesat să iau trotineta electrică din anunțul tău."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Am inițiat transferul prin modulul de plăți al platformei și apare în așteptare."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Ca să încasezi, tastează numărul cardului și CVV pe incasare-platforma.example. Confirmarea trebuie încheiată în 20 de minute sau expiră."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

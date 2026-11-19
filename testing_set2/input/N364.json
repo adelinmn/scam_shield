@@ -1,0 +1,41 @@
+{
+  "id": "N364",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Bianca",
+    "address": "+40 7xx xxx 913",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Mi-e dor de tine, iubirea mea, și îmi place să vorbim în fiecare seară. Îți scriu la ora 08:31."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Mă întristează când îți pui întrebări despre noi."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Promite-mi că nu vei povesti nimănui despre relația noastră. Vreau să fim doar noi doi în această poveste."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N379",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Bianca",
+    "address": "+40 7xx xxx 498",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, sunt Bianca, sora ta, îți scriu de pe telefonul unui coleg; numărul meu nu funcționează. Am ajuns la o clinică după un incident și sunt foarte speriat. Trebuie să plătesc imediat 65 lei pentru investigații. Îmi trimiți suma? Te implor, nu mă suna pe vechiul număr și nu discuta cu ai noștri."
+    }
+  ]
+}

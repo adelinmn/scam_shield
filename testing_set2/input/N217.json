@@ -1,0 +1,31 @@
+{
+  "id": "N217",
+  "channel": "sms",
+  "sender": {
+    "name": "Dispecerat colet",
+    "address": "+40 7xx xxx 985",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactez din partea unui operator de curierat. Există o taxă suplimentară pentru manipularea expediției."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Vă rog să achitați taxa de 65 lei înainte să putem continua. Confirmarea plății este necesară pentru expediere."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

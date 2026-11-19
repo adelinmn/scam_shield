@@ -1,0 +1,16 @@
+{
+  "id": "N218",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Colectă de urgență",
+    "address": "+40 7xx xxx 601",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Strângem donații pentru un caz social foarte dificil din comunitate. Un copil ar rămâne fără tratament și nimeni altcineva nu îl poate ajuta. Vă rog să virați 65 lei în contul personal indicat, pentru operație. Nu discutați cu fundații sau instituții; păstrați inițiativa secretă și trimiteți astăzi."
+    }
+  ]
+}

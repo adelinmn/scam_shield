@@ -1,0 +1,16 @@
+{
+  "id": "N265",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 406",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, tata! Noi pregătim masa pentru duminică. Am pus deoparte și desertul preferat de Sara. Nu trebuie să cumpărați nimic, avem tot ce ne trebuie. Vă îmbrățișăm, ne vedem după-amiază."
+    }
+  ]
+}

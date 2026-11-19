@@ -1,0 +1,31 @@
+{
+  "id": "N290",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 788",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Mamă, te iubesc și sper să ai o zi liniștită. Îți scriu la ora 16:35. Azi am avut o zi lungă la facultate."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Mă odihnesc și îți povestesc când ne vedem. Nu am nevoie de bani, doar voiam să te salut."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

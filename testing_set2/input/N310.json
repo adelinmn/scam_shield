@@ -1,0 +1,16 @@
+{
+  "id": "N310",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 520",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Astăzi prezentăm un portofoliu de active digitale. Îți scriu la ora 15:19. Materialul promite profit garantat, indiferent de evoluția pieței. Trebuie să decideți înainte de închiderea sesiunii de azi. Vă transmitem informații suplimentare dacă doriți."
+    }
+  ]
+}

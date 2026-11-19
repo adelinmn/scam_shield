@@ -1,0 +1,41 @@
+{
+  "id": "N289",
+  "channel": "email",
+  "sender": {
+    "name": "Activare card",
+    "address": "confirmari@banca-confirmare.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactează departamentul de carduri al Banca Dunărea."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Accesul la card va fi oprit dacă validarea rămâne neterminată."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Completați numărul integral al cardului și codul CVV în formularul de la card-validare.example. Vă rugăm să finalizați în cel mult 45 de minute."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N399",
+  "channel": "sms",
+  "sender": {
+    "name": "Depozit logistic",
+    "address": "+40 7xx xxx 264",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Suntem echipa de depozitare a companiei de transport Sameday. Pachetul cu referința 96939090 a depășit perioada de păstrare. Pentru eliberare plătiți 3.780 lei prin depozit-curier.example. Fără achitarea serviciului de depozitare coletul rămâne închis."
+    }
+  ]
+}

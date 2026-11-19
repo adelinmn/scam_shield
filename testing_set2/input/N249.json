@@ -1,0 +1,16 @@
+{
+  "id": "N249",
+  "channel": "email",
+  "sender": {
+    "name": "Buletin financiar",
+    "address": "newsletter@informare.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Ediția acestei săptămâni explică diferența dintre economisire și investiție. Referință internă: 90228428. Randamentele pieței pot fi pozitive sau negative. Nu există profit garantat și materialul nu solicită transferuri. Decizia de a investi trebuie luată după evaluarea propriilor riscuri."
+    }
+  ]
+}

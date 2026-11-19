@@ -1,0 +1,16 @@
+{
+  "id": "N298",
+  "channel": "email",
+  "sender": {
+    "name": "Centru conturi sociale",
+    "address": "asistenta@verifica-profil.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Am detectat o posibilă problemă cu autentificarea profilului dumneavoastră. Referință internă: 94669478. Dacă nu verificați accesul, contul va fi dezactivat. Completați parola de conectare și adresa folosită la cont în pagina profil-recovery.example. Rezolvați verificarea înainte de sfârșitul acestei ore."
+    }
+  ]
+}

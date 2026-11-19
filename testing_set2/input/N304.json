@@ -1,0 +1,16 @@
+{
+  "id": "N304",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Serviciu verificare PC",
+    "address": "+40 7xx xxx 350",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt consultant la un centru de suport pentru calculatoare. Referință internă: 91546139. Sistemul dumneavoastră ar putea fi infectat cu un program periculos. Voi explica situația când putem vorbi. Nu vă solicit încă instalarea niciunui program."
+    }
+  ]
+}

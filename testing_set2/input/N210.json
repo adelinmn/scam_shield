@@ -1,0 +1,41 @@
+{
+  "id": "N210",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "contact@eveniment.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă transmitem regulamentul concursului cultural de săptămâna aceasta. Referință internă: 90523065."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Participarea este gratuită și înscrierile sunt încă deschise."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Câștigătorii nu au fost desemnați și nu se solicită date bancare. Vă mulțumim pentru interes și vă dorim succes."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N335",
+  "channel": "email",
+  "sender": {
+    "name": "Recruiter activități digitale",
+    "address": "recrutare@taskuri.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Avem o colaborare online cu sarcini de câteva minute. Referință internă: 97141467. Venitul zilnic este garantat, fără calificare sau efort. Locurile se rezervă numai dacă răspundeți în următoarea oră. Nu vi se cere deocamdată nicio depunere."
+    }
+  ]
+}

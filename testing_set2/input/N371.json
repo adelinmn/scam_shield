@@ -1,0 +1,31 @@
+{
+  "id": "N371",
+  "channel": "email",
+  "sender": {
+    "name": "Asistență browser",
+    "address": "help@actualizare-sistem.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactează echipa de suport Google pentru o problemă identificată pe computer. Referință internă: 92097216. Un program periculos poate bloca accesul la fișiere."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Deschideți Quick Assist și acordați acces la distanță tehnicianului nostru. Trimiteți și parola de acces la cont pentru confirmarea reparației."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

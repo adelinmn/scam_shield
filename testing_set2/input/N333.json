@@ -1,0 +1,31 @@
+{
+  "id": "N333",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Birou sancțiuni",
+    "address": "+40 2xx xxx 835",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vorbesc în numele unui serviciu public de constatare. Referință internă: 94471660. În registru apare o abatere ce poate atrage sancțiuni."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Voi reveni cu mai multe informații în cursul zilei. Nu vă cer acum niciun document sau transfer."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

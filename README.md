@@ -138,29 +138,45 @@ threshold. Keep phrases short and use a threshold from 0 to 1. Save the file
 and rerun `python test.py ./validation_set` to try a change. Restart a running Python
 application to load the new settings.
 
-`RF_SUSPICIOUS_CONTACT` is also a provisional model prediction. Confirming it
-reliably requires official contact verification. The official point values and
-verdict bands are fixed.
+For `RF_SUSPICIOUS_CONTACT`, the rules check declared organization details against
+`official_catalog.json`. They compare the exact hostname, including permitted
+subdomains, and the normalized sender or advertised callback number. An explicit
+affiliation can carry forward to later sender messages in the same conversation.
+The official point values and verdict bands are fixed.
 
-Edit the `phrases` arrays to tune scam types. Each phrase is scored separately,
+Edit the array of phrases for each scam type. An entry can be an array directly
+or an object containing a `phrases` array. Each phrase is scored separately,
 and the type with the highest score is selected for a suspicious or scam result.
 A safe result uses `NONE`. Restart the detector after editing the config.
 [`scam_detector/scam_type_config.json`](scam_detector/scam_type_config.json)
 
-## Future rule integration
+## Rules and detector modes
 
 Subclass `RuleEngine` in [`scam_detector/rules.py`](scam_detector/rules.py) and
 pass an instance as `ScamDetector(..., rules=engine)`. `evaluate(message, context)`
 receives the original and normalized message text, extracted URLs and phone
-numbers, sender metadata, channel, and earlier turns. The scaffold exposes the
-path to `official_catalog.json` and returns `UNKNOWN` for every flag.
+numbers, sender metadata, channel, and earlier turns.
 `FlagFusionEngine` uses the model threshold for `UNKNOWN`, activates
 `CONFIRMED` flags, and suppresses `REJECTED` flags.
 
-Future rule work includes official domain and phone checks, OTP requests versus
-informational messages, sensitive data requests, payment and transfer requests,
-remote access, deadlines and urgency, secrecy, new-number claims, and negations
-that lead to false positives.
+`scam_type_rule_evidence` contains the evidence strength, reasons and matched
+terms. The type selector adds 0.15 for strong compatible evidence and 0.025
+for a weak cue. Weak evidence needs a neural score of at least 0.75 to enter
+the selection. These bonuses apply to selection scores. The JSON
+`scam_type_scores` field exposes the raw model scores.
+
+`context_flags` and `context_flag_messages` expose informational signals such as
+`INFO_BANK_CONTEXT` and `INFO_OTP_NOTICE`. They appear in the terminal and the full
+scenario JSON and contribute zero points. The CSV `red_flags` column contains
+the flags used by the official score.
+
+```sh
+python test.py ./validation_set --mode hybrid
+python test.py ./validation_set --mode model-only
+python test.py ./validation_set --mode rules-only
+```
+
+The default mode is `hybrid`. `rules-only` can run without model weights.
 
 ## Tests and validation
 
@@ -172,6 +188,7 @@ python -m unittest discover -s tests -v
 SCAM_SHIELD_RUN_MODEL_TESTS=1 python -m unittest discover -s tests -v
 python test.py ./validation_set
 python -m scripts.validate
+python -m scripts.compare_modes
 ```
 
 In PowerShell, set `$env:SCAM_SHIELD_RUN_MODEL_TESTS = '1'` before running the
@@ -180,20 +197,7 @@ against the official CSV, accepts alert messages 3–5 for V11, and writes
 `outputs/validation.json` with the expected and observed values and all
 field-level differences. It exits with status 1 when differences remain.
 
-The CPU run with all thresholds at 0.75 processed 11 scenarios. It matched
-2/11 complete results, 6/11 verdicts, 6/11 alert positions, 4/11 scam types,
-2/11 scores and 2/11 red-flag sets.
-
-| Scenario | Expected verdict / score / alert | Observed verdict / score / alert |
-| --- | --- | --- |
-| V01 | SCAM / 70 / 1 | SAFE / 0 / — |
-| V02 | SCAM / 65 / 1 | SAFE / 0 / — |
-| V03 | SAFE / 0 / — | SAFE / 0 / — |
-| V04 | SCAM / 80 / 5 | SUSPICIOUS / 45 / 5 |
-| V05 | SAFE / 0 / — | SAFE / 0 / — |
-| V06 | SCAM / 85 / 1 | SAFE / 0 / — |
-| V07 | SCAM / 95 / 1 | SCAM / 75 / 1 |
-| V08 | SCAM / 70 / 3 | SCAM / 55 / 3 |
-| V09 | SUSPICIOUS / 35 / 1 | SAFE / 0 / — |
-| V10 | SCAM / 50 / 1 | SCAM / 60 / 1 |
-| V11 | SCAM / 100 / 3–5 | SCAM / 90 / 1 |
+The comparison command evaluates all three modes on the 11 validation cases
+and 100 additional cases. It writes the results, per-flag precision, recall
+and F1, false positives on `SAFE` cases, and cases that improved or
+regressed to `outputs/rule_comparison/comparison.json`.

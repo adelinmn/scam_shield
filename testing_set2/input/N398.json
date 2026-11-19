@@ -1,0 +1,16 @@
+{
+  "id": "N398",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Teodor",
+    "address": "+40 7xx xxx 516",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt Teodor, fiul tău. Am pierdut telefonul în delegație și acesta e numărul temporar. Nu reușesc să mă cazez și nu îmi merge cardul. Te rog virează-mi 2.150 lei ca să achit camera în seara asta. Nu întreba pe nimeni din familie, e ceva ce vreau să rezolv discret."
+    }
+  ]
+}

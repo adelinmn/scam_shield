@@ -1,0 +1,41 @@
+{
+  "id": "N326",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Daria",
+    "address": "+40 7xx xxx 606",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, sunt Daria, nepoata ta; folosesc pentru moment alt număr."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Mi-am pierdut telefonul de dimineață."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Scrie-mi în maximum zece minute, trebuie să lămurim ceva acum. Nu îți solicit bani, vreau doar să ne auzim."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

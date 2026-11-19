@@ -1,0 +1,16 @@
+{
+  "id": "N334",
+  "channel": "email",
+  "sender": {
+    "name": "Departament recrutare",
+    "address": "hr@angajator.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă invităm la interviul pentru postul de asistent administrativ. Discuția este programată luni la ora 10:30. Interviul este gratuit și nu implică garanții sau taxe. Vă rugăm doar să confirmați disponibilitatea prin răspuns la acest mesaj. Referință corespondență: 96636616."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N230",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 109",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, mă interesează anunțul cu ceasul vechi. Aș vrea să verific produsul la întâlnire înainte să decid. Îl pot vedea în locul public stabilit de comun acord? Nu trimit și nu vă cer date de card ori avans."
+    }
+  ]
+}

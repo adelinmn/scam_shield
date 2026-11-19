@@ -1,0 +1,31 @@
+{
+  "id": "N277",
+  "channel": "chat",
+  "sender": {
+    "name": "Departament randamente",
+    "address": "+40 7xx xxx 792",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Contul dvs. de investiții arată un câștig garantat de 1.430 lei. Suma figurează ca disponibilă pentru retragere."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Înainte de încasare trebuie să virați 310 lei pentru deblocarea fondurilor. Nu discutați această procedură cu banca; verificarea este confidențială."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

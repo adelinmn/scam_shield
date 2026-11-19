@@ -16,13 +16,15 @@ class FlagFusionEngine:
             self.thresholds[flag] = threshold
 
     def select(
-        self, model_scores: Mapping[str, float], rule_evidence: Mapping[str, RuleStatus]
+        self, model_scores: Mapping[str, float] | None, rule_evidence: Mapping[str, RuleStatus]
     ) -> list[str]:
         active = []
         for flag, threshold in self.thresholds.items():
             status = rule_evidence.get(flag, RuleStatus.UNKNOWN)
             if status == RuleStatus.CONFIRMED or (
-                status == RuleStatus.UNKNOWN and model_scores[flag] >= threshold
+                status == RuleStatus.UNKNOWN
+                and model_scores is not None
+                and model_scores[flag] >= threshold
             ):
                 active.append(flag)
         return active

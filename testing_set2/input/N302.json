@@ -1,0 +1,31 @@
+{
+  "id": "N302",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Departament protecție conturi",
+    "address": "+40 7xx xxx 780",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, sunt operatorul unei echipe de securitate de la o bancă regională. O plată străină este în curs; riscați să pierdeți accesul la cont."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Pentru protecție mutați 870 lei în contul de siguranță indicat de mine. Operațiunea trebuie făcută chiar acum; nu consultați pe nimeni înainte."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}
