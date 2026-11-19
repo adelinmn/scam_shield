@@ -59,7 +59,7 @@ function avatarFor(scenario) {
   return avatar;
 }
 
-export function renderChannel(channelId, entries, selectedId) {
+export function renderChannel(channelId, entries, selectedId, { drafting = false } = {}) {
   const channel = channels[channelId];
   const title = document.querySelector("#channel-title");
   const description = document.querySelector("#channel-description");
@@ -71,7 +71,7 @@ export function renderChannel(channelId, entries, selectedId) {
   const back = document.querySelector("#back-to-inbox");
   const matching = groupBySender(entries, channelId);
   const explicit = matching.find((thread) => thread.entries.some((entry) => entry.scenario.id === selectedId));
-  const selected = explicit ?? matching[0];
+  const selected = drafting ? undefined : explicit ?? matching[0];
 
   title.textContent = channel.title;
   description.textContent = `${matching.length} ${channel.counts[matching.length === 1 ? 0 : 1]}`;
@@ -79,7 +79,7 @@ export function renderChannel(channelId, entries, selectedId) {
   empty.textContent = "Nu există încă intrări pe acest canal.";
   empty.hidden = matching.length !== 0;
   inbox.dataset.layout = channel.layout;
-  inbox.dataset.detailOpen = String(Boolean(explicit));
+  inbox.dataset.detailOpen = String(drafting || Boolean(explicit));
   back.href = `#${channelId}`;
 
   const fragment = document.createDocumentFragment();
@@ -104,7 +104,8 @@ export function renderChannel(channelId, entries, selectedId) {
   }
   list.replaceChildren(fragment);
   detail.replaceChildren();
-  if (!selected) return;
+  if (drafting) detail.append(createElement("h2", "entry-title", "Conversație nouă"));
+  if (!selected) return {};
 
   const { scenario } = selected.latest;
   const analysisEntry = selected.entries.find((entry) => entry.scenario.id === selectedId)
@@ -128,5 +129,6 @@ export function renderChannel(channelId, entries, selectedId) {
     analysis.prepend(createElement("p", "entry-context analysis-source", `Analiză pentru ${analysisEntry.scenario.id}`));
   }
   detail.append(analysis);
-  return renderConversation(detail, selected.entries, { layout: channel.layout, alertScenarioId: selectedId });
+  const alert = renderConversation(detail, selected.entries, { layout: channel.layout, alertScenarioId: selectedId });
+  return { alert, entry: selected.latest };
 }
