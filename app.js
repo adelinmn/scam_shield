@@ -56,8 +56,8 @@ async function analyze(scenario) {
           && scenario.messages.some((message) => message.n === flag.message_number))) {
       throw new Error("Rezultat incompatibil cu formatul convenit.");
     }
-  } catch {
-    return { scenario, result: null, error: "Scenariul nu a putut fi analizat." };
+  } catch (error) {
+    return { scenario, result: null, error: error?.message || "Scenariul nu a putut fi analizat." };
   }
 
   try {
@@ -74,6 +74,8 @@ const appSet = {
   entries: new Map(),
   failures: [],
   loading: false,
+  queued: 0,
+  progress: null,
   latestImportKeys: [],
   importSummary: "",
 };
@@ -100,14 +102,23 @@ function renderImportStatus(entries) {
   const pending = entries.filter((entry) => !entry.result && !entry.error).length;
   const failed = entries.filter((entry) => entry.error).length;
   const status = document.querySelector("#dashboard-status");
-  if (appSet.loading) {
-    status.textContent = "Se încarcă și se analizează scenariile…";
+
+  // Always say what is happening: an upload waiting behind another import used to look
+  // like nothing at all, so the detector seemed not to run on the new files.
+  const messages = [];
+  if (appSet.queued) {
+    messages.push(appSet.queued === 1 ? "Un import este în așteptare." : `${appSet.queued} importuri sunt în așteptare.`);
+  }
+  if (appSet.progress) {
+    const { done, total, id } = appSet.progress;
+    messages.push(`Se analizează ${done}/${total}${id ? ` (${id})` : ""}…`);
+  } else if (appSet.loading) {
+    messages.push("Se citesc fișierele…");
   } else {
-    const messages = [];
     if (pending) messages.push(`${pending} scenarii așteaptă integrarea detectorului.`);
     if (failed) messages.push(`${failed} scenarii nu au putut fi analizate.`);
-    status.textContent = messages.join(" ");
   }
+  status.textContent = messages.join(" ");
   status.hidden = !status.textContent;
 
   const errors = document.querySelector("#dashboard-errors");
@@ -158,7 +169,11 @@ function renderDataset() {
 }
 
 function enqueueImport(loadSources, { manual = false } = {}) {
-  importQueue = importQueue.then(async () => {
+  appSet.queued += 1;
+  renderImportStatus([...appSet.entries.values()]);
+
+  const task = async () => {
+    appSet.queued = Math.max(0, appSet.queued - 1);
     appSet.loading = true;
     appSet.failures = [];
     renderDataset();
@@ -193,16 +208,31 @@ function enqueueImport(loadSources, { manual = false } = {}) {
     }
 
     renderDataset();
+    let done = 0;
     for (const [key, scenario] of imported) {
+      appSet.progress = { done, total: imported.size, id: scenario.id };
+      renderImportStatus([...appSet.entries.values()]);
       appSet.entries.set(key, await analyze(scenario));
+      done += 1;
     }
     if (manual) {
       if (imported.size) appSet.latestImportKeys = [...imported.keys()];
       appSet.importSummary = formatImportSummary(counts);
     }
-    appSet.loading = false;
-    renderDataset();
-  });
+  };
+
+  // A rejected task must never poison the queue: one bad import used to make every
+  // later upload silently do nothing.
+  importQueue = importQueue
+    .then(task)
+    .catch((error) => {
+      appSet.failures.push(`Importul a eșuat: ${error?.message || error}`);
+    })
+    .then(() => {
+      appSet.loading = false;
+      appSet.progress = null;
+      renderDataset();
+    });
 }
 
 async function validationSources() {
