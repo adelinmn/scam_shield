@@ -1,0 +1,16 @@
+{
+  "id": "R005",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 725",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Mami, sunt Ioana, mi-am schimbat numărul. Trimite-mi azi 2,99 lei și nu-i spune tatei."
+    }
+  ]
+}

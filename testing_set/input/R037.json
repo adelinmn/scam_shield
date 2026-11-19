@@ -1,0 +1,31 @@
+{
+  "id": "R037",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 529",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Mi-e atât de dor de tine, nu știu ce m-aș face fără tine."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Ce s-a întâmplat?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Am o problemă și sunt foarte speriat. Te rog, transferă-mi urgent 79 lei. Nu spune nimănui despre asta, îți explic mai târziu."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Îmi poți explica?"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "R058",
+  "channel": "chat",
+  "sender": {
+    "name": "Cristina",
+    "address": "+40 7xx xxx 290",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, mai este valabil anunțul cu bicicleta?"
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Pot să vin să o văd personal?"
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Perfect, mulțumesc. Nu trimit și nu cer avans."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Mulțumesc pentru informație."
+    }
+  ]
+}

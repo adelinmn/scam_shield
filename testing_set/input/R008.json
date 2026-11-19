@@ -1,0 +1,41 @@
+{
+  "id": "R008",
+  "channel": "sms",
+  "sender": {
+    "name": "Recrutare",
+    "address": "+40 7xx xxx 561",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Oferim câștiguri garantate de 400 lei pe zi pentru câteva like-uri."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Ce presupune activitatea?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Poți lucra oricând de pe telefon."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Cum funcționează?"
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Pentru începere, achită azi un depozit de 2.760 lei."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "De ce este necesar depozitul?"
+    }
+  ]
+}

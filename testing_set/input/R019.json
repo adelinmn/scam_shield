@@ -1,0 +1,41 @@
+{
+  "id": "R019",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Ana",
+    "address": "+40 7xx xxx 339",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, sunt Maria!"
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Te sunam să văd dacă aveți planuri duminică."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Ne vedem la prânz, dacă puteți?"
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Mulțumesc pentru informație."
+    }
+  ]
+}

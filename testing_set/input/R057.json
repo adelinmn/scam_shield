@@ -1,0 +1,31 @@
+{
+  "id": "R057",
+  "channel": "sms",
+  "sender": {
+    "name": "BancaDunarea",
+    "address": "+40 7xx xxx 522",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, sunt de la departamentul de securitate al Băncii Dunărea."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Contul dumneavoastră este blocat din motive de securitate. Pentru verificare, intrați în 24 de ore pe bancadunarea-verificare.example."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Ce problemă este?"
+    }
+  ]
+}

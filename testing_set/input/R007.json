@@ -1,0 +1,16 @@
+{
+  "id": "R007",
+  "channel": "sms",
+  "sender": {
+    "name": "Radu",
+    "address": "+40 7xx xxx 458",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună! Mai este bicicleta disponibilă? Aș putea să o văd mâine, fără avans."
+    }
+  ]
+}

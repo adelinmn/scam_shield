@@ -1,0 +1,41 @@
+{
+  "id": "R087",
+  "channel": "sms",
+  "sender": {
+    "name": "Radu",
+    "address": "+40 7xx xxx 786",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, am primit o notificare pe telefon."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Era despre un cod de verificare."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Nu trebuie să-mi trimiți niciun cod, doar voiam să-ți spun."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Mulțumesc pentru informație."
+    }
+  ]
+}

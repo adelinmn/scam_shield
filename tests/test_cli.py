@@ -143,7 +143,7 @@ class LauncherTests(unittest.TestCase):
             output = Path(directory) / "results"
             command = [
                 sys.executable,
-                "test",
+                "test.py",
                 "validation_set/V04.json",
                 "--output",
                 str(output),
@@ -159,3 +159,15 @@ class LauncherTests(unittest.TestCase):
             )
             self.assertEqual(result.read_bytes(), baseline)
             self.assertIn("Scenarios processed: 1", first.stdout)
+            saved = json.loads(baseline)
+            row = next(line for line in first.stdout.splitlines() if line.startswith("V04 "))
+            self.assertEqual(
+                row.split(),
+                [
+                    "V04",
+                    saved["verdict"],
+                    str(saved["risk_score"]),
+                    str(saved["first_alert"] or "-"),
+                    saved["scam_type"],
+                ],
+            )

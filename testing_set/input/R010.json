@@ -1,0 +1,31 @@
+{
+  "id": "R010",
+  "channel": "sms",
+  "sender": {
+    "name": "Maria",
+    "address": "+40 7xx xxx 628",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, am primit o notificare pe telefon."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Era despre un cod de verificare. Nu trebuie să-mi trimiți niciun cod, doar voiam să-ți spun."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    }
+  ]
+}

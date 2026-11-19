@@ -1,0 +1,16 @@
+{
+  "id": "R017",
+  "channel": "sms",
+  "sender": {
+    "name": "Cumpărător PiațaMea",
+    "address": "+40 7xx xxx 880",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vreau să cumpăr bicicleta. Ca să primiți plata, introduceți datele cardului pe piatamea-plati.example. Linkul expiră în 30 de minute."
+    }
+  ]
+}

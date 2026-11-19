@@ -1,0 +1,16 @@
+{
+  "id": "R027",
+  "channel": "sms",
+  "sender": {
+    "name": "Maria",
+    "address": "+40 7xx xxx 178",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Ți-am trimis un cod de verificare din greșeală. Trimite-mi-l urgent înapoi, te rog."
+    }
+  ]
+}

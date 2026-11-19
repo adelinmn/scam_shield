@@ -1,0 +1,51 @@
+{
+  "id": "R036",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 834",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, vă informăm despre o campanie publicitară."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Am și câteva informații suplimentare despre această situație."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Sunt reduceri la produse selectate, în magazin."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Mulțumesc pentru informație."
+    },
+    {
+      "n": 7,
+      "from": "sender",
+      "text": "Nu este nevoie să răspundeți și nu vă cerem date personale."
+    },
+    {
+      "n": 8,
+      "from": "reader",
+      "text": "O zi bună!"
+    }
+  ]
+}

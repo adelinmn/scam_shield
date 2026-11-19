@@ -1,12 +1,10 @@
 """Public detection API and chronological analysis."""
 
 from collections.abc import Mapping
-from pathlib import Path
 from threading import Lock
 
 from .conversation import Conversation, parse_scenario
 from .flag_definitions import FLAG_DEFINITIONS
-from .flag_profiles import load_flag_profile
 from .fusion import FlagFusionEngine
 from .model import FlagClassifier
 from .rules import RuleContext, RuleEngine
@@ -25,13 +23,6 @@ class ScamDetector:
         self.classifier = classifier
         self.fusion = FlagFusionEngine(thresholds)
         self.rules = rules if rules is not None else RuleEngine()
-
-    @classmethod
-    def from_flag_profile(cls, path: str | Path) -> "ScamDetector":
-        profile = load_flag_profile(path)
-        return cls(
-            FlagClassifier(flag_hypotheses=profile.hypotheses), thresholds=profile.thresholds
-        )
 
     def analyze_scenario(self, scenario: dict) -> dict:
         return self.analyze_conversation(parse_scenario(scenario))

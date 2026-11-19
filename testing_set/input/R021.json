@@ -1,0 +1,16 @@
+{
+  "id": "R021",
+  "channel": "sms",
+  "sender": {
+    "name": "Andrei",
+    "address": "+40 7xx xxx 752",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună! Mai este bicicleta disponibilă? Aș putea să o văd mâine, fără avans."
+    }
+  ]
+}

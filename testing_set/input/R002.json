@@ -1,0 +1,41 @@
+{
+  "id": "R002",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "BancaDunarea",
+    "address": "+40 7xx xxx 693",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, sunt de la departamentul de securitate al Băncii Dunărea."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Contul dumneavoastră este blocat din motive de securitate."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Ce problemă este?"
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Pentru verificare, intrați în 30 de minute pe bancadunarea-verificare.example."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "De unde știu că sunteți de la bancă?"
+    }
+  ]
+}

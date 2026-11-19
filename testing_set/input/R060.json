@@ -1,0 +1,31 @@
+{
+  "id": "R060",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 917",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, vă informăm despre o campanie publicitară."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Sunt reduceri la produse selectate, în magazin. Nu este nevoie să răspundeți și nu vă cerem date personale."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    }
+  ]
+}

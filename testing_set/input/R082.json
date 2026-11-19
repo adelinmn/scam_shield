@@ -1,0 +1,16 @@
+{
+  "id": "R082",
+  "channel": "sms",
+  "sender": {
+    "name": "ANAF",
+    "address": "+40 7xx xxx 985",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt de la Casa de Pensii. Pensia crește garantat cu 312 lei! Spuneți-mi CNP-ul, numărul cardului și codul primit prin SMS."
+    }
+  ]
+}

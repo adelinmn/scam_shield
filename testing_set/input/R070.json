@@ -1,0 +1,31 @@
+{
+  "id": "R070",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 810",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, vă informăm despre statusul plății."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Plata a fost deja înregistrată în sistem. Nu este necesară nicio acțiune sau altă plată."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    }
+  ]
+}

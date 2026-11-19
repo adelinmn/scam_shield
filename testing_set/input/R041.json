@@ -1,0 +1,16 @@
+{
+  "id": "R041",
+  "channel": "sms",
+  "sender": {
+    "name": "Maria",
+    "address": "+40 7xx xxx 251",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, Mihai! Mulțumesc pentru ajutor. Te anunț când ajung acasă."
+    }
+  ]
+}

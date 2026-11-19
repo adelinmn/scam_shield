@@ -14,8 +14,8 @@ from tempfile import NamedTemporaryFile
 
 from filelock import FileLock, Timeout
 
-from .conversation import ScenarioError, parse_scenario
-from .detector import ScamDetector, analyze_scenario
+from .conversation import ScenarioError
+from .detector import analyze_scenario
 from .model import ModelSetupError
 from .model_assets import PROJECT_ROOT
 
@@ -170,12 +170,11 @@ def run_batch(
     output_path: Path = DEFAULT_OUTPUT,
     analyze: Callable[[dict], dict] = analyze_scenario,
     *,
-    flag_profile: Path | None = None,
+    on_result: Callable[[dict], None] | None = None,
 ) -> tuple[dict, int]:
     input_path, output_path = input_path.resolve(), output_path.resolve()
     files = scenario_files(input_path, output_path)
     results = []
-    detector = None
     filenames = set()
     skipped = 0
     for file in files:
@@ -185,21 +184,16 @@ def run_batch(
                 name = result_filename(scenario["id"]).casefold()
                 if name in filenames:
                     raise ScenarioError("Duplicate scenario id or result filename.")
-            if flag_profile is None:
-                result = analyze(scenario)
-            else:
-                conversation = parse_scenario(scenario)
+            result = analyze(scenario)
         except UnicodeError:
             reason = "Input contains invalid Unicode text."
         except (OSError, ScenarioError) as exc:
             reason = str(exc)
         else:
-            if flag_profile is not None:
-                if detector is None:
-                    detector = ScamDetector.from_flag_profile(flag_profile)
-                result = detector.analyze_conversation(conversation)
             results.append(result)
             filenames.add(result_filename(result["id"]).casefold())
+            if on_result is not None:
+                on_result(result)
             continue
         print(f"Skipped {file.name}: {reason}", file=sys.stderr)
         skipped += 1
@@ -213,21 +207,33 @@ def run_batch(
     return summary, skipped
 
 
+def print_result(result: dict) -> None:
+    scenario_id = ascii(result["id"])[1:-1]
+    first_alert = result["first_alert"]
+    alert = str(first_alert) if first_alert is not None else "-"
+    print(
+        f"{scenario_id:<12} {result['verdict']:<12} {result['risk_score']:>5} "
+        f"{alert:>11}  {result['scam_type']}",
+        flush=True,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", type=Path, help="JSON scenario file or directory")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="result directory")
-    parser.add_argument("--flag-profile", type=Path, help="JSON hypotheses and thresholds")
     args = parser.parse_args(argv)
+
+    print("Scam Shield - Offline Detector")
+    print(f"\nInput: {args.input}")
+    print(f"\n{'Scenario':12} {'Verdict':12} {'Score':>5} {'First alert':>11}  Scam type", flush=True)
     try:
-        summary, skipped = run_batch(args.input, args.output, flag_profile=args.flag_profile)
+        summary, skipped = run_batch(args.input, args.output, on_result=print_result)
     except (OSError, ValueError, ModelSetupError, Timeout) as exc:
         print(f"Scam Shield: {exc}", file=sys.stderr)
         return 1
 
-    print("Scam Shield - Offline Detector")
-    print(f"\nInput: {args.input}")
-    print(f"Scenarios processed: {summary['total_scenarios']}")
+    print(f"\nScenarios processed: {summary['total_scenarios']}")
     if skipped:
         print(f"Files skipped: {skipped}")
     for verdict in ("scam", "suspicious", "safe"):

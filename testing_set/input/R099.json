@@ -1,0 +1,31 @@
+{
+  "id": "R099",
+  "channel": "chat",
+  "sender": {
+    "name": "Suport Windows",
+    "address": "+40 7xx xxx 328",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, actualizarea sistemului este completă."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Nu mai aveți nimic de instalat. Evitați programele de control la distanță sugerate de persoane necunoscute."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    }
+  ]
+}

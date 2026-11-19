@@ -1,0 +1,31 @@
+{
+  "id": "R081",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Suport Windows",
+    "address": "+40 7xx xxx 199",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, de la suportul tehnic Windows vă sun. Computerul are un virus."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Ce problemă are calculatorul?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Instalați AnyDesk pentru a vă putea ajuta de la distanță. Acum autentificați-vă în contul bancar ca să verificăm situația."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Ce trebuie să fac?"
+    }
+  ]
+}

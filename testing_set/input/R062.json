@@ -1,0 +1,16 @@
+{
+  "id": "R062",
+  "channel": "sms",
+  "sender": {
+    "name": "BancaDunarea",
+    "address": "+40 7xx xxx 977",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Banca Dunărea: contul a fost blocat. Pentru verificare accesați urgent, astăzi, bancadunarea-verificare.example."
+    }
+  ]
+}

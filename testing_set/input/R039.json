@@ -1,0 +1,16 @@
+{
+  "id": "R039",
+  "channel": "sms",
+  "sender": {
+    "name": "MegaShop",
+    "address": "+40 7xx xxx 435",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "MegaShop: ați câștigat 450 lei la tombolă! Plătiți taxa de revendicare ca să primiți premiul."
+    }
+  ]
+}

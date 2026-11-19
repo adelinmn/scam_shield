@@ -1,0 +1,16 @@
+{
+  "id": "R009",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 449",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Profit garantat 300% fără risc! Depuneți 2.760 lei astăzi pentru investiție."
+    }
+  ]
+}

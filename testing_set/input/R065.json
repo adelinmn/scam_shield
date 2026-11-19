@@ -1,0 +1,16 @@
+{
+  "id": "R065",
+  "channel": "sms",
+  "sender": {
+    "name": "Recrutare",
+    "address": "+40 7xx xxx 681",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Câștigi garantat 400 lei pe zi doar dând like-uri. Achită depozitul de 79 lei până diseară."
+    }
+  ]
+}

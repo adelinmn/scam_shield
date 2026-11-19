@@ -1,0 +1,16 @@
+{
+  "id": "R061",
+  "channel": "sms",
+  "sender": {
+    "name": "ANAF",
+    "address": "031 403 91 60",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "ANAF: consultați informațiile generale în contul dvs. de pe anaf.ro. Nu furnizați date personale prin mesaje."
+    }
+  ]
+}
