@@ -1,98 +1,122 @@
 {
-  "BANK_IMPERSONATION": [
-    "Expeditorul se prezintă drept o bancă sau un angajat al băncii.",
-    "Un mesaj care pare trimis de bancă anunță blocarea cardului și solicită deblocarea lui printr-un link.",
-    "O persoană care pretinde că lucrează la departamentul antifraudă al băncii cere verificarea unei tranzacții suspecte.",
-    "Expeditorul folosește identitatea unei bănci pentru a cere autentificarea într-un cont bancar printr-o pagină indicată.",
-    "Un presupus reprezentant bancar cere confirmarea urgentă a datelor sau a unui cod pentru securizarea contului.",
-    "Mesajul pretinde că provine de la bancă și direcționează clientul către un număr sau un site pentru evitarea blocării contului."
-  ],
-  "COURIER_FEE": [
-    "Expeditorul cere plata unei taxe pentru livrarea unui colet.",
-    "Un mesaj în numele unei firme de curierat spune că un colet este reținut până la plata unei taxe.",
-    "Presupusul curier solicită o plată mică pentru reprogramarea unei livrări nereușite.",
-    "Expeditorul cere achitarea unei taxe de transport sau vamale înainte să poată preda un colet.",
-    "O notificare de livrare trimite destinatarul la un site unde trebuie să plătească pentru confirmarea adresei.",
-    "Expeditorul susține că pachetul va fi returnat dacă destinatarul nu achită rapid o taxă de depozitare."
-  ],
-  "AUTHORITY_IMPERSONATION": [
-    "Expeditorul se prezintă drept reprezentantul unei autorități sau instituții publice.",
-    "Un mesaj care pretinde că vine de la ANAF oferă o rambursare și cere date personale sau bancare pentru încasare.",
-    "Expeditorul se dă drept polițist și solicită bani ori informații pentru rezolvarea unei presupuse probleme legale.",
-    "O persoană care pretinde că lucrează la Casa de Pensii promite o majorare și solicită CNP-ul ori datele cardului.",
-    "Un presupus funcționar public invocă o amendă sau o sancțiune și cere plata printr-un link primit în mesaj.",
-    "Un mesaj aparent oficial cere actualizarea urgentă a dosarului fiscal sau a identității pe un portal indicat."
-  ],
-  "FAMILY_EMERGENCY": [
-    "Expeditorul pretinde că este o rudă sau un prieten aflat într-o urgență și cere ajutor.",
-    "O persoană care spune că este copilul destinatarului scrie de pe un număr nou și solicită urgent un transfer.",
-    "Expeditorul pretinde că este o rudă implicată într-un accident și cere bani pentru o cheltuială imediată.",
-    "Un presupus membru al familiei spune că are telefonul stricat și nu poate folosi aplicația bancară, apoi cere bani.",
-    "Un prieten care pretinde că se află într-o situație dificilă solicită un împrumut rapid și promite să îl restituie.",
-    "Cineva care se prezintă drept o persoană apropiată cere ajutor financiar și insistă ca familia să nu fie anunțată."
-  ],
-  "TECH_SUPPORT": [
-    "Expeditorul se prezintă drept suport tehnic și pretinde că dispozitivul destinatarului are o problemă.",
-    "Cineva care se prezintă drept suport Microsoft sau Windows avertizează despre viruși și cere intervenție pe calculator.",
-    "Presupusul tehnician solicită instalarea AnyDesk sau TeamViewer pentru a controla dispozitivul de la distanță.",
-    "Un apelant care pretinde că oferă asistență tehnică cere acces la ecran pentru a repara o eroare inventată.",
-    "Expeditorul pretinde că dispozitivul a fost compromis și cere instalarea unui instrument de asistență la distanță.",
-    "Un fals angajat de suport cere utilizatorului să intre în contul bancar în timp ce îl ajută la calculator."
-  ],
-  "MARKETPLACE": [
-    "Expeditorul folosește pretextul unei tranzacții pe o platformă de vânzări online pentru a cere date sau bani.",
-    "Un cumpărător de pe o platformă de anunțuri pretinde că a plătit și cere datele cardului pentru primirea banilor.",
-    "Expeditorul trimite un link de plată fals, prezentat drept serviciu sigur de livrare al unei platforme de vânzări.",
-    "Un presupus cumpărător cere vânzătorului să confirme tranzacția pe un site extern înainte de încasarea banilor.",
-    "Un vânzător de pe un site de anunțuri solicită un avans pentru rezervarea sau expedierea unui produs inexistent.",
-    "O conversație despre cumpărarea unui produs se transformă într-o cerere de introducere a datelor bancare pe un link extern."
-  ],
-  "ACCOUNT_TAKEOVER": [
-    "Expeditorul încearcă să obțină un cod de verificare pentru a accesa contul altei persoane.",
-    "O persoană cunoscută susține că a trimis din greșeală un cod SMS și cere să îi fie retransmis.",
-    "Expeditorul solicită codul de autentificare în doi pași primit de destinatar pentru a confirma un cont.",
-    "Cineva cere un cod temporar de conectare la WhatsApp sau la o altă aplicație, pretinzând că are nevoie de ajutor.",
-    "Un mesaj cere redirecționarea unui cod de verificare care permite accesul la un cont online.",
-    "O persoană care pretinde că este de la suportul unui serviciu cere parola temporară sau codul necesar autentificării."
-  ],
-  "INVESTMENT": [
-    "Expeditorul propune o investiție cu profit rapid sau garantat.",
-    "Expeditorul promite un câștig garantat sau un randament neobișnuit de mare pentru banii investiți.",
-    "Un mesaj promovează o investiție în criptomonede și cere depunerea imediată a unei sume pentru activare.",
-    "O persoană se prezintă drept expert financiar și promite profit fără risc dintr-o oportunitate limitată.",
-    "Expeditorul invită destinatarul într-un grup de investiții care promite câștiguri rapide din tranzacții.",
-    "Un presupus broker cere o taxă suplimentară pentru retragerea profitului afișat pe o platformă de investiții."
-  ],
-  "ROMANCE": [
-    "Expeditorul pretinde că are o relație romantică cu destinatarul și îi cere bani.",
-    "O persoană cunoscută online declară sentimente romantice și cere bani pentru o urgență personală.",
-    "Un pretins partener sentimental cere un transfer și invocă iubirea sau încrederea pentru a evita verificările.",
-    "Expeditorul susține că nu poate ajunge la persoana iubită fără bani pentru bilet sau călătorie.",
-    "O persoană care flirtează online pretinde că are probleme medicale și solicită ajutor financiar imediat.",
-    "Un presupus iubit cere păstrarea secretului relației în timp ce solicită bani pentru depășirea unei probleme."
-  ],
-  "JOB_OFFER": [
-    "Expeditorul oferă un loc de muncă și solicită în schimb bani sau date personale.",
-    "Un mesaj promite câștiguri zilnice mari pentru sarcini foarte simple, cum ar fi like-uri sau recenzii.",
-    "Un presupus angajator cere plata unui depozit pentru activarea unui job de acasă.",
-    "Expeditorul oferă un loc de muncă rapid și solicită o taxă de înscriere ori de instruire înainte de angajare.",
-    "O ofertă de lucru online cere bani pentru deblocarea unor sarcini care ar aduce comisioane garantate.",
-    "Un fals recrutor promite angajare imediată și cere date bancare sensibile printr-un formular neoficial."
-  ],
-  "PRIZE_LOTTERY": [
-    "Expeditorul anunță că destinatarul a câștigat un premiu la o tombolă sau loterie.",
-    "Expeditorul anunță destinatarul că a câștigat un telefon sau un alt obiect la o tombolă neașteptată.",
-    "Un mesaj pretinde că destinatarul a fost selectat câștigător și îi cere să răspundă pentru revendicarea premiului.",
-    "O persoană cere achitarea unei taxe pentru eliberarea unui premiu la loterie sau la un concurs.",
-    "Un mesaj în numele unui magazin promite un voucher câștigat și trimite către un formular de revendicare.",
-    "Expeditorul anunță un premiu în bani care trebuie revendicat urgent prin introducerea datelor personale."
-  ],
-  "OTHER": [
-    "Expeditorul folosește un alt tip de înșelătorie.",
-    "Expeditorul solicită bani pentru o donație înșelătoare, fără să fie vorba despre celelalte tipuri de scam definite.",
-    "O persoană cere un avans pentru închirierea unei locuințe fictive, fără legătură cu o platformă de vânzări.",
-    "Un mesaj pretinde că un serviciu de utilități va fi întrerupt și cere plata frauduloasă a unei datorii.",
-    "Expeditorul amenință că va publica informații private dacă destinatarul nu trimite bani, fără un alt pretext specific.",
-    "Cineva inventează o datorie personală și cere plata imediată printr-un canal neobișnuit, fără a pretinde că este o autoritate."
-  ]
+  "BANK_IMPERSONATION": {
+    "phrases": [
+      "Expeditorul se prezintă drept o bancă sau un angajat al băncii.",
+      "Un mesaj care pare trimis de bancă anunță blocarea cardului și solicită deblocarea lui printr-un link.",
+      "O persoană care pretinde că lucrează la departamentul antifraudă al băncii cere verificarea unei tranzacții suspecte.",
+      "Expeditorul folosește identitatea unei bănci pentru a cere autentificarea într-un cont bancar printr-o pagină indicată.",
+      "Un presupus reprezentant bancar cere confirmarea urgentă a datelor sau a unui cod pentru securizarea contului.",
+      "Mesajul pretinde că provine de la bancă și direcționează clientul către un număr sau un site pentru evitarea blocării contului."
+    ]
+  },
+  "COURIER_FEE": {
+    "phrases": [
+      "Expeditorul cere plata unei taxe pentru livrarea unui colet.",
+      "Un mesaj în numele unei firme de curierat spune că un colet este reținut până la plata unei taxe.",
+      "Presupusul curier solicită o plată mică pentru reprogramarea unei livrări nereușite.",
+      "Expeditorul cere achitarea unei taxe de transport sau vamale înainte să poată preda un colet.",
+      "O notificare de livrare trimite destinatarul la un site unde trebuie să plătească pentru confirmarea adresei.",
+      "Expeditorul susține că pachetul va fi returnat dacă destinatarul nu achită rapid o taxă de depozitare."
+    ]
+  },
+  "AUTHORITY_IMPERSONATION": {
+    "phrases": [
+      "Expeditorul se prezintă drept reprezentantul unei autorități sau instituții publice.",
+      "Un mesaj care pretinde că vine de la ANAF oferă o rambursare și cere date personale sau bancare pentru încasare.",
+      "Expeditorul se dă drept polițist și solicită bani ori informații pentru rezolvarea unei presupuse probleme legale.",
+      "O persoană care pretinde că lucrează la Casa de Pensii promite o majorare și solicită CNP-ul ori datele cardului.",
+      "Un presupus funcționar public invocă o amendă sau o sancțiune și cere plata printr-un link primit în mesaj.",
+      "Un mesaj aparent oficial cere actualizarea urgentă a dosarului fiscal sau a identității pe un portal indicat."
+    ]
+  },
+  "FAMILY_EMERGENCY": {
+    "phrases": [
+      "Expeditorul pretinde că este o rudă sau un prieten aflat într-o urgență și cere ajutor.",
+      "O persoană care spune că este copilul destinatarului scrie de pe un număr nou și solicită urgent un transfer.",
+      "Expeditorul pretinde că este o rudă implicată într-un accident și cere bani pentru o cheltuială imediată.",
+      "Un presupus membru al familiei spune că are telefonul stricat și nu poate folosi aplicația bancară, apoi cere bani.",
+      "Un prieten care pretinde că se află într-o situație dificilă solicită un împrumut rapid și promite să îl restituie.",
+      "Cineva care se prezintă drept o persoană apropiată cere ajutor financiar și insistă ca familia să nu fie anunțată."
+    ]
+  },
+  "TECH_SUPPORT": {
+    "phrases": [
+      "Expeditorul se prezintă drept suport tehnic și pretinde că dispozitivul destinatarului are o problemă.",
+      "Cineva care se prezintă drept suport Microsoft sau Windows avertizează despre viruși și cere intervenție pe calculator.",
+      "Presupusul tehnician solicită instalarea AnyDesk sau TeamViewer pentru a controla dispozitivul de la distanță.",
+      "Un apelant care pretinde că oferă asistență tehnică cere acces la ecran pentru a repara o eroare inventată.",
+      "Expeditorul pretinde că dispozitivul a fost compromis și cere instalarea unui instrument de asistență la distanță.",
+      "Un fals angajat de suport cere utilizatorului să intre în contul bancar în timp ce îl ajută la calculator."
+    ]
+  },
+  "MARKETPLACE": {
+    "phrases": [
+      "Expeditorul folosește pretextul unei tranzacții pe o platformă de vânzări online pentru a cere date sau bani.",
+      "Un cumpărător de pe o platformă de anunțuri pretinde că a plătit și cere datele cardului pentru primirea banilor.",
+      "Expeditorul trimite un link de plată fals, prezentat drept serviciu sigur de livrare al unei platforme de vânzări.",
+      "Un presupus cumpărător cere vânzătorului să confirme tranzacția pe un site extern înainte de încasarea banilor.",
+      "Un vânzător de pe un site de anunțuri solicită un avans pentru rezervarea sau expedierea unui produs inexistent.",
+      "O conversație despre cumpărarea unui produs se transformă într-o cerere de introducere a datelor bancare pe un link extern."
+    ]
+  },
+  "ACCOUNT_TAKEOVER": {
+    "phrases": [
+      "Expeditorul încearcă să obțină un cod de verificare pentru a accesa contul altei persoane.",
+      "O persoană cunoscută susține că a trimis din greșeală un cod SMS și cere să îi fie retransmis.",
+      "Expeditorul solicită codul de autentificare în doi pași primit de destinatar pentru a confirma un cont.",
+      "Cineva cere un cod temporar de conectare la WhatsApp sau la o altă aplicație, pretinzând că are nevoie de ajutor.",
+      "Un mesaj cere redirecționarea unui cod de verificare care permite accesul la un cont online.",
+      "O persoană care pretinde că este de la suportul unui serviciu cere parola temporară sau codul necesar autentificării."
+    ]
+  },
+  "INVESTMENT": {
+    "phrases": [
+      "Expeditorul propune o investiție cu profit rapid sau garantat.",
+      "Expeditorul promite un câștig garantat sau un randament neobișnuit de mare pentru banii investiți.",
+      "Un mesaj promovează o investiție în criptomonede și cere depunerea imediată a unei sume pentru activare.",
+      "O persoană se prezintă drept expert financiar și promite profit fără risc dintr-o oportunitate limitată.",
+      "Expeditorul invită destinatarul într-un grup de investiții care promite câștiguri rapide din tranzacții.",
+      "Un presupus broker cere o taxă suplimentară pentru retragerea profitului afișat pe o platformă de investiții."
+    ]
+  },
+  "ROMANCE": {
+    "phrases": [
+      "Expeditorul pretinde că are o relație romantică cu destinatarul și îi cere bani.",
+      "O persoană cunoscută online declară sentimente romantice și cere bani pentru o urgență personală.",
+      "Un pretins partener sentimental cere un transfer și invocă iubirea sau încrederea pentru a evita verificările.",
+      "Expeditorul susține că nu poate ajunge la persoana iubită fără bani pentru bilet sau călătorie.",
+      "O persoană care flirtează online pretinde că are probleme medicale și solicită ajutor financiar imediat.",
+      "Un presupus iubit cere păstrarea secretului relației în timp ce solicită bani pentru depășirea unei probleme."
+    ]
+  },
+  "JOB_OFFER": {
+    "phrases": [
+      "Expeditorul oferă un loc de muncă și solicită în schimb bani sau date personale.",
+      "Un mesaj promite câștiguri zilnice mari pentru sarcini foarte simple, cum ar fi like-uri sau recenzii.",
+      "Un presupus angajator cere plata unui depozit pentru activarea unui job de acasă.",
+      "Expeditorul oferă un loc de muncă rapid și solicită o taxă de înscriere ori de instruire înainte de angajare.",
+      "O ofertă de lucru online cere bani pentru deblocarea unor sarcini care ar aduce comisioane garantate.",
+      "Un fals recrutor promite angajare imediată și cere date bancare sensibile printr-un formular neoficial."
+    ]
+  },
+  "PRIZE_LOTTERY": {
+    "phrases": [
+      "Expeditorul anunță că destinatarul a câștigat un premiu la o tombolă sau loterie.",
+      "Expeditorul anunță destinatarul că a câștigat un telefon sau un alt obiect la o tombolă neașteptată.",
+      "Un mesaj pretinde că destinatarul a fost selectat câștigător și îi cere să răspundă pentru revendicarea premiului.",
+      "O persoană cere achitarea unei taxe pentru eliberarea unui premiu la loterie sau la un concurs.",
+      "Un mesaj în numele unui magazin promite un voucher câștigat și trimite către un formular de revendicare.",
+      "Expeditorul anunță un premiu în bani care trebuie revendicat urgent prin introducerea datelor personale."
+    ]
+  },
+  "OTHER": {
+    "phrases": [
+      "Expeditorul folosește un alt tip de înșelătorie.",
+      "Expeditorul solicită bani pentru o donație înșelătoare, fără să fie vorba despre celelalte tipuri de scam definite.",
+      "O persoană cere un avans pentru închirierea unei locuințe fictive, fără legătură cu o platformă de vânzări.",
+      "Un mesaj pretinde că un serviciu de utilități va fi întrerupt și cere plata frauduloasă a unei datorii.",
+      "Expeditorul amenință că va publica informații private dacă destinatarul nu trimite bani, fără un alt pretext specific.",
+      "Cineva inventează o datorie personală și cere plata imediată printr-un canal neobișnuit, fără a pretinde că este o autoritate."
+    ]
+  }
 }
