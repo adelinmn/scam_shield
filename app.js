@@ -87,11 +87,10 @@ const renderDashboard = setupDashboard();
 const navLinks = [...document.querySelectorAll("nav [data-view]")];
 const channelView = document.querySelector("#channel-view");
 const dashboard = document.querySelector("#dashboard-view");
-const simulationForm = document.querySelector("#simulation-form");
-const simulationRole = document.querySelector("#simulation-role");
-const simulationMessage = document.querySelector("#simulation-message");
+const simulationPanel = document.querySelector("#simulation-panel");
+const simulationMessages = [...simulationPanel.querySelectorAll("textarea")];
+const simulationSubmits = [...simulationPanel.querySelectorAll('button[type="submit"]')];
 const simulationStatus = document.querySelector("#simulation-status");
-const simulationSubmit = simulationForm.querySelector('button[type="submit"]');
 
 function scenarioKey({ channel, id }) {
   return `${channel}/${id}`;
@@ -101,12 +100,18 @@ function hasSender(scenario) {
   return scenario.messages.some((message) => message.from === "sender");
 }
 
+function updateSimulationSubmits() {
+  for (const button of simulationSubmits) button.disabled = queuedImports > 0;
+}
+
 function updateSimulator(channel, entry, drafting = false) {
   const key = entry ? scenarioKey(entry.scenario) : drafting ? `${channel}/` : undefined;
-  if (simulationTarget?.key !== key) simulationMessage.value = "";
-  simulationTarget = key === undefined ? undefined : { key, channel, entry };
-  simulationForm.hidden = !simulationTarget;
-  simulationSubmit.disabled = queuedImports > 0;
+  if (simulationTarget?.key !== key) {
+    for (const message of simulationMessages) message.value = "";
+  }
+  simulationTarget = key === undefined ? undefined : { key, channel };
+  simulationPanel.hidden = !simulationTarget;
+  updateSimulationSubmits();
 
   simulationStatus.replaceChildren();
   if (queuedImports > 0) {
@@ -189,7 +194,7 @@ function showView(focusDetail = false) {
   } else if (focusDetail && selectedId) {
     document.querySelector("#inbox-content h2")?.focus();
   } else if (focusDetail && drafting) {
-    simulationMessage.focus();
+    document.querySelector("#simulation-sender").focus();
   }
 }
 
@@ -203,7 +208,7 @@ function renderDataset() {
 
 function enqueueImport(loadSources, { manual = false } = {}) {
   queuedImports += 1;
-  simulationSubmit.disabled = true;
+  updateSimulationSubmits();
   scenarioQueue = scenarioQueue.then(async () => {
     appSet.loading = true;
     appSet.failures = [];
@@ -272,10 +277,12 @@ document.querySelector("#new-conversation").addEventListener("click", () => {
   if (Object.hasOwn(channels, channel)) location.hash = `#${channel}//new`;
 });
 
-simulationForm.addEventListener("submit", (event) => {
+simulationPanel.addEventListener("submit", (event) => {
   event.preventDefault();
   if (!simulationTarget || queuedImports > 0) return;
 
+  const form = event.target;
+  const simulationMessage = form.elements.namedItem("message");
   const text = simulationMessage.value.trim();
   if (!text) {
     simulationStatus.textContent = "Scrie un mesaj înainte de a-l adăuga.";
@@ -286,7 +293,7 @@ simulationForm.addEventListener("submit", (event) => {
 
   const current = appSet.entries.get(simulationTarget.key);
   const previous = current?.scenario ?? newSimulation(simulationTarget.channel);
-  const from = simulationRole.value;
+  const from = form.dataset.role;
   const n = (previous.messages.at(-1)?.n ?? 0) + 1;
   const scenario = { ...previous, messages: [...previous.messages, { n, from, text }] };
   const key = scenarioKey(scenario);
@@ -310,6 +317,7 @@ simulationForm.addEventListener("submit", (event) => {
   appSet.entries.delete(key);
   appSet.entries.set(key, entry);
   simulationMessage.value = "";
+  simulationTarget.key = key;
   history.replaceState(null, "", entryUrl(scenario));
   renderDataset();
   simulationMessage.focus();
