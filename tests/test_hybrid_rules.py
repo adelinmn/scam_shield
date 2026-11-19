@@ -11,11 +11,11 @@ from scam_detector.rules import RuleContext, RuleEngine, RuleStatus
 from scripts.validate import EXPECTED, compare, read_results
 
 
-def scenario(*turns, sender_address=None, known_contact=False):
+def scenario(*turns, sender_address=None, known_contact=False, sender_name=None):
     return {
         "id": "example",
         "channel": "sms",
-        "sender": {"name": None, "address": sender_address, "known_contact": known_contact},
+        "sender": {"name": sender_name, "address": sender_address, "known_contact": known_contact},
         "messages": [
             {"n": index, "from": role, "text": text}
             for index, (role, text) in enumerate(turns, 1)
@@ -187,6 +187,21 @@ class DeterministicRulesTests(unittest.TestCase):
         self.assertTrue(fallback.supported)
 
 
+class AccountAlarmClassifier:
+    def classify(self, text):
+        return dict.fromkeys(FLAG_DEFINITIONS, 0.0) | {
+            "RF_CODE_REQUEST": 1.0,
+            "RF_IMPERSONATION": 1.0,
+            "RF_SECRECY": 1.0,
+        }
+
+    def score_hypotheses(self, texts, hypotheses):
+        return [
+            {"ACCOUNT_TAKEOVER": 0.99, "AUTHORITY_IMPERSONATION": 0.95, "BANK_IMPERSONATION": 0.95}
+            for _ in texts
+        ]
+
+
 class HybridIntegrationTests(unittest.TestCase):
     def test_known_benign_evidence_blocks_even_maximal_neural_scores(self):
         class OverconfidentClassifier:
@@ -202,6 +217,53 @@ class HybridIntegrationTests(unittest.TestCase):
             with self.subTest(text=text):
                 result = detector.analyze_scenario(single(text))
                 self.assertEqual((result["verdict"], result["red_flags"], result["context_flags"]), ("SAFE", [], []))
+
+    def test_catalog_match_requires_known_contact_name_and_number(self):
+        detector = ScamDetector(AccountAlarmClassifier())
+        for name, address, known, matches_catalog in (
+            ("ANAF", "0040 31 403 91 60", True, True),
+            ("Banca Dunarea", "tel:+40 800 100 200", True, True),
+            ("ANAF", "031 403 91 60", False, False),
+            ("ANAF Suport", "031 403 91 60", True, False),
+            (None, "031 403 91 60", True, False),
+            ("ANAF", "0800 100 200", True, False),
+        ):
+            with self.subTest(name=name, address=address, known=known):
+                result = detector.analyze_scenario(single(
+                    "Documentul se regăsește în arhivă.",
+                    sender_name=name, sender_address=address, known_contact=known,
+                ))
+                status = result["rule_evidence"][1]["RF_CODE_REQUEST"]
+                if matches_catalog:
+                    self.assertEqual(status, RuleStatus.REJECTED)
+                    self.assertEqual((result["scam_type"], result["risk_score"], result["red_flags"]), ("NONE", 0, []))
+                else:
+                    self.assertEqual(status, RuleStatus.UNKNOWN)
+                    self.assertIn("RF_CODE_REQUEST", result["red_flags"])
+
+    def test_catalog_match_preserves_code_requests_and_mismatched_links(self):
+        detector = ScamDetector(AccountAlarmClassifier())
+        sender = {"sender_name": "ANAF", "sender_address": "031 403 91 60", "known_contact": True}
+        result = detector.analyze_scenario(single("Trimite-mi codul primit prin SMS.", **sender))
+        self.assertIn("RF_CODE_REQUEST", result["red_flags"])
+        self.assertNotIn("RF_IMPERSONATION", result["red_flags"])
+        self.assertEqual(result["scam_type"], "ACCOUNT_TAKEOVER")
+
+        result = detector.analyze_scenario(single("Accesează portal-exemplu.test.", **sender))
+        self.assertEqual(result["rule_evidence"][1]["RF_SUSPICIOUS_CONTACT"], RuleStatus.CONFIRMED)
+        self.assertIn("RF_IMPERSONATION", result["red_flags"])
+
+    def test_catalog_match_does_not_turn_a_payment_request_into_identity_fraud(self):
+        detector = ScamDetector(AccountAlarmClassifier())
+        result = detector.analyze_scenario(single(
+            "Achitați taxa de procesare.", sender_name="ANAF",
+            sender_address="031 403 91 60", known_contact=True,
+        ))
+        self.assertEqual(result["red_flags"], ["RF_PAYMENT_REQUEST"])
+        self.assertEqual(result["scam_type"], "OTHER")
+        for code in ("BANK_IMPERSONATION", "AUTHORITY_IMPERSONATION", "ACCOUNT_TAKEOVER"):
+            with self.subTest(code=code):
+                self.assertTrue(result["scam_type_rule_evidence"][code]["contradicted"])
 
     def test_all_official_cases_in_rules_only_mode(self):
         detector = ScamDetector(None, mode="rules-only")

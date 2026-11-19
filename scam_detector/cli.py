@@ -121,8 +121,9 @@ def is_generated_summary(path: Path) -> bool:
 
 def is_generated_csv(path: Path) -> bool:
     try:
-        with path.open(encoding="utf-8", newline="") as stream:
-            return next(csv.reader(stream), []) == list(CSV_FIELDS)
+        with path.open(encoding="utf-8-sig", newline="") as stream:
+            header = next(csv.reader(stream), None)
+            return header is None or header == list(CSV_FIELDS)
     except (OSError, ValueError, csv.Error):
         return False
 

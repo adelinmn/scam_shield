@@ -8,7 +8,7 @@ from pathlib import Path
 from .conversation import Message, Sender
 from .flag_definitions import FLAG_DEFINITIONS
 from .model_assets import PROJECT_ROOT
-from .rule_contacts import MARKET_ACCOUNT, check_contacts, load_contacts
+from .rule_contacts import MARKET_ACCOUNT, check_contacts, known_catalog_sender, load_contacts
 from .rule_patterns import (
     DELIVERY_NOTICE, NO_PAYMENT, OTP_NOTICE, PAYMENT_ACTION, SOCIAL,
     fold, matches, pattern, positive_action, request,
@@ -60,6 +60,10 @@ _OFFICIAL_GUIDANCE = pattern(r"consultati informatiile generale|informatii gener
 _DATA_SAFETY = pattern(
     r"nu (?:furnizati|comunicati|transmiteti|trimiteti|va cerem) date personale(?: prin mesaje)?"
 )
+_CONTACT_FLAGS_REQUIRING_EVIDENCE = frozenset({
+    "RF_CODE_REQUEST", "RF_REMOTE_ACCESS", "RF_DATA_REQUEST", "RF_PAYMENT_REQUEST",
+    "RF_NEW_NUMBER", "RF_SECRECY", "RF_IMPERSONATION",
+})
 
 
 class RuleEngine:
@@ -122,6 +126,7 @@ class RuleEngine:
             phone_requested=bool((_CALL.search(text) and following) or _PHONE_LABEL.search(text)),
             previous=history,
         )
+        catalog_contact = not contact.suspicious and known_catalog_sender(self.catalog, sender)
         family = current["family"] or current["friend"] or bool(matches("family", prior))
         new_number = bool(sender and not sender.known_contact and family and current["new_number"])
         otp_notice = bool(OTP_NOTICE.search(text))
@@ -174,7 +179,7 @@ class RuleEngine:
             "RF_NEW_NUMBER": (new_number, "unknown_sender_claims_familiar_identity_and_new_number"),
             "RF_SECRECY": (secrecy, "request_to_keep_secret_or_avoid_verification"),
             "RF_TOO_GOOD": (too_good, "prize_or_unusual_benefit_with_lure"),
-            "RF_IMPERSONATION": (impersonation, "institutional_claim_with_risky_behavior"),
+            "RF_IMPERSONATION": (impersonation and not catalog_contact, "institutional_claim_with_risky_behavior"),
             "RF_URGENCY": (urgent, "pressure_to_act_or_explicit_deadline"),
             "RF_THREAT": (threat, "negative_consequence_used_as_pressure"),
             "RF_EMOTIONAL_PRESSURE": (emotion, "emotional_leverage_with_request"),
@@ -223,9 +228,17 @@ class RuleEngine:
             "RF_URGENCY": bool(DELIVERY_NOTICE.search(text) and not urgent),
         }
         for key in flags:
-            if flags[key] == RuleStatus.UNKNOWN and (benign or contradicted.get(key, False)):
+            catalog_requires_evidence = catalog_contact and key in _CONTACT_FLAGS_REQUIRING_EVIDENCE
+            if flags[key] == RuleStatus.UNKNOWN and (
+                benign or contradicted.get(key, False) or catalog_requires_evidence
+            ):
                 flags[key] = RuleStatus.REJECTED
-                reasons[key] = "recognized_benign_context" if benign else "explicit_counterevidence"
+                if benign:
+                    reasons[key] = "recognized_benign_context"
+                elif contradicted.get(key, False):
+                    reasons[key] = "explicit_counterevidence"
+                else:
+                    reasons[key] = "catalog_contact_without_flag_evidence"
         return RuleAssessment(flags, reasons, bool(targeted or prize_action))
 
     def context_flags(self, message: Message, context: RuleContext | None = None) -> tuple[str, ...]:
@@ -258,4 +271,8 @@ class RuleEngine:
         sender_text = " ".join(fold(turn.text) for turn in messages if turn.role == "sender")
         reader_text = " ".join(fold(turn.text) for turn in messages if turn.role == "reader")
         metadata = fold(sender.name or "") if sender else ""
-        return assess_types(" ".join((metadata, sender_text)), reader_text, flags, targeted=targeted)
+        catalog_contact = "RF_SUSPICIOUS_CONTACT" not in flags and known_catalog_sender(self.catalog, sender)
+        return assess_types(
+            " ".join((metadata, sender_text)), reader_text, flags,
+            targeted=targeted, catalog_contact=catalog_contact,
+        )

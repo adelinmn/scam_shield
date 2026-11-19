@@ -27,6 +27,7 @@ def assess_types(
     flags: set[str],
     *,
     targeted: bool,
+    catalog_contact: bool = False,
 ) -> dict[str, TypeEvidence]:
     terms = {name: matches(name, sender_text) for name in (
         "bank", "courier", "authority", "family", "friend", "new_number", "emergency",
@@ -52,6 +53,7 @@ def assess_types(
         (terms["returns"] and (payment or targeted)) or (payment and (urgent or terms["benefit"]))
     ))
     prize_claim = bool(terms["prize"] and terms["winner"] and (targeted or payment or data or too_good))
+    account_access = code or bool(terms["account"] and data)
     combinations = {
         "BANK_IMPERSONATION": (("bank",), bank_story and not (authority_story or tech_story), "bank_identity_with_risky_action"),
         "COURIER_FEE": (("courier",), bool(terms["courier"] and (payment or data) and not market_payout), "delivery_fee_or_card_request"),
@@ -64,7 +66,7 @@ def assess_types(
                         market_payout or bool(terms["market"] and (data or (payment and contact)) and not terms["courier"]),
                         "marketplace_transaction_with_payment_or_data_request"),
         "ACCOUNT_TAKEOVER": (("account", "code"),
-                             (code or bool(terms["account"] and data))
+                             account_access
                              and not (bank_story or authority_story or tech_story or market_payout),
                              "request_for_access_code_or_account_credentials"),
         "INVESTMENT": (("investment", "returns"), investment_offer, "investment_offer_with_returns_or_deposit"),
@@ -75,11 +77,15 @@ def assess_types(
         "PRIZE_LOTTERY": (("prize", "winner"), prize_claim and not authority_story, "prize_claim_with_requested_action"),
     }
     conflicts = {
+        "BANK_IMPERSONATION": (catalog_contact, "sender_matches_official_catalog"),
+        "AUTHORITY_IMPERSONATION": (catalog_contact, "sender_matches_official_catalog"),
         "ROMANCE": (family_relation, "family_context"),
         "COURIER_FEE": (market_payout, "marketplace_payout_context"),
         "ACCOUNT_TAKEOVER": (bank_story or authority_story or tech_story or market_payout, "specific_organization_or_marketplace_context"),
         "PRIZE_LOTTERY": (authority_story, "authority_refund_context"),
     }
+    if catalog_contact and not account_access:
+        conflicts["ACCOUNT_TAKEOVER"] = (True, "catalog_contact_without_account_access_request")
     evidence = {}
     for scam_type, (groups, strong, reason) in combinations.items():
         found = tuple(dict.fromkeys(term for group in groups for term in terms[group]))

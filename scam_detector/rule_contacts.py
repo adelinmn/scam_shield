@@ -91,6 +91,16 @@ def load_contacts(path: Path) -> tuple[Organization, ...]:
     return tuple(organizations)
 
 
+def known_catalog_sender(catalog: tuple[Organization, ...], sender: Sender | None) -> bool:
+    if sender is None or not sender.known_contact or not sender.name or not sender.address:
+        return False
+    number = phone_key(sender.address)
+    name = fold(sender.name)
+    return number is not None and any(
+        org.phone == number and org.alias.fullmatch(name) for org in catalog
+    )
+
+
 @dataclass(frozen=True)
 class ContactEvidence:
     claimed: bool
