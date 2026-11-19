@@ -121,6 +121,7 @@ tbody tr:last-child > * { border-bottom: 0; }
 tbody tr:hover, tbody tr:focus-within { background: #f0f7f5; }
 td:nth-child(4), td:last-child { overflow-wrap: anywhere; }
 .channel-link { color: var(--teal); font-weight: 650; text-underline-offset: 3px; }
+.alert-verdict-link .verdict { text-decoration: underline; text-underline-offset: 3px; }
 .row-action { display: block; width: 100%; margin: 0; border: 0; padding: 0; min-height: 28px; text-align: left; background: transparent; color: var(--teal); text-decoration: underline; font-weight: 700; }
 
 dialog { width: min(720px, calc(100% - 28px)); max-height: 86vh; overflow: auto; padding: clamp(16px, 3vw, 28px); border: 1px solid var(--line); border-radius: 14px; color: inherit; }
