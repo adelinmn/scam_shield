@@ -1,0 +1,16 @@
+{
+  "id": "N340",
+  "channel": "email",
+  "sender": {
+    "name": "Echipa IT",
+    "address": "it@firma.example",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Actualizarea sistemului de operare a fost instalată de departamentul IT. Referință internă: 95199047. Nu este necesar să acceptați conexiuni la distanță din mesaje. Dacă apare o eroare, descrieți-o prin portalul intern cunoscut. Nu divulgați parola și nu instalați aplicații recomandate de necunoscuți."
+    }
+  ]
+}

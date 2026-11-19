@@ -1,0 +1,41 @@
+{
+  "id": "N224",
+  "channel": "email",
+  "sender": {
+    "name": "ANAF",
+    "address": "031 403 91 60",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "În Spațiul Privat Virtual a fost publicată o informare generală. Referință internă: 92982166."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Documentul privește calendarul declarării unor obligații fiscale."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Nu vă solicităm prin e-mail fotografii ale actelor sau parole. Consultați documentul conectându-vă prin anaf.ro din browserul propriu."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

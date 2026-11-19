@@ -1,0 +1,31 @@
+{
+  "id": "N300",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 985",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "S-a înregistrat o cerere de migrare pentru contul de mesagerie. Îți scriu la ora 22:08. Deocamdată nu reușim să confirmăm identitatea titularului."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Scrieți codul de activare primit pe telefon, ca să conectăm noul aparat. Treceți imediat pe Telegram pentru confirmarea finală."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

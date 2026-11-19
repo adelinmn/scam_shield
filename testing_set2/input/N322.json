@@ -1,0 +1,31 @@
+{
+  "id": "N322",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Elena",
+    "address": "+40 7xx xxx 182",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Iubirea mea, am visat că vom construi o viață împreună. M-am îmbolnăvit și nu pot să-mi stăpânesc panica fără ajutorul tău."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Am nevoie de 145 lei pentru consultație, altfel nu mă primesc azi. Nu le spune prietenilor tăi ce se întâmplă, te rog, e între noi."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

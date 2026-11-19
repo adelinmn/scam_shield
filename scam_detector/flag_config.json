@@ -1,0 +1,145 @@
+{
+  "RF_CODE_REQUEST": {
+    "phrases": [
+      "Expeditorul solicită destinatarului să dezvăluie sau să trimită un cod de autentificare, SMS, OTP sau din aplicație.",
+      "Expeditorul îi cere persoanei să îi trimită codul unic de verificare primit prin SMS.",
+      "Cineva solicită să i se citească la telefon codul de confirmare tocmai primit.",
+      "Un cunoscut pretinde că a trimis din greșeală un cod și cere să îi fie comunicat.",
+      "Expeditorul cere codul temporar necesar conectării la un cont sau aprobării unei operațiuni.",
+      "Persoana este îndemnată să copieze ori să retransmită un cod de autentificare din aplicația bancară."
+    ],
+    "threshold": 0.75
+  },
+  "RF_REMOTE_ACCESS": {
+    "phrases": [
+      "Expeditorul cere instalarea sau utilizarea unui program pentru a controla de la distanță dispozitivul destinatarului.",
+      "Expeditorul cere instalarea programului AnyDesk pentru a oferi ajutor la distanță.",
+      "Un pretins specialist de suport solicită instalarea TeamViewer sau a unei aplicații de control al calculatorului.",
+      "Persoana este rugată să permită altcuiva controlul telefonului sau calculatorului printr-o aplicație.",
+      "Expeditorul cere partajarea ecranului și acordarea accesului la distanță pentru o verificare.",
+      "Un apelant solicită descărcarea unei aplicații de asistență și transmiterea codului de conectare la sesiune."
+    ],
+    "threshold": 0.937
+  },
+  "RF_DATA_REQUEST": {
+    "phrases": [
+      "Expeditorul solicită date sensibile precum numărul cardului, PIN, parolă, CNP, fotografie de identitate sau autentificare bancară.",
+      "Expeditorul cere introducerea numărului cardului bancar și a datei de expirare într-un formular.",
+      "Cineva solicită codul CVV sau PIN-ul cardului pentru a debloca o plată ori un cont.",
+      "Destinatarului i se cere să dezvăluie parola ori datele de conectare la contul bancar.",
+      "O persoană solicită CNP-ul și numele complet sub pretextul actualizării unui dosar oficial.",
+      "Expeditorul cere o fotografie a cărții de identitate sau completarea datelor personale sensibile."
+    ],
+    "threshold": 0.75
+  },
+  "RF_PAYMENT_REQUEST": {
+    "phrases": [
+      "Expeditorul cere efectuarea unui transfer de bani, plata unei taxe, depunerea unui avans sau predarea unei sume.",
+      "Expeditorul solicită un transfer bancar urgent către un cont pentru a rezolva o problemă personală.",
+      "Persoanei i se cere să achite o taxă mică pentru livrarea ori reprogramarea unui colet.",
+      "Cineva solicită plata unui avans sau a unei garanții înainte de a primi un serviciu.",
+      "Expeditorul cere depunerea unei sume de bani pentru a activa un câștig sau o ofertă.",
+      "Destinatarul este îndemnat să trimită bani ori să plătească o factură în numele altei persoane."
+    ],
+    "threshold": 0.862
+  },
+  "RF_SUSPICIOUS_CONTACT": {
+    "phrases": [
+      "Mesajul utilizează o adresă de internet, o adresă de e-mail sau un număr de contact neoficial pentru organizația pretinsă.",
+      "Mesajul pretinde că vine de la o instituție și trimite utilizatorul către un domeniu care îi imită numele.",
+      "Expeditorul oferă pentru verificare un site diferit de adresa oficială a organizației invocate.",
+      "O presupusă bancă solicită accesarea unei adrese web de securitate care nu aparține domeniului său oficial.",
+      "Un mesaj cu identitate instituțională folosește o adresă de e-mail dintr-un domeniu neasociat instituției.",
+      "Persoana este îndrumată către un număr de telefon ori un contact prezentat drept oficial, dar neconfirmat."
+    ],
+    "threshold": 0.995
+  },
+  "RF_NEW_NUMBER": {
+    "phrases": [
+      "O persoană care contactează destinatarul de pe un număr necunoscut pretinde că este un membru al familiei sau un prieten cu număr nou.",
+      "Expeditorul spune că este copilul destinatarului și că acesta este noul său număr de telefon.",
+      "O persoană necunoscută afirmă că și-a stricat telefonul și scrie de pe alt număr.",
+      "Cineva pretinde că este un membru al familiei și cere să fie salvat un număr nou.",
+      "Un presupus prieten spune că și-a pierdut telefonul și folosește un număr necunoscut.",
+      "Expeditorul se prezintă drept fiul ori fiica destinatarului, dar contactul nu este recunoscut."
+    ],
+    "threshold": 0.75
+  },
+  "RF_SECRECY": {
+    "phrases": [
+      "Expeditorul cere destinatarului să păstreze conversația secretă sau să nu verifice informațiile cu alte persoane.",
+      "Expeditorul îi cere destinatarului să nu spună familiei despre această conversație.",
+      "Cineva solicită să nu fie informat tatăl, mama sau partenerul despre banii ceruți.",
+      "Persoana este îndemnată să nu verifice povestea discutând cu rude ori prieteni.",
+      "Expeditorul insistă că înțelegerea trebuie să rămână strict între cei doi interlocutori.",
+      "Cineva îi spune destinatarului să nu contacteze direct instituția pentru confirmarea informațiilor."
+    ],
+    "threshold": 0.255
+  },
+  "RF_TOO_GOOD": {
+    "phrases": [
+      "Expeditorul promite un premiu, o rambursare, profit garantat sau câștiguri neobișnuit de avantajoase.",
+      "Expeditorul anunță un premiu neașteptat câștigat la o tombolă la care destinatarul nu știe să fi participat.",
+      "Mesajul promite câștiguri garantate din investiții, fără riscuri sau efort.",
+      "Cineva oferă bani ușor obținuți pentru sarcini simple precum aprecieri sau recenzii.",
+      "O persoană promite o rambursare excepțională ca avantaj neașteptat, condiționat de urmarea instrucțiunilor.",
+      "Expeditorul anunță un beneficiu financiar surprinzător pentru a convinge destinatarul să continue procedura."
+    ],
+    "threshold": 0.95
+  },
+  "RF_IMPERSONATION": {
+    "phrases": [
+      "Expeditorul pretinde că reprezintă o bancă, o companie, poliția, o autoritate publică sau un serviciu de suport.",
+      "Expeditorul se prezintă ca angajat al unei bănci și cere rezolvarea unei probleme de securitate a contului.",
+      "Un mesaj pretinde că este de la firma de curierat și solicită o acțiune legată de colet.",
+      "Cineva afirmă că vorbește în numele ANAF sau al unei autorități și cere o verificare.",
+      "Un apelant pretinde că reprezintă suportul tehnic Windows și avertizează despre probleme ale calculatorului.",
+      "Persoana invocă statutul de angajat al poliției sau al Casei de Pensii pentru a solicita informații."
+    ],
+    "threshold": 0.75
+  },
+  "RF_URGENCY": {
+    "phrases": [
+      "Expeditorul pune presiune asupra destinatarului să acționeze imediat sau înaintea unui termen-limită scurt.",
+      "Expeditorul cere să se acționeze imediat și nu acceptă amânarea verificării.",
+      "Mesajul impune un termen de 24 de ore pentru rezolvarea unei presupuse probleme.",
+      "Cineva insistă ca plata să fie făcută astăzi, înainte să fie prea târziu.",
+      "Expeditorul afirmă că un link sau o oportunitate expiră într-o oră.",
+      "Persoana este presată să confirme rapid datele pentru a nu pierde un presupus beneficiu."
+    ],
+    "threshold": 0.992
+  },
+  "RF_THREAT": {
+    "phrases": [
+      "Expeditorul invocă blocarea unui cont, o amendă, consecințe legale, un virus sau un alt pericol pentru a provoca teamă.",
+      "Expeditorul avertizează că un card bancar este blocat și trebuie deblocat printr-o acțiune.",
+      "Mesajul amenință cu suspendarea contului dacă destinatarul nu urmează instrucțiunile.",
+      "Cineva invocă o amendă sau o sancțiune legală pentru a determina destinatarul să coopereze.",
+      "Un pretins tehnician afirmă că dispozitivul este infectat cu viruși periculoși.",
+      "Expeditorul avertizează despre pierderea accesului la bani sau servicii dacă persoana nu intervine."
+    ],
+    "threshold": 0.951
+  },
+  "RF_EMOTIONAL_PRESSURE": {
+    "phrases": [
+      "Expeditorul folosește frica, iubirea, mila, vinovăția sau panica pentru a influența decizia destinatarului.",
+      "Expeditorul invocă un accident al unui membru al familiei pentru a provoca panică și a cere ajutor.",
+      "Cineva folosește relația de iubire sau apropiere pentru a convinge destinatarul să trimită bani.",
+      "O persoană descrie o urgență medicală dramatică pentru a obține rapid sprijin financiar.",
+      "Expeditorul încearcă să provoace vinovăție spunând că va suferi dacă nu este ajutat imediat.",
+      "Cineva exploatează frica pentru siguranța unei rude ca să determine destinatarul să acționeze."
+    ],
+    "threshold": 0.982
+  },
+  "RF_CHANNEL_SWITCH": {
+    "phrases": [
+      "Expeditorul solicită mutarea conversației către o altă aplicație sau un alt canal de comunicare.",
+      "Expeditorul cere mutarea discuției din conversația curentă pe Telegram.",
+      "Cineva solicită continuarea discuției pe WhatsApp în locul platformei folosite inițial.",
+      "Persoana este îndemnată să părăsească chatul marketplace și să discute într-o aplicație privată.",
+      "Expeditorul insistă ca dialogul să se mute într-un alt serviciu de mesagerie.",
+      "Cineva cere continuarea conversației printr-un contact separat, în afara canalului inițial."
+    ],
+    "threshold": 0.75
+  }
+}

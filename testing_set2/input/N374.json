@@ -1,0 +1,16 @@
+{
+  "id": "N374",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Teodor",
+    "address": "+40 7xx xxx 687",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Iubirea mea, am visat că vom construi o viață împreună. M-am îmbolnăvit și nu pot să-mi stăpânesc panica fără ajutorul tău. Am nevoie de 1.430 lei pentru consultație, altfel nu mă primesc azi. Nu le spune prietenilor tăi ce se întâmplă, te rog, e între noi. Am scris acest mesaj la ora 11:20, din numărul temporar 687."
+    }
+  ]
+}

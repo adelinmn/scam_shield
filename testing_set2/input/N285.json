@@ -1,0 +1,16 @@
+{
+  "id": "N285",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 909",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Suntem echipa de depozitare a companiei de transport DPD. Pachetul cu referința 92108683 a depășit perioada de păstrare. Pentru eliberare plătiți 1.430 lei prin depozit-curier.example. Fără achitarea serviciului de depozitare coletul rămâne închis."
+    }
+  ]
+}

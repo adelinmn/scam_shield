@@ -28,7 +28,8 @@ class ConversationTests(unittest.TestCase):
         classifier.score_hypotheses.return_value = [{"FAMILY_EMERGENCY": 0.9, "OTHER": 0.2}]
         rules = Mock(wraps=RuleEngine())
         self.scenario["messages"].reverse()
-        result = ScamDetector(classifier, rules=rules).analyze_scenario(self.scenario)
+        detector = ScamDetector(classifier, thresholds=dict.fromkeys(FLAG_DEFINITIONS, 0.75), rules=rules)
+        result = detector.analyze_scenario(self.scenario)
 
         self.assertEqual(result["risk_score"], 80)
         self.assertEqual(result["first_alert"], 5)
@@ -60,6 +61,7 @@ class ConversationTests(unittest.TestCase):
     def test_reuses_default_model(self):
         classifier = Mock()
         classifier.classify.return_value = dict.fromkeys(FLAG_DEFINITIONS, 0.0)
+        classifier.score_hypotheses.return_value = [{"FAMILY_EMERGENCY": 0.9, "OTHER": 0.2}]
         with patch("scam_detector.detector.FlagClassifier", return_value=classifier) as load:
             with patch("scam_detector.detector._default_detector", None):
                 first = analyze_scenario(self.scenario)

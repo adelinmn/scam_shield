@@ -1,0 +1,16 @@
+{
+  "id": "N345",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 365",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, mă poți ajuta cu profilul meu online? Îți scriu la ora 21:35. Am probleme să intru în aplicația de mesagerie. Ca să verific dacă s-a conectat cineva, îmi dai parola cu care intri tu? Nu m-am gândit la altă metodă."
+    }
+  ]
+}

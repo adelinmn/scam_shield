@@ -43,31 +43,31 @@ model directory. The setup command also accepts `--model-dir`.
 
 ## Batch command
 
-Run from the project root in Bash or Git Bash.
+Run `test.py` from the project root with an input path.
 
 ```sh
-./test /input
-./test ./validation_set
-./test ./validation_set/V04.json --output ./example_outputs
+python test.py /input
+python test.py ./validation_set
+python test.py ./validation_set/V04.json --output ./example_outputs
 ```
 
 `/input` can be a JSON scenario file or a directory containing scenarios. The
-command scans subdirectories, reuses one model, and logs skipped input filenames
-and the reason for each skip. It exits with status 1 when it processes zero
-scenarios or encounters a setup or output error. With an unpacked source
-archive, run `chmod +x test` in Bash if the file mode was lost.
+command scans subdirectories, reuses one model, and prints each scenario's
+result as it finishes. It logs skipped input filenames and the reason for
+each skip. It exits with status 1 when it processes zero scenarios or
+encounters a setup or output error.
 
 In PowerShell, use the Windows Python launcher with the project virtual
 environment active.
 
 ```powershell
-py ./test ./validation_set
+py test.py ./validation_set
 ```
 
 If `py` is unavailable, call the virtual environment's interpreter directly.
 
 ```powershell
-.\.venv\Scripts\python.exe ./test ./validation_set
+.\.venv\Scripts\python.exe test.py ./validation_set
 ```
 
 The default destination is the project’s `outputs/` directory.
@@ -114,107 +114,69 @@ by message number. `scam_type_scores` contains the type-stage scores for
 `SUSPICIOUS` and `SCAM` scenarios. `SAFE` scenarios return type `NONE`. Original
 messages, phone numbers and links are omitted from generated results.
 
-## Model and flag configuration
+## Flag wording and thresholds
 
-The default profile uses one Romanian hypothesis per flag and an uncalibrated
-threshold of 0.75. You can copy the starter profile or use the following
-partial profile to try alternative wording for one flag.
-[`profiles/romanian_examples.json`](profiles/romanian_examples.json)
+Edit `phrases` and `threshold` for any flag in the detector's configuration
+file. Each flag starts with one Romanian phrase and a threshold of 0.75.
+[`scam_detector/flag_config.json`](scam_detector/flag_config.json)
 
 ```json
 {
-  "hypotheses": {
-    "RF_CODE_REQUEST": [
+  "RF_CODE_REQUEST": {
+    "phrases": [
       "Expeditorul cere să i se trimită codul primit prin SMS.",
       "Expeditorul îi cere destinatarului să îi comunice un cod de autentificare."
-    ]
-  },
-  "thresholds": {
-    "RF_CODE_REQUEST": 0.75
+    ],
+    "threshold": 0.75
   }
 }
 ```
 
-Each entry in a flag's array is paired with the message in a separate model
-input. The model has a 512-token budget per pair. It preserves the hypothesis
-and truncates the message if needed. The detector uses the highest score among
-the alternatives and checks it against that flag's threshold. Keep each
-sentence short and describe one concrete way the flag can appear. More
-alternatives take more inference time and can increase false positives.
+Each phrase gets its own model input with the message. The detector takes the
+highest phrase score and adds the flag if that score is at least the flag's
+threshold. Keep phrases short and use a threshold from 0 to 1. Save the file
+and rerun `python test.py ./validation_set` to try a change. Restart a running Python
+application to load the new settings.
 
-A profile replaces the hypothesis array for each flag it lists. Omitted flags
-and thresholds inherit the defaults defined in the detector. Run the example
-in a separate output folder.
-[`scam_detector/flag_definitions.py`](scam_detector/flag_definitions.py)
+For `RF_SUSPICIOUS_CONTACT`, the rules check declared organization details against
+`official_catalog.json`. They compare the exact hostname, including permitted
+subdomains, and the normalized sender or advertised callback number. An explicit
+affiliation can carry forward to later sender messages in the same conversation.
+The official point values and verdict bands are fixed.
 
-```sh
-python ./test ./validation_set --flag-profile ./profiles/romanian_examples.json --output ./outputs/romanian_examples
-```
+Edit the array of phrases for each scam type. An entry can be an array directly
+or an object containing a `phrases` array. Each phrase is scored separately,
+and the type with the highest score is selected for a suspicious or scam result.
+A safe result uses `NONE`. Restart the detector after editing the config.
+[`scam_detector/scam_type_config.json`](scam_detector/scam_type_config.json)
 
-To load the same profile through the Python API, create one
-`ScamDetector.from_flag_profile(Path("profiles/romanian_examples.json"))` and
-reuse it across requests.
-
-To override individual thresholds in a Python integration, create a detector
-once at application startup and reuse it across requests.
-
-```python
-from scam_detector import ScamDetector
-from scam_detector.model import FlagClassifier
-
-detector = ScamDetector(FlagClassifier(), thresholds={"RF_CODE_REQUEST": 0.8})
-```
-
-`RF_SUSPICIOUS_CONTACT` is also a provisional model prediction. Confirming it
-reliably requires official contact verification. The official point values and
-verdict bands are fixed.
-
-### Compare hypotheses and tune thresholds
-
-Run the tuner on the 11 organizer-labeled cases with the baseline or a custom
-profile. Run these Python commands through `./.venv/Scripts/python.exe` on
-Windows if your environment is inactive.
-
-```sh
-python -m scripts.tune_flags --output ./outputs/flag_tuning/baseline
-python -m scripts.tune_flags --profile ./profiles/romanian_examples.json
-python ./test ./validation_set --flag-profile ./outputs/flag_tuning/official/profile.json --output ./outputs/tuned_examples
-python -m scripts.validate --results ./outputs/tuned_examples/results.csv
-```
-
-`report.json` shows scenario-level precision, recall, F1, and false-positive
-and false-negative IDs for each hypothesis and each pooled flag. The tuner
-scores each sender message once and reuses those scores to select each
-threshold by F1. It keeps the starting threshold unless a flag has at least
-three positive and three negative labeled scenarios. The proposed
-`profile.json` can be loaded with `--flag-profile`. The tuner measures flag
-presence across the full scenario. Check verdicts and alert timing with the
-separate detector run and validation command above.
-
-The organizer set is useful for iteration. To measure generalization, use
-separately reviewed development and holdout cases. The tuner accepts a CSV
-with `id,split,annotator_reviewed,expected_red_flags`. Mark a row `YES` once
-reviewed and give it semicolon-separated flag codes. Leave the flag cell empty
-for a reviewed case with zero flags. Development is the default for these CSVs.
-Pass `--input` with the scenario folder, `--labels` with the reviewed CSV, and
-`--split holdout --profile PATH` to evaluate the frozen profile. Holdout mode
-reports metrics without fitting thresholds. A dataset's ham, spam, or smishing
-labels alone do not identify individual flags.
-
-## Future rule integration
+## Rules and detector modes
 
 Subclass `RuleEngine` in [`scam_detector/rules.py`](scam_detector/rules.py) and
 pass an instance as `ScamDetector(..., rules=engine)`. `evaluate(message, context)`
 receives the original and normalized message text, extracted URLs and phone
-numbers, sender metadata, channel, and earlier turns. The scaffold exposes the
-path to `official_catalog.json` and returns `UNKNOWN` for every flag.
+numbers, sender metadata, channel, and earlier turns.
 `FlagFusionEngine` uses the model threshold for `UNKNOWN`, activates
 `CONFIRMED` flags, and suppresses `REJECTED` flags.
 
-Future rule work includes official domain and phone checks, OTP requests versus
-informational messages, sensitive data requests, payment and transfer requests,
-remote access, deadlines and urgency, secrecy, new-number claims, and negations
-that lead to false positives.
+`scam_type_rule_evidence` contains the evidence strength, reasons and matched
+terms. The type selector adds 0.15 for strong compatible evidence and 0.025
+for a weak cue. Weak evidence needs a neural score of at least 0.75 to enter
+the selection. These bonuses apply to selection scores. The JSON
+`scam_type_scores` field exposes the raw model scores.
+
+`context_flags` and `context_flag_messages` expose informational signals such as
+`INFO_BANK_CONTEXT` and `INFO_OTP_NOTICE`. They appear in the terminal and the full
+scenario JSON and contribute zero points. The CSV `red_flags` column contains
+the flags used by the official score.
+
+```sh
+python test.py ./validation_set --mode hybrid
+python test.py ./validation_set --mode model-only
+python test.py ./validation_set --mode rules-only
+```
+
+The default mode is `hybrid`. `rules-only` can run without model weights.
 
 ## Tests and validation
 
@@ -224,8 +186,9 @@ and repeatability tests, enable the integration tests after setup.
 ```sh
 python -m unittest discover -s tests -v
 SCAM_SHIELD_RUN_MODEL_TESTS=1 python -m unittest discover -s tests -v
-./test ./validation_set
+python test.py ./validation_set
 python -m scripts.validate
+python -m scripts.compare_modes
 ```
 
 In PowerShell, set `$env:SCAM_SHIELD_RUN_MODEL_TESTS = '1'` before running the
@@ -234,20 +197,7 @@ against the official CSV, accepts alert messages 3–5 for V11, and writes
 `outputs/validation.json` with the expected and observed values and all
 field-level differences. It exits with status 1 when differences remain.
 
-The CPU run with all thresholds at 0.75 processed 11 scenarios. It matched
-2/11 complete results, 6/11 verdicts, 6/11 alert positions, 4/11 scam types,
-2/11 scores and 2/11 red-flag sets.
-
-| Scenario | Expected verdict / score / alert | Observed verdict / score / alert |
-| --- | --- | --- |
-| V01 | SCAM / 70 / 1 | SAFE / 0 / — |
-| V02 | SCAM / 65 / 1 | SAFE / 0 / — |
-| V03 | SAFE / 0 / — | SAFE / 0 / — |
-| V04 | SCAM / 80 / 5 | SUSPICIOUS / 45 / 5 |
-| V05 | SAFE / 0 / — | SAFE / 0 / — |
-| V06 | SCAM / 85 / 1 | SAFE / 0 / — |
-| V07 | SCAM / 95 / 1 | SCAM / 75 / 1 |
-| V08 | SCAM / 70 / 3 | SCAM / 55 / 3 |
-| V09 | SUSPICIOUS / 35 / 1 | SAFE / 0 / — |
-| V10 | SCAM / 50 / 1 | SCAM / 60 / 1 |
-| V11 | SCAM / 100 / 3–5 | SCAM / 90 / 1 |
+The comparison command evaluates all three modes on the 11 validation cases
+and 100 additional cases. It writes the results, per-flag precision, recall
+and F1, false positives on `SAFE` cases, and cases that improved or
+regressed to `outputs/rule_comparison/comparison.json`.

@@ -1,0 +1,31 @@
+{
+  "id": "N321",
+  "channel": "email",
+  "sender": {
+    "name": "Buletin financiar",
+    "address": "newsletter@informare.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Ediția acestei săptămâni explică diferența dintre economisire și investiție. Referință internă: 97543394. Randamentele pieței pot fi pozitive sau negative."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Nu există profit garantat și materialul nu solicită transferuri. Decizia de a investi trebuie luată după evaluarea propriilor riscuri."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "N320",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 888",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, mă interesează anunțul cu aparatul foto. Aș vrea să verific produsul la întâlnire înainte să decid."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Îl pot vedea în locul public stabilit de comun acord? Nu trimit și nu vă cer date de card ori avans."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

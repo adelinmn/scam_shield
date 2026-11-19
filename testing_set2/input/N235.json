@@ -1,0 +1,31 @@
+{
+  "id": "N235",
+  "channel": "email",
+  "sender": {
+    "name": "Centru conturi sociale",
+    "address": "asistenta@verifica-profil.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Am detectat o posibilă problemă cu autentificarea profilului dumneavoastră. Referință internă: 91234331. Dacă nu verificați accesul, contul va fi dezactivat."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Completați parola de conectare și adresa folosită la cont în pagina profil-recovery.example. Rezolvați verificarea înainte de sfârșitul acestei ore."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "N331",
+  "channel": "email",
+  "sender": {
+    "name": "Birou premii online",
+    "address": "winner@ridicare-premii.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Felicitări, ați fost desemnat câștigător al unui voucher mare. Referință internă: 98147555."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Verificarea este necesară ca premiul să fie emis pe numele corect."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Completați CNP-ul și datele cardului la formular-premii.example. Solicitarea trebuie finalizată în cursul zilei."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

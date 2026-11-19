@@ -1,0 +1,51 @@
+{
+  "id": "N351",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Radu",
+    "address": "+40 7xx xxx 217",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Hei, ai un minut? Am o dificultate cu accesul la contul meu de mesagerie. Îți scriu la ora 09:22."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Platforma a trimis din eroare un număr de verificare către telefonul tău."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Poți să îmi citești cele șase cifre primite prin SMS?"
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    },
+    {
+      "n": 7,
+      "from": "sender",
+      "text": "Am nevoie de ele acum, sesiunea expiră în două minute."
+    },
+    {
+      "n": 8,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    }
+  ]
+}

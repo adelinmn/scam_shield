@@ -1,0 +1,16 @@
+{
+  "id": "N291",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Sorin",
+    "address": "+40 7xx xxx 157",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Am primit o notificare de conectare pe telefon. Îți scriu la ora 18:12. Era un cod pentru contul meu, dar nu am încercat să mă conectez. L-am ignorat și mi-am schimbat parola singur. Nimeni nu trebuie să îmi trimită coduri sau să îmi comunice parole."
+    }
+  ]
+}

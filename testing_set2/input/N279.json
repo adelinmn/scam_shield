@@ -1,0 +1,16 @@
+{
+  "id": "N279",
+  "channel": "chat",
+  "sender": {
+    "name": "Cumpărător interesat",
+    "address": "buyer_10079",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Am văzut anunțul cu biblioteca din lemn și aș vrea să îl rezerv. Nu pot ajunge personal în următoarele zile. Vă rog să îmi virați o garanție de 65 lei ca să pot activa ridicarea. Vă explic ulterior cum va funcționa livrarea."
+    }
+  ]
+}

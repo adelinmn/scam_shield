@@ -1,0 +1,16 @@
+{
+  "id": "N366",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Irina",
+    "address": "+40 7xx xxx 483",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, mama! Noi pregătim masa pentru duminică. Am pus deoparte și desertul preferat de Alex. Nu trebuie să cumpărați nimic, avem tot ce ne trebuie. Vă îmbrățișăm, ne vedem după-amiază."
+    }
+  ]
+}

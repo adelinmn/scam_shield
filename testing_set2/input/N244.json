@@ -1,0 +1,16 @@
+{
+  "id": "N244",
+  "channel": "sms",
+  "sender": {
+    "name": "CurierExpres",
+    "address": "0800 300 400",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă informăm că expedierea cu numărul de urmărire 91535373 a ajuns în centrul local. Estimăm livrarea pentru ziua de miercuri, în prima parte a zilei. Pentru acest colet nu aveți de plătit nimic suplimentar. Puteți verifica statusul direct pe curierexpres.ro, din contul dumneavoastră."
+    }
+  ]
+}

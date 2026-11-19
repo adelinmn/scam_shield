@@ -3,18 +3,15 @@ import unittest
 
 from scam_detector.flag_definitions import FLAG_DEFINITIONS
 from scam_detector.model_assets import PROJECT_ROOT
-from scam_detector.scam_types import SCAM_TYPE_HYPOTHESES
+from scam_detector.scam_types import load_scam_type_hypotheses
 from scam_detector.scoring import risk_score, verdict_for_score
 
 
 class ScoringTests(unittest.TestCase):
     def test_weights_and_categories_match_the_official_catalog(self):
         catalog = json.loads((PROJECT_ROOT / "official_catalog.json").read_text(encoding="utf-8"))
-        self.assertEqual(
-            {code: flag.points for code, flag in FLAG_DEFINITIONS.items()},
-            catalog["red_flag_points"],
-        )
-        self.assertEqual([*SCAM_TYPE_HYPOTHESES, "NONE"], catalog["scam_types"])
+        self.assertEqual(FLAG_DEFINITIONS, catalog["red_flag_points"])
+        self.assertEqual([*load_scam_type_hypotheses(), "NONE"], catalog["scam_types"])
 
     def test_score_counts_unique_flags_and_caps_at_100(self):
         self.assertEqual(risk_score([]), 0)

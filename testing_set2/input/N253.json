@@ -1,0 +1,16 @@
+{
+  "id": "N253",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Cristina",
+    "address": "+40 7xx xxx 775",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Mamă, te iubesc și sper să ai o zi liniștită. Îți scriu la ora 08:55. Azi am avut o zi lungă la facultate. Mă odihnesc și îți povestesc când ne vedem. Nu am nevoie de bani, doar voiam să te salut."
+    }
+  ]
+}

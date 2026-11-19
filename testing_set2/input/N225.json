@@ -1,0 +1,16 @@
+{
+  "id": "N225",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 839",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, sunt Elena, sora ta; folosesc pentru moment alt număr. Mi-am pierdut telefonul de dimineață. Scrie-mi în maximum zece minute, trebuie să lămurim ceva acum. Nu îți solicit bani, vreau doar să ne auzim."
+    }
+  ]
+}

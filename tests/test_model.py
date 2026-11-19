@@ -5,7 +5,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from scam_detector.flag_definitions import FLAG_DEFINITIONS
+from scam_detector.flag_definitions import FLAG_DEFINITIONS, load_flag_config
 from scam_detector.model import FlagClassifier, ModelSetupError
 
 
@@ -46,12 +46,18 @@ class LocalModelTests(unittest.TestCase):
     def test_full_hypotheses_can_be_reordered_without_changing_score_mapping(self):
         text = "Instalați programul ca să vă putem ajuta de la distanță."
         scores = self.classifier.classify(text)
-        hypotheses = {
-            code: flag.description for code, flag in reversed(list(FLAG_DEFINITIONS.items()))
-        }
+        hypotheses = {code: flag.phrases for code, flag in reversed(load_flag_config().items())}
         reordered = self.classifier.score_hypotheses([text], hypotheses)[0]
         for code in hypotheses:
             self.assertAlmostEqual(scores[code], reordered[code], places=6)
+
+    def test_multiple_phrases_use_the_highest_score(self):
+        text = "Trimite-mi codul primit prin SMS."
+        first = "Expeditorul cere un cod de verificare."
+        second = "Expeditorul cere destinatarului să instaleze un program."
+        separate = self.classifier.score_hypotheses([text], {"a": first, "b": second})[0]
+        combined = self.classifier.score_hypotheses([text], {"flag": (first, second)})[0]
+        self.assertAlmostEqual(combined["flag"], max(separate.values()), places=6)
 
     def test_long_premise_is_truncated_to_the_local_model_limit(self):
         text = "Acesta este un mesaj. " * 600

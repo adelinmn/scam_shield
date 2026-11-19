@@ -1,0 +1,31 @@
+{
+  "id": "N243",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Marius",
+    "address": "+40 7xx xxx 722",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Dragostea mea, aștept cu nerăbdare să ne întâlnim în sfârșit. Mi-e teamă să nu te dezamăgesc, nu mă lăsa să pierd această șansă."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Îmi trimiți 1.430 lei pentru schimbarea biletului de avion? Te rog să rezolvăm până diseară și să nu povestești nimănui despre noi."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

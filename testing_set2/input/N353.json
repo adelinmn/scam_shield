@@ -1,0 +1,16 @@
+{
+  "id": "N353",
+  "channel": "sms",
+  "sender": {
+    "name": "Organizator eveniment",
+    "address": "contact@eveniment.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă transmitem regulamentul concursului cultural de săptămâna aceasta. Referință internă: 98463555. Participarea este gratuită și înscrierile sunt încă deschise. Câștigătorii nu au fost desemnați și nu se solicită date bancare. Vă mulțumim pentru interes și vă dorim succes."
+    }
+  ]
+}

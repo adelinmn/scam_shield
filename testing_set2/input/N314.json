@@ -1,0 +1,16 @@
+{
+  "id": "N314",
+  "channel": "chat",
+  "sender": {
+    "name": "Cumpărător verificat",
+    "address": "buyer_10114",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, sunt interesat să iau ceasul vechi din anunțul tău. Am inițiat transferul prin modulul de plăți al platformei și apare în așteptare. Ca să încasezi, tastează numărul cardului și CVV pe incasare-platforma.example. Confirmarea trebuie încheiată în 20 de minute sau expiră."
+    }
+  ]
+}

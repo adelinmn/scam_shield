@@ -1,0 +1,16 @@
+{
+  "id": "N222",
+  "channel": "chat",
+  "sender": {
+    "name": "Operator protecție tranzacții",
+    "address": "suport@plata-garantata.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactez pentru tranzacția legată de imprimanta pe o platformă de anunțuri. Se cere o verificare de garanție pentru finalizarea schimbului. Transferați o garanție de 65 lei pentru activarea tranzacției protejate. Nu întrebați vânzătorul despre procedură; păstrați această verificare doar între noi și încheiați azi."
+    }
+  ]
+}

@@ -113,6 +113,21 @@ class BatchTests(unittest.TestCase):
         self.assertEqual(summary.read_text(encoding="utf-8"), '{"notes":"keep this"}')
         self.assertFalse((self.output / "scenarios").exists())
 
+    def test_csv_destination_can_recover_from_an_empty_file(self):
+        source = self.write_input("one.json", "V01")
+        self.output.mkdir()
+        destination = self.output / "results.csv"
+        destination.write_bytes(b"")
+        run_batch(source, self.output, self.analyze)
+        with destination.open(encoding="utf-8", newline="") as stream:
+            self.assertEqual([row["id"] for row in csv.DictReader(stream)], ["V01"])
+
+        unrelated = b"name,notes\nAlice,keep this\n"
+        destination.write_bytes(unrelated)
+        with self.assertRaisesRegex(ValueError, "Existing file conflicts"):
+            run_batch(source, self.output, self.analyze)
+        self.assertEqual(destination.read_bytes(), unrelated)
+
     def test_all_malformed_inputs_report_failure_with_empty_outputs(self):
         (self.input / "bad.json").write_text("]{", encoding="utf-8")
         with redirect_stderr(io.StringIO()), redirect_stdout(io.StringIO()) as terminal:
@@ -143,7 +158,7 @@ class LauncherTests(unittest.TestCase):
             output = Path(directory) / "results"
             command = [
                 sys.executable,
-                "test",
+                "test.py",
                 "validation_set/V04.json",
                 "--output",
                 str(output),
@@ -159,3 +174,15 @@ class LauncherTests(unittest.TestCase):
             )
             self.assertEqual(result.read_bytes(), baseline)
             self.assertIn("Scenarios processed: 1", first.stdout)
+            saved = json.loads(baseline)
+            row = next(line for line in first.stdout.splitlines() if line.startswith("V04 "))
+            self.assertEqual(
+                row.split(),
+                [
+                    "V04",
+                    saved["verdict"],
+                    str(saved["risk_score"]),
+                    str(saved["first_alert"] or "-"),
+                    saved["scam_type"],
+                ],
+            )
