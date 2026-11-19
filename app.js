@@ -1,9 +1,6 @@
 import { setupDashboard } from "./dashboard.js";
 import { channels, renderChannel } from "./channels.js";
 
-let detectorModule;
-let warningModule;
-
 async function readScenario(file) {
   let scenario;
   try {
@@ -33,21 +30,22 @@ async function readScenario(file) {
   return scenario;
 }
 
-function loadOptionalModule(path) {
-  return import(path).catch((error) => {
-    if (error instanceof TypeError) return null;
-    throw error;
-  });
-}
-
 async function analyze(scenario) {
-  let result;
   try {
-    detectorModule ??= loadOptionalModule("./detector.js");
-    const detector = await detectorModule;
-    if (!detector) return { scenario, result: null };
-    result = await detector.analyzeScenario(scenario);
-    if (!["SAFE", "SUSPICIOUS", "SCAM"].includes(result?.verdict)
+    const response = await fetch("./api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(scenario),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      const error = typeof data?.error === "string" ? data.error : "Scenariul nu a putut fi analizat.";
+      return { scenario, result: null, error };
+    }
+
+    const { warning, ...result } = data;
+    if (result.id !== scenario.id
+        || !["SAFE", "SUSPICIOUS", "SCAM"].includes(result.verdict)
         || !Number.isInteger(result.risk_score) || result.risk_score < 0 || result.risk_score > 100
         || typeof result.scam_type !== "string"
         || (result.first_alert !== null && !scenario.messages.some((message) => message.n === result.first_alert))
@@ -56,17 +54,9 @@ async function analyze(scenario) {
           && scenario.messages.some((message) => message.n === flag.message_number))) {
       throw new Error("Rezultat incompatibil cu formatul convenit.");
     }
-  } catch {
-    return { scenario, result: null, error: "Scenariul nu a putut fi analizat." };
-  }
-
-  try {
-    warningModule ??= loadOptionalModule("./warnings.js");
-    const warnings = await warningModule;
-    const warning = warnings ? await warnings.buildWarning(scenario, result) : null;
     return { scenario, result, warning };
   } catch {
-    return { scenario, result, warningError: "Avertismentul nu a putut fi afișat." };
+    return { scenario, result: null, error: "Scenariul nu a putut fi analizat." };
   }
 }
 
@@ -139,11 +129,14 @@ function showView(focusDetail = false) {
   } catch {
     selectedId = undefined;
   }
+  const alertHadFocus = document.activeElement?.matches("#inbox-content .first-alert");
   const alert = renderChannel(activeView, appSet.entries.values(), selectedId);
   if (destination === "alert" && alert && openedAlertRoute !== route) {
     openedAlertRoute = route;
     alert.focus({ preventScroll: true });
     alert.scrollIntoView({ block: "start", inline: "nearest" });
+  } else if (destination === "alert" && alertHadFocus && alert) {
+    alert.focus({ preventScroll: true });
   } else if (focusDetail && selectedId) {
     document.querySelector("#inbox-content h2")?.focus();
   }
@@ -195,6 +188,7 @@ function enqueueImport(loadSources, { manual = false } = {}) {
     renderDataset();
     for (const [key, scenario] of imported) {
       appSet.entries.set(key, await analyze(scenario));
+      renderDataset();
     }
     if (manual) {
       if (imported.size) appSet.latestImportKeys = [...imported.keys()];

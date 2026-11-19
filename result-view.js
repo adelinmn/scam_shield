@@ -18,15 +18,15 @@ export function verdictBadge(verdict, mode = "full") {
   return badge;
 }
 
-export function renderResult(container, { result, warning, warningError, loading, error }, { showExplanation = true } = {}) {
+export function renderResult(container, { result, warning, loading, error }, { showExplanation = true } = {}) {
   container.replaceChildren();
 
   const banner = document.createElement("div");
   banner.className = `result-banner ${verdicts[result?.verdict]?.style ?? pending.style}`;
   banner.append(verdictBadge(result?.verdict));
-  if (showExplanation && (warning || warningError || result?.verdict !== "SAFE")) {
+  if (showExplanation && (warning || result?.verdict !== "SAFE")) {
     const explanation = document.createElement("p");
-    explanation.textContent = warning || warningError || error || (loading ? "Se analizează scenariul…" : result
+    explanation.textContent = warning || error || (loading ? "Se analizează scenariul…" : result
       ? "Textul de avertizare va fi afișat după integrarea modulului de avertismente."
       : "Scenariul a fost încărcat. Rezultatul va fi afișat după integrarea detectorului.");
     banner.append(explanation);

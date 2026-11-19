@@ -41,6 +41,19 @@ PyTorch 2.8.0 and set `SCAM_SHIELD_DEVICE=cuda:0` before the first analysis.
 Set `SCAM_SHIELD_MODEL_DIR` before setup and inference to use a different local
 model directory. The setup command also accepts `--model-dir`.
 
+## Dashboard demo
+
+After setup, start the local server with the virtual environment active.
+
+```sh
+python server.py
+```
+
+Open [the Dashboard](http://localhost:8000/) in a browser. The Dashboard
+analyzes the validation scenarios at startup and submits new scenarios when
+you import JSON files or a folder. Results appear as the local detector finishes.
+The Dashboard keeps imported conversations in the current browser session.
+
 ## Batch command
 
 Run `test.py` from the project root with an input path.
