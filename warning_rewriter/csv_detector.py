@@ -16,6 +16,7 @@ Paths: the CSV is looked up one directory above these scripts first
 from __future__ import annotations
 
 import csv
+import re
 from pathlib import Path
 
 from scam_warnings import Conversation
@@ -48,6 +49,15 @@ def resolve_conversation_path(arg: str) -> Path:
     return default_validation_dir() / name
 
 
+def _first(v: str):
+    """'5' -> 5 ; a window like '5-7' -> its first message (5) ; '' -> None."""
+    v = (v or "").strip()
+    if not v:
+        return None
+    m = re.match(r"^(\d+)", v)
+    return int(m.group(1)) if m else None
+
+
 class CsvDetector:
     def __init__(self, csv_path=None):
         self.rows = {}
@@ -55,7 +65,7 @@ class CsvDetector:
             for r in csv.DictReader(fh):
                 self.rows[r["id"]] = {
                     "scam_type": r["scam_type"] or "NONE",
-                    "first_alert": int(r["first_alert"]) if r["first_alert"] else None,
+                    "first_alert": _first(r["first_alert"]),
                     "flags": set(filter(None, r["red_flags"].split(";"))),
                 }
 
