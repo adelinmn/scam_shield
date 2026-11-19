@@ -13,6 +13,20 @@ from scam_detector.model import ModelSetupError
 ROOT = Path(__file__).resolve().parent
 
 
+def warning_for(result):
+    if result["verdict"] == "SAFE":
+        return None
+
+    first_alert = result["first_alert"]
+    evidence = result["flag_messages"]
+    if first_alert is not None and all(
+        flag in evidence and evidence[flag] <= first_alert
+        for flag in ("RF_NEW_NUMBER", "RF_PAYMENT_REQUEST")
+    ):
+        return "Sunați persoana la numărul pe care îl aveați deja salvat."
+    return "Verificați cererea printr-un canal oficial pe care îl cunoașteți."
+
+
 class AppHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if urlsplit(self.path).path != "/api/validation-set":
@@ -69,10 +83,7 @@ class AppHandler(SimpleHTTPRequestHandler):
             "scam_type": result["scam_type"],
             "first_alert": result["first_alert"],
             "red_flags": red_flags,
-            "warning": (
-                None if result["verdict"] == "SAFE"
-                else "Verificați cererea printr-un canal oficial pe care îl cunoașteți."
-            ),
+            "warning": warning_for(result),
         })
 
     def send_json(self, data, status=HTTPStatus.OK):

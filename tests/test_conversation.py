@@ -19,8 +19,8 @@ class ConversationTests(unittest.TestCase):
         classifier.classify.side_effect = [
             dict.fromkeys(FLAG_DEFINITIONS, 0.1) | activations
             for activations in (
-                {"RF_NEW_NUMBER": 0.85},
-                {"RF_NEW_NUMBER": 0.9},
+                {"RF_NEW_NUMBER": 0.85, "RF_SECRECY": 0.85},
+                {"RF_NEW_NUMBER": 0.9, "RF_SECRECY": 0.8},
                 {"RF_PAYMENT_REQUEST": 0.9, "RF_URGENCY": 0.75},
                 {"RF_SECRECY": 0.9},
             )
