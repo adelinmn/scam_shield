@@ -24,6 +24,7 @@ from collections import Counter
 from pathlib import Path
 
 from scam_warnings import analyze, load_conversation, style_problems
+from llm_rewrite import DEFAULT_MODEL
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_INPUTS = HERE.parent / "testing_set" / "input"
@@ -79,7 +80,7 @@ def main():
     ap.add_argument("--window", type=int, default=1, help="extra tolerance (messages) for the 'within window' first_alert metric")
     ap.add_argument("--all", action="store_true", help="list every mismatching case (default: first 25)")
     ap.add_argument("--llm", type=int, default=0, metavar="N", help="polish the final warning of N cases with the local LLM")
-    ap.add_argument("--model", default="gemma3:4b")
+    ap.add_argument("--model", default=DEFAULT_MODEL)
     a = ap.parse_args()
 
     inputs, csv_path = Path(a.inputs), Path(a.csv)
@@ -166,7 +167,12 @@ def main():
         for name, err in errors[:5]: print(f"  {name}: {err}")
 
     if a.llm:
-        from llm_rewrite import ollama_generate, polish_verbose
+        from llm_rewrite import check_ollama, ollama_generate, polish_verbose
+        status = check_ollama(a.model)
+        print(f"\n=== Ollama pre-flight ({a.model})\n{status['message']}")
+        if not status["ok"]:
+            print("Skipping the LLM polish run.")
+            return
         gen, done, acc, t0 = ollama_generate(a.model), 0, 0, time.time()
         print(f"\n=== LLM polish ({a.model}) on up to {a.llm} final warnings")
         for cid, _, r in rows:

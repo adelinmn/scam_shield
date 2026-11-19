@@ -5,6 +5,11 @@ Combined A + C entry point. This is the only file your app needs to call.
     w = ScamShieldWriter(detector=my_detector, use_llm=True)   # use_llm=False -> pure Option A
     result = w.run("validation_set/V04.json")                   # path or already-loaded dict
 
+With use_llm=True the constructor checks that Ollama is running and that the model is
+pulled (check_ollama), prints how to install them if not, and then falls back to the
+template warnings instead of failing. `w.llm_status` holds that check. Pass
+verify_llm=False to skip the check (e.g. in tests).
+
 `detector(conversation_prefix) -> (set_of_RF_codes, scam_type)` is YOUR classifier
 (wrap your MiniLM model, optionally with scam_warnings.combine(model, rules)).
 
@@ -14,21 +19,29 @@ Nothing is logged or stored.
 """
 from __future__ import annotations
 
+import sys
 from typing import Optional
 
 from scam_warnings import Conversation, Detector, analyze, load_conversation
-from llm_rewrite import ollama_generate, polish
+from llm_rewrite import DEFAULT_MODEL, check_ollama, ollama_generate, polish
 
 
 class ScamShieldWriter:
     def __init__(self, detector: Detector, use_llm: bool = True,
-                 model: str = "gemma3:4b", host: str = "http://localhost:11434", timeout: float = 20.0,
-                 polish_all: bool = False):
+                 model: str = DEFAULT_MODEL, host: str = "http://localhost:11434", timeout: float = 20.0,
+                 polish_all: bool = False, verify_llm: bool = True):
         # polish_all=False: only the FINAL warning goes through the LLM (fewer calls, faster).
         # polish_all=True : every step of the timeline is polished.
         self.detector = detector
         self.polish_all = polish_all
-        self.generate = ollama_generate(model, host, timeout) if use_llm else None
+        self.llm_status = None
+        self.generate = None
+        if use_llm:
+            self.llm_status = check_ollama(model, host) if verify_llm else {"ok": True, "message": ""}
+            if self.llm_status["ok"]:
+                self.generate = ollama_generate(model, host, timeout)
+            else:
+                print(self.llm_status["message"], file=sys.stderr)
 
     def run(self, conversation) -> dict:
         conv = conversation if isinstance(conversation, Conversation) else load_conversation(conversation)

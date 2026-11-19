@@ -10,7 +10,7 @@ Design rules:
   * Nothing is logged.
 
 Works with a local Ollama server (default http://localhost:11434), e.g.:
-    ollama pull qwen2.5:3b
+    ollama pull gemma3:4b
 """
 from __future__ import annotations
 
@@ -36,8 +36,57 @@ EXAMPLE_OUT = ("Atenție, pare o țeapă! Mesajul spune că vine de la banca dum
 
 Generate = Callable[[list[dict]], str]
 
+# The one model used by the whole rewriter unless a caller explicitly overrides it.
+# writer.py and evaluate_set.py import this, so the default cannot drift again.
+DEFAULT_MODEL = "qwen3:0.6b"
 
-def ollama_generate(model: str = "qwen2.5:3b", host: str = "http://localhost:11434",
+
+def check_ollama(model: str = DEFAULT_MODEL, host: str = "http://localhost:11434",
+                 timeout: float = 3.0) -> dict:
+    """Pre-flight check: is Ollama answering, and is `model` pulled?
+
+    Never raises. A missing Ollama is not an error — the rewriter falls back to its
+    template warnings — but the caller should tell the user how to install it.
+
+    Returns {"ok", "running", "has_model", "models", "error", "message"}.
+    """
+    info = {"ok": False, "running": False, "has_model": False, "models": [], "error": None}
+    try:
+        with urllib.request.urlopen(f"{host}/api/tags", timeout=timeout) as r:
+            payload = json.loads(r.read())
+    except Exception as e:                        # not installed, not running, or wrong port
+        info["error"] = f"{type(e).__name__}: {e}"
+        info["message"] = (
+            f"Ollama is NOT reachable at {host} ({info['error']}).\n"
+            f"  1. Install Ollama:   https://ollama.com/download\n"
+            f"  2. Start it:         ollama serve\n"
+            f"  3. Download the model: ollama pull {model}\n"
+            f"Continuing WITHOUT AI polish: warnings come from the built-in templates."
+        )
+        return info
+
+    info["running"] = True
+    info["models"] = [m.get("name", "") for m in payload.get("models", []) if m.get("name")]
+
+    def _same(name: str) -> bool:                 # 'gemma3:4b' exact; 'gemma3' also matches 'gemma3:4b'
+        return name == model or (":" not in model and name.split(":")[0] == model)
+
+    info["has_model"] = any(_same(n) for n in info["models"])
+    info["ok"] = info["has_model"]
+    if info["ok"]:
+        info["message"] = f"Ollama ready at {host} with model {model}."
+    else:
+        have = ("Models found: " + ", ".join(info["models"])) if info["models"] else "You have no models yet."
+        info["message"] = (
+            f"Ollama is running at {host}, but the model '{model}' is NOT downloaded.\n"
+            f"  Run:  ollama pull {model}\n"
+            f"  {have}\n"
+            f"Continuing WITHOUT AI polish: warnings come from the built-in templates."
+        )
+    return info
+
+
+def ollama_generate(model: str = DEFAULT_MODEL, host: str = "http://localhost:11434",
                     timeout: float = 20.0) -> Generate:
     def _gen(messages: list[dict]) -> str:
         body = json.dumps({"model": model, "messages": messages, "stream": False, "think": False,

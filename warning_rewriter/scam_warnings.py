@@ -8,6 +8,8 @@ Pipeline (per conversation):
 
 Everything that can appear in a warning (phones, sites, amounts, names) comes
 from either the official catalog or the conversation itself, never from a model.
+Every warning is checked against the catalog before it is returned: an official
+phone may be offered, an unofficial one (email, number or site) is refused.
 """
 from __future__ import annotations
 
@@ -190,6 +192,61 @@ def extract_slots(conv: Conversation) -> Slots:
 
 
 # ----------------------------------------------------------------------------
+# Official-contact guard
+# A warning may only offer a phone number, e-mail address or website that comes
+# from the catalog above. Anything taken from the scam message, or invented by a
+# model, is a hard failure: the scammer must never get his own channel repeated.
+# ----------------------------------------------------------------------------
+OFFICIAL_PHONE_DIGITS = {
+    re.sub(r"\D", "", info["phone"]) for info in OFFICIAL.values() if info.get("phone")
+}
+# The catalog defines no official e-mail address. Extend this if one is ever added.
+OFFICIAL_EMAILS: set[str] = set()
+
+EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
+# A run that could be a phone number: optional +, digits with the usual separators.
+PHONE_RE = re.compile(r"\+?\d[\d\s.\-/()xX]{4,}\d")
+
+
+def _phone_digits(candidate: str) -> str:
+    return re.sub(r"\D", "", candidate)
+
+
+def _looks_like_phone(candidate: str) -> bool:
+    """Keep sums ('10.000 lei'), dates and years from being read as phone numbers."""
+    compact = re.sub(r"[\s.\-/()]", "", candidate)
+    digits = _phone_digits(compact)
+    if len(digits) < 5:
+        return False
+    return compact.startswith(("+", "00", "0")) or len(digits) >= 9
+
+
+def contact_problems(text: str) -> list[str]:
+    """Return every contact channel in `text` that is not in the official catalog."""
+    problems = []
+    for m in EMAIL_RE.finditer(text):
+        if m.group(0).lower() not in OFFICIAL_EMAILS:
+            problems.append(f"unofficial e-mail: {m.group(0)}")
+    for m in PHONE_RE.finditer(text):
+        candidate = m.group(0).strip()
+        if _looks_like_phone(candidate) and _phone_digits(candidate) not in OFFICIAL_PHONE_DIGITS:
+            problems.append(f"unofficial phone: {candidate}")
+    for domain in DOMAIN_RE.findall(norm(text)):
+        if domain not in OFFICIAL_DOMAINS:
+            problems.append(f"unofficial site: {domain}")
+    return problems
+
+
+def assert_official_contacts(text: str) -> None:
+    """Hard guarantee for template warnings: refuse to emit an unofficial contact.
+    Raises explicitly (not via `assert`) so it also holds under `python -O`."""
+    problems = contact_problems(text)
+    if problems:
+        raise AssertionError("warning names a contact channel outside the official catalog: "
+                             + "; ".join(problems))
+
+
+# ----------------------------------------------------------------------------
 # Warning builder
 # ----------------------------------------------------------------------------
 @dataclass
@@ -363,7 +420,9 @@ def build_warning(conv: Conversation, scam_type: str, flags: set[str], verdict: 
                         s.org_site if s.org_site and s.org_site in action else None,
                         s.amount if s.amount and s.amount in why else None,
                         s.name if s.name and s.name in why else None) if x]
-    return Warning(verdict, scam_type, headline, why, action, UI_LABEL[verdict], keep)
+    warning = Warning(verdict, scam_type, headline, why, action, UI_LABEL[verdict], keep)
+    assert_official_contacts(warning.text)   # never ship an unofficial channel to the reader
+    return warning
 
 
 # ----------------------------------------------------------------------------
@@ -425,4 +484,5 @@ def style_problems(text: str) -> list[str]:
         p.append("more than 3 sentences")
     if BANNED.search(text):
         p.append("technical word")
+    p.extend(contact_problems(text))   # unofficial phone / e-mail / site
     return p
