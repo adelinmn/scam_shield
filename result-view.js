@@ -18,8 +18,16 @@ export function verdictBadge(verdict, mode = "full") {
   return badge;
 }
 
-export function renderResult(container, { result, warning, loading, error }, { showExplanation = true } = {}) {
+export function renderResult(container, { scenario, result, warning, loading, error }, { showExplanation = true } = {}) {
   container.replaceChildren();
+
+  if (!result && scenario?.messages.every((message) => message.from === "reader")) {
+    const waiting = document.createElement("p");
+    waiting.className = "result-banner pending";
+    waiting.textContent = "Așteaptă primul mesaj al expeditorului.";
+    container.append(waiting);
+    return;
+  }
 
   const banner = document.createElement("div");
   banner.className = `result-banner ${verdicts[result?.verdict]?.style ?? pending.style}`;
