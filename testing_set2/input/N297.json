@@ -1,0 +1,31 @@
+{
+  "id": "N297",
+  "channel": "chat",
+  "sender": {
+    "name": "Consilier investiții",
+    "address": "+40 7xx xxx 420",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Astăzi prezentăm un portofoliu de active digitale. Îți scriu la ora 21:06. Materialul promite profit garantat, indiferent de evoluția pieței."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Trebuie să decideți înainte de închiderea sesiunii de azi. Vă transmitem informații suplimentare dacă doriți."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

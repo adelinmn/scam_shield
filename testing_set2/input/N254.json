@@ -1,0 +1,16 @@
+{
+  "id": "N254",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Casa de Pensii Registratură",
+    "address": "+40 2xx xxx 258",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Aici este biroul regional pentru recalcularea pensiilor. Vi s-a aprobat o majorare garantată de 1.430 lei, peste nivelul obișnuit. Pentru înscriere am nevoie de CNP și seria cardului de pensie. Când ajunge mesajul SMS, citiți-mi codul din el."
+    }
+  ]
+}

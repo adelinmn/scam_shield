@@ -1,0 +1,51 @@
+{
+  "id": "N369",
+  "channel": "sms",
+  "sender": {
+    "name": "Clinica Programări",
+    "address": "+40 2xx xxx 956",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Consultația de control este confirmată pentru luni."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Medicul vă va primi la ora 14:20 la recepția clinicii."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Nu trebuie să comunicați prin mesaj datele cardului."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    },
+    {
+      "n": 7,
+      "from": "sender",
+      "text": "Dacă nu puteți ajunge, anunțați recepția la numărul utilizat deja."
+    },
+    {
+      "n": 8,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    }
+  ]
+}

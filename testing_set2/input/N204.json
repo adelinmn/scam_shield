@@ -1,0 +1,16 @@
+{
+  "id": "N204",
+  "channel": "sms",
+  "sender": {
+    "name": "Administrator interfon",
+    "address": "+40 7xx xxx 262",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sistemul de acces al clădirii urmează să fie înlocuit. Administratorul spune că vor exista costuri de programare. Trimiteți un avans de 870 lei pentru a vă păstra accesul. Detaliile lucrării vor fi distribuite ulterior."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N205",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 442",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "S-a înregistrat o cerere de migrare pentru contul de mesagerie. Îți scriu la ora 14:17. Deocamdată nu reușim să confirmăm identitatea titularului. Scrieți codul de activare primit pe telefon, ca să conectăm noul aparat. Treceți imediat pe Telegram pentru confirmarea finală."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "N260",
+  "channel": "email",
+  "sender": {
+    "name": "Birou impozite locale",
+    "address": "instiintari@taxe-control.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă informăm în numele serviciului local de taxe și impozite."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Dacă dosarul nu este regularizat se emite o amendă suplimentară."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Plătiți 1.430 lei folosind pagina taxe-control.example pentru anularea penalității. Termenul de soluționare expiră în 90 de minute."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

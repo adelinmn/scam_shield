@@ -1,0 +1,16 @@
+{
+  "id": "N363",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Victor",
+    "address": "+40 7xx xxx 275",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Salut, sunt Victor, fratele tău; folosesc pentru moment alt număr. Mi-am pierdut telefonul de dimineață. Scrie-mi în maximum zece minute, trebuie să lămurim ceva acum. Nu îți solicit bani, vreau doar să ne auzim."
+    }
+  ]
+}

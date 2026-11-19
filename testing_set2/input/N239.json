@@ -1,0 +1,16 @@
+{
+  "id": "N239",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Irina",
+    "address": "+40 7xx xxx 143",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt Irina, nepoata ta. Am pierdut telefonul în delegație și acesta e numărul temporar. Nu reușesc să mă cazez și nu îmi merge cardul. Te rog virează-mi 65 lei ca să achit camera în seara asta. Nu întreba pe nimeni din familie, e ceva ce vreau să rezolv discret."
+    }
+  ]
+}

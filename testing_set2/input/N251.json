@@ -1,0 +1,16 @@
+{
+  "id": "N251",
+  "channel": "chat",
+  "sender": {
+    "name": "Departament randamente",
+    "address": "+40 7xx xxx 482",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Contul dvs. de investiții arată un câștig garantat de 870 lei. Suma figurează ca disponibilă pentru retragere. Înainte de încasare trebuie să virați 49 lei pentru deblocarea fondurilor. Nu discutați această procedură cu banca; verificarea este confidențială."
+    }
+  ]
+}

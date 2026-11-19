@@ -1,0 +1,16 @@
+{
+  "id": "N208",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Birou sancțiuni",
+    "address": "+40 2xx xxx 658",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vorbesc în numele unui serviciu public de constatare. Referință internă: 98899078. În registru apare o abatere ce poate atrage sancțiuni. Voi reveni cu mai multe informații în cursul zilei. Nu vă cer acum niciun document sau transfer."
+    }
+  ]
+}

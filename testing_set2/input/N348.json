@@ -1,0 +1,41 @@
+{
+  "id": "N348",
+  "channel": "chat",
+  "sender": {
+    "name": "Cumpărător interesat",
+    "address": "buyer_10148",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Am văzut anunțul cu aparatul foto și aș vrea să îl rezerv."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Nu pot ajunge personal în următoarele zile."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Vă rog să îmi virați o garanție de 3.780 lei ca să pot activa ridicarea. Vă explic ulterior cum va funcționa livrarea."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

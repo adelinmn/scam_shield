@@ -1,0 +1,16 @@
+{
+  "id": "N293",
+  "channel": "sms",
+  "sender": {
+    "name": "Dispecerat colet",
+    "address": "+40 7xx xxx 151",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactez din partea unui operator de curierat. Există o taxă suplimentară pentru manipularea expediției. Vă rog să achitați taxa de 65 lei înainte să putem continua. Confirmarea plății este necesară pentru expediere."
+    }
+  ]
+}

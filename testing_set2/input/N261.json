@@ -1,0 +1,16 @@
+{
+  "id": "N261",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Ilinca",
+    "address": "+40 7xx xxx 667",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, bunico! Noi pregătim masa pentru duminică. Am pus deoparte și desertul preferat de Matei. Nu trebuie să cumpărați nimic, avem tot ce ne trebuie. Vă îmbrățișăm, ne vedem după-amiază."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "N383",
+  "channel": "email",
+  "sender": {
+    "name": "Coordonator proiect digital",
+    "address": "activare@joburi-rapid.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Recrutăm colaboratori care verifică fotografii de produse online."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Câștigurile sunt garantate la 65 lei pe zi pentru câteva minute de lucru."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Pentru a primi primele sarcini trebuie să depuneți 125 lei în contul de activare. Activați până la ora 17 și mutăm comunicarea pe Telegram."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

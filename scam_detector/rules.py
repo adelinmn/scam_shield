@@ -1,4 +1,4 @@
-"""Extension point for future deterministic rules."""
+"""Deterministic red flags and contextual evidence for Scam Shield."""
 
 import re
 from dataclasses import dataclass
@@ -8,20 +8,12 @@ from pathlib import Path
 from .conversation import Message, Sender
 from .flag_definitions import FLAG_DEFINITIONS
 from .model_assets import PROJECT_ROOT
-
-
-_NEW_NUMBER_NOTICE = re.compile(
-    r"\b(?:num[ăa]r(?:ul)?(?: de telefon)?(?: meu)? nou|noul(?: meu)? num[ăa]r"
-    r"|(?:pe|de pe) (?:un )?alt num[ăa]r)\b",
-    re.IGNORECASE,
+from .rule_contacts import MARKET_ACCOUNT, check_contacts, load_contacts
+from .rule_patterns import (
+    DELIVERY_NOTICE, NO_PAYMENT, OTP_NOTICE, PAYMENT_ACTION, SOCIAL,
+    fold, matches, pattern, positive_action, request,
 )
-_SECRECY_CUE = re.compile(
-    r"\b(?:secret\w*|discre[țt]i\w*|confiden[țt]ial\w*|[îi]ntre noi)\b"
-    r"|\bnu(?:\s+|-(?:i|l|le|mi|[țt]i)\s+)(?:(?:s[ăa]|[îi]i|[îi]l|le|o)\s+)*"
-    r"(?:spun\w*|zi\w*|povest\w*|anun[țt]\w*|verific\w*|[îi]ntreb\w*|"
-    r"[îi]ntreab\w*|sun\w*|contact\w*)\b",
-    re.IGNORECASE,
-)
+from .rule_types import TypeEvidence, assess_types
 
 
 class RuleStatus(StrEnum):
@@ -37,29 +29,233 @@ class RuleContext:
     previous_messages: tuple[Message, ...]
 
 
+@dataclass(frozen=True)
+class RuleAssessment:
+    flags: dict[str, RuleStatus]
+    reasons: dict[str, str]
+    targeted: bool
+
+
+_CALL = pattern(r"suna(?:ti)?|apeleaz[a-z]*|telefon oficial|numar oficial|contactea[zz][a-z]*")
+_PHONE_LABEL = re.compile(
+    r"\b(?:telefon(?:ul)?(?: oficial)?|tel\.?|(?:numar(?:ul)?|nr\.?) (?:de contact|oficial))"
+    r"\s*(?:[:=]\s*|(?=\+?\d))"
+)
+_ADMIN_NOTICE = pattern(r"actualizare a dosar[a-z]*|informare administrativa|dosar[a-z]* pentru indexare")
+_INTRO_REPLY = re.compile(r"^(?:eu|sunt|eu sunt)[ ,]+[a-z]+(?:[, ]+(?:cine sa fie|cine altcineva))?[\W]*$")
+_REPLY_PRIZE = pattern(r"raspunde(?:ti)?(?: cu)?|revendic[a-z]*|scrie(?:ti)?[ -]ne")
+_OPT_IN_PRIZE = pattern(r"raspunde(?:ti)? cu (?:da|ok)|scrie(?:ti)?[ -]ne pentru detalii")
+_MISDELIVERED_CODE = pattern(r"din greseala|trimis gresit|trimis din eroare")
+_SENSITIVE_CODE = pattern(r"cod(?:ul)? (?:postal|de reducere|de reducerea|de produs|de bare)")
+_AUTHORITY_PROMISE = pattern(r"pensi[a-z]*.{0,55}(?:creste cu|majorar[a-z]*)|(?:diferenta|majorarea).{0,30}pensi[a-z]*")
+_JOBS_WINDFALL = pattern(r"(?:castig[a-z]*|lei|euro|comisio[a-z]*|plata).{0,45}(?:zilnic|pe zi|pentru (?:like|sarcin|recenzi)|garantat)")
+_IMPLICIT_FIELDS = pattern(r"numele complet|ce date|lista de date|numar[a-z]* card[a-z]*")
+_COERCION = pattern(r"daca nu|altfel|ca sa nu pier[zdt][a-z]*")
+_ROUTINE_UPDATE = pattern(
+    r"va informam despre|am si cateva informatii suplimentare|plata a fost deja inregistrata|"
+    r"nu (?:este necesara|este nevoie de) (?:nicio actiune|o alta plata)|"
+    r"reduceri la produse selectate"
+)
+_OFFICIAL_GUIDANCE = pattern(r"consultati informatiile generale|informatii generale in cont")
+_DATA_SAFETY = pattern(
+    r"nu (?:furnizati|comunicati|transmiteti|trimiteti|va cerem) date personale(?: prin mesaje)?"
+)
+
+
 class RuleEngine:
     def __init__(self, catalog_path: str | Path = PROJECT_ROOT / "official_catalog.json"):
         self.catalog_path = Path(catalog_path)
+        self.catalog = load_contacts(self.catalog_path)
 
     def evaluate(
-        self, message: Message, context: RuleContext | None = None
+        self, message: Message | None, context: RuleContext | None = None
     ) -> dict[str, RuleStatus]:
-        # TODO: Verify organization domains and phone numbers using the official catalog.
-        # TODO: Distinguish OTP requests from genuine informational messages.
-        # TODO: Check sensitive data, payment, transfer and remote access requests.
-        # TODO: Check deadlines, urgency, secrecy and new-number claims using metadata.
-        # TODO: Handle negations and other recurring false positives.
-        evidence = dict.fromkeys(FLAG_DEFINITIONS, RuleStatus.UNKNOWN)
-        # A new-number introduction is separate evidence from a request for secrecy.
+        return self.evaluate_flags(message, context)
+
+    def evaluate_flags(
+        self, message: Message | None, context: RuleContext | None = None
+    ) -> dict[str, RuleStatus]:
+        return self.evaluate_detailed(message, context).flags
+
+    def evaluate_detailed(
+        self, message: Message | None, context: RuleContext | None = None
+    ) -> RuleAssessment:
+        flags = dict.fromkeys(FLAG_DEFINITIONS, RuleStatus.UNKNOWN)
+        reasons = {}
+        if message is None or message.role != "sender":
+            return RuleAssessment(flags, reasons, False)
+        text = fold(message.original_text)
+        sender = context.sender if context else None
+        history = tuple(item for item in context.previous_messages if item.number < message.number) if context else ()
+        prior = " ".join(fold(item.text) for item in history if item.role == "sender")
+        identity = fold(" ".join((sender.name or "", sender.address or ""))) if sender else ""
+        current = {name: bool(matches(name, text)) for name in (
+            "bank", "authority", "courier", "family", "friend", "new_number",
+            "tech", "market", "emergency", "prize", "winner", "returns",
+            "secrecy", "urgency", "threat", "emotion", "channel", "benefit",
+            "conditional_benefit", "generic_data", "job", "tasks", "investment",
+        )}
+        code, no_code = request(text, "share", "code")
+        remote, no_remote = request(text, "remote", "remote")
+        data, no_data = request(text, "share", "data")
+        payment, no_payment = request(text, "pay", "money")
+        following = positive_action(text, "follow")
+        if _SENSITIVE_CODE.search(text) and not matches("account", text) and "otp" not in text:
+            code = False
+        if NO_PAYMENT.search(text) and not payment:
+            no_payment = True
+
+        support_context = current["tech"] or bool(matches("tech", prior) or matches("remote", prior))
+        authority_context = current["authority"] or bool(matches("authority", prior))
+        if following and PAYMENT_ACTION["login"].search(text) and support_context:
+            data = True
         if (
-            context is not None
-            and context.channel in {"whatsapp", "sms", "chat"}
-            and not context.sender.known_contact
-            and not _SECRECY_CUE.search(message.text)
-            and any(
-                turn.role == "sender" and _NEW_NUMBER_NOTICE.search(turn.text)
-                for turn in (*context.previous_messages, message)
-            )
+            matches("data", text) and _IMPLICIT_FIELDS.search(text)
+            and matches("generic_data", prior) and authority_context and not no_data
         ):
-            evidence["RF_SECRECY"] = RuleStatus.REJECTED
-        return evidence
+            data = True
+
+        targeted = code or remote or data or payment or following
+        contact = check_contacts(
+            self.catalog, message, sender,
+            directed=targeted or current["threat"],
+            phone_requested=bool((_CALL.search(text) and following) or _PHONE_LABEL.search(text)),
+            previous=history,
+        )
+        family = current["family"] or current["friend"] or bool(matches("family", prior))
+        new_number = bool(sender and not sender.known_contact and family and current["new_number"])
+        otp_notice = bool(OTP_NOTICE.search(text))
+        prize_claim = current["prize"] and current["winner"]
+        prize_action = prize_claim and bool(_REPLY_PRIZE.search(text) or payment or data)
+        pension_bait = bool(
+            authority_context and _AUTHORITY_PROMISE.search(text)
+            and current["conditional_benefit"] and current["generic_data"]
+        )
+        job_bait = current["job"] and current["tasks"] and bool(_JOBS_WINDFALL.search(text))
+        too_good = bool(
+            prize_action or pension_bait or job_bait
+            or (current["returns"] and (current["investment"] or targeted))
+        )
+        institution = (
+            current["bank"] or authority_context or current["courier"] or current["tech"]
+            or contact.claimed or support_context
+        )
+        institutional_claim = (
+            institution and (contact.affiliation_claim or not MARKET_ACCOUNT.search(identity))
+            and (bool(matches("identity", text)) or contact.claimed or current["threat"]
+                 or pension_bait or bool(matches("identity", prior)))
+        )
+        suspicious_action = bool(
+            code or remote or data or payment or current["threat"]
+            or (contact.suspicious and contact.affiliation_claim)
+        )
+        impersonation = bool(
+            (institutional_claim and (suspicious_action or pension_bait)) or (prize_action and contact.claimed)
+        )
+        urgent = current["urgency"] and (
+            targeted or (bool(PAYMENT_ACTION["deadline"].search(text)) and bool(
+                message.urls or matches("threat", text) or positive_action(prior, "pay", "share", "follow")
+            ))
+        )
+        threat = current["threat"] and (
+            targeted or institutional_claim or current["tech"] or bool(matches("identity", text) or _COERCION.search(text))
+        )
+        protective_code = (otp_notice or no_code) and not code
+        secrecy = current["secrecy"] and not (
+            protective_code and not (payment or remote or data) and not matches("secrecy", prior)
+        )
+        emotion = current["emotion"] and (payment or code or data or remote)
+        confirmed = {
+            "RF_CODE_REQUEST": (code, "explicit_code_request"),
+            "RF_REMOTE_ACCESS": (remote, "requested_remote_control"),
+            "RF_DATA_REQUEST": (data, "requested_sensitive_data_or_login"),
+            "RF_PAYMENT_REQUEST": (payment, "requested_payment"),
+            "RF_SUSPICIOUS_CONTACT": (contact.suspicious, "contact_mismatch_with_official_catalog"),
+            "RF_NEW_NUMBER": (new_number, "unknown_sender_claims_familiar_identity_and_new_number"),
+            "RF_SECRECY": (secrecy, "request_to_keep_secret_or_avoid_verification"),
+            "RF_TOO_GOOD": (too_good, "prize_or_unusual_benefit_with_lure"),
+            "RF_IMPERSONATION": (impersonation, "institutional_claim_with_risky_behavior"),
+            "RF_URGENCY": (urgent, "pressure_to_act_or_explicit_deadline"),
+            "RF_THREAT": (threat, "negative_consequence_used_as_pressure"),
+            "RF_EMOTIONAL_PRESSURE": (emotion, "emotional_leverage_with_request"),
+            "RF_CHANNEL_SWITCH": (current["channel"], "explicit_request_to_change_channel"),
+        }
+        for code_name, (found, reason) in confirmed.items():
+            if found:
+                flags[code_name] = RuleStatus.CONFIRMED
+                reasons[code_name] = reason
+
+        benign_notice = (
+            (otp_notice and not code)
+            or DELIVERY_NOTICE.search(text)
+            or (authority_context and _ADMIN_NOTICE.search(text))
+            or _ROUTINE_UPDATE.search(text)
+            or (contact.official and _OFFICIAL_GUIDANCE.search(text) and _DATA_SAFETY.search(text))
+            or ((no_code or no_remote or no_data) and not targeted)
+        )
+        ordinary = bool(
+            (not text or not any(character.isalnum() for character in text))
+            or SOCIAL.fullmatch(text)
+            or (matches("new_number", prior) and _INTRO_REPLY.fullmatch(text))
+        )
+        only_intro = new_number and not any(
+            found for key, (found, _) in confirmed.items() if key != "RF_NEW_NUMBER"
+        )
+        other_behavior = any(found for key, (found, _) in confirmed.items() if key != "RF_NEW_NUMBER")
+        benign = bool(
+            (benign_notice or ordinary or only_intro)
+            and not other_behavior and not targeted
+            and (not message.urls or (benign_notice and contact.official and not contact.suspicious))
+        )
+        prize_opt_in = prize_claim and _OPT_IN_PRIZE.search(text) and not message.urls and not matches("money", text)
+        receiving_refund = data and current["benefit"] and current["conditional_benefit"] and not payment
+        code_return = code and _MISDELIVERED_CODE.search(text) and not institutional_claim and not payment
+        family_story = family and bool(current["new_number"] or matches("new_number", prior)) and not institutional_claim
+        contradicted = {
+            "RF_CODE_REQUEST": protective_code,
+            "RF_REMOTE_ACCESS": no_remote,
+            "RF_DATA_REQUEST": no_data,
+            "RF_PAYMENT_REQUEST": no_payment or prize_opt_in or receiving_refund or code_return,
+            "RF_SUSPICIOUS_CONTACT": contact.official and not contact.suspicious,
+            "RF_NEW_NUMBER": institutional_claim and not family,
+            "RF_SECRECY": protective_code or code_return,
+            "RF_IMPERSONATION": family_story or code_return,
+            "RF_URGENCY": bool(DELIVERY_NOTICE.search(text) and not urgent),
+        }
+        for key in flags:
+            if flags[key] == RuleStatus.UNKNOWN and (benign or contradicted.get(key, False)):
+                flags[key] = RuleStatus.REJECTED
+                reasons[key] = "recognized_benign_context" if benign else "explicit_counterevidence"
+        return RuleAssessment(flags, reasons, bool(targeted or prize_action))
+
+    def context_flags(self, message: Message, context: RuleContext | None = None) -> tuple[str, ...]:
+        if message.role != "sender":
+            return ()
+        text = fold(message.text)
+        result = []
+        if matches("bank", text):
+            result.append("INFO_BANK_CONTEXT")
+        if OTP_NOTICE.search(text) and not request(text, "share", "code")[0]:
+            result.append("INFO_OTP_NOTICE")
+        return tuple(result)
+
+    def evaluate_types(
+        self, message: Message, context: RuleContext | None = None
+    ) -> dict[str, TypeEvidence]:
+        preceding = tuple(item for item in context.previous_messages if item.number < message.number) if context else ()
+        sender = context.sender if context else None
+        channel = context.channel if context else ""
+        messages = (*preceding, message)
+        flags = set()
+        targeted = False
+        for index, turn in enumerate(messages):
+            if turn.role != "sender":
+                continue
+            prefix = RuleContext(channel, sender, messages[:index]) if sender else None
+            assessment = self.evaluate_detailed(turn, prefix)
+            flags.update(flag for flag, status in assessment.flags.items() if status == RuleStatus.CONFIRMED)
+            targeted |= assessment.targeted
+        sender_text = " ".join(fold(turn.text) for turn in messages if turn.role == "sender")
+        reader_text = " ".join(fold(turn.text) for turn in messages if turn.role == "reader")
+        metadata = fold(sender.name or "") if sender else ""
+        return assess_types(" ".join((metadata, sender_text)), reader_text, flags, targeted=targeted)

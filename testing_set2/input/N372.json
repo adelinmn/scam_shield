@@ -1,0 +1,16 @@
+{
+  "id": "N372",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Daria",
+    "address": "+40 7xx xxx 322",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Dragostea mea, aștept cu nerăbdare să ne întâlnim în sfârșit. Mi-e teamă să nu te dezamăgesc, nu mă lăsa să pierd această șansă. Îmi trimiți 390 lei pentru schimbarea biletului de avion? Te rog să rezolvăm până diseară și să nu povestești nimănui despre noi."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N350",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 948",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Contul dvs. de investiții arată un câștig garantat de 1.430 lei. Suma figurează ca disponibilă pentru retragere. Înainte de încasare trebuie să virați 49 lei pentru deblocarea fondurilor. Nu discutați această procedură cu banca; verificarea este confidențială."
+    }
+  ]
+}

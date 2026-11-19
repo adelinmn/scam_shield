@@ -1,0 +1,31 @@
+{
+  "id": "N377",
+  "channel": "email",
+  "sender": {
+    "name": "Confirmare transport",
+    "address": "livrare@notificare-colete.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Departamentul de livrări al FAN Courier încearcă să confirme expedierea. Adresa destinatarului nu mai poate fi validată în sistem."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Introduceți datele cardului pentru taxa de procesare pe adresa validare-expeditie.example. Linkul va rămâne funcțional doar câteva minute."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

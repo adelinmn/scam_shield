@@ -1,0 +1,16 @@
+{
+  "id": "N336",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Bogdan",
+    "address": "+40 7xx xxx 730",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Hei, ai un minut? Am o dificultate cu accesul la contul meu de mesagerie. Îți scriu la ora 14:59. Platforma a trimis din eroare un număr de verificare către telefonul tău. Poți să îmi citești cele șase cifre primite prin SMS? Am nevoie de ele acum, sesiunea expiră în două minute."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N214",
+  "channel": "chat",
+  "sender": {
+    "name": "Operator protecție tranzacții",
+    "address": "suport@plata-garantata.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactez pentru tranzacția legată de ceasul vechi pe o platformă de anunțuri. Se cere o verificare de garanție pentru finalizarea schimbului. Transferați o garanție de 390 lei pentru activarea tranzacției protejate. Nu întrebați vânzătorul despre procedură; păstrați această verificare doar între noi și încheiați azi."
+    }
+  ]
+}

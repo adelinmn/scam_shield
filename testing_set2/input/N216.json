@@ -1,0 +1,16 @@
+{
+  "id": "N216",
+  "channel": "sms",
+  "sender": {
+    "name": "Campanie MegaShop",
+    "address": "+40 7xx xxx 797",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă scriem din partea MegaShop cu o informare despre extragere. Referință internă: 90044453. Numărul dumneavoastră a fost selectat ca posibil câștigător al unui premiu. Răspundeți pentru a afla ce pași urmează. Nu vă cerem încă bani sau date personale."
+    }
+  ]
+}

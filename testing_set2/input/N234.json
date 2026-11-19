@@ -1,0 +1,16 @@
+{
+  "id": "N234",
+  "channel": "sms",
+  "sender": {
+    "name": "Clinica Programări",
+    "address": "+40 2xx xxx 291",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Consultația de control este confirmată pentru luni. Medicul vă va primi la ora 14:20 la recepția clinicii. Nu trebuie să comunicați prin mesaj datele cardului. Dacă nu puteți ajunge, anunțați recepția la numărul utilizat deja."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N247",
+  "channel": "sms",
+  "sender": {
+    "name": "Premii MegaShop",
+    "address": "+40 7xx xxx 937",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt din echipa campaniei de recompense un magazin online cunoscut. Numărul dumneavoastră a primit un premiu surpriză: un televizor nou. Achitați taxa de expediere de 125 lei pentru a confirma revendicarea. Premiul va fi realocat dacă nu plătiți în următoarele 30 de minute."
+    }
+  ]
+}

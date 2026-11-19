@@ -1,0 +1,16 @@
+{
+  "id": "N292",
+  "channel": "sms",
+  "sender": {
+    "name": "Depozit logistic",
+    "address": "+40 7xx xxx 964",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Suntem echipa de depozitare a companiei de transport DHL. Pachetul cu referința 95453993 a depășit perioada de păstrare. Pentru eliberare plătiți 3.780 lei prin depozit-curier.example. Fără achitarea serviciului de depozitare coletul rămâne închis."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "N381",
+  "channel": "sms",
+  "sender": {
+    "name": "Verificări bancare",
+    "address": "+40 7xx xxx 847",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt de la serviciul de protecție a clienților unei bănci. Referință internă: 90530574. S-a constatat o restricție asupra cardului dumneavoastră. Vă rugăm să rămâneți disponibil pentru detalii. Nu vom discuta deocamdată despre nicio operațiune."
+    }
+  ]
+}

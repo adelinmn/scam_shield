@@ -1,0 +1,31 @@
+{
+  "id": "N318",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Analist active digitale",
+    "address": "+40 7xx xxx 943",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Avem un algoritm de tranzacționare despre care vă putem povesti. Performanța este garantată: investiția se triplează fără pierderi."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Trimiteți 65 lei într-un portofel pentru a vă activa poziția. Înscrierea se termină în această oră; haideți pe Telegram pentru instrucțiuni."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

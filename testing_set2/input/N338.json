@@ -1,0 +1,16 @@
+{
+  "id": "N338",
+  "channel": "email",
+  "sender": {
+    "name": "Confirmare transport",
+    "address": "livrare@notificare-colete.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Departamentul de livrări al CurierExpres încearcă să confirme expedierea. Adresa destinatarului nu mai poate fi validată în sistem. Introduceți datele cardului pentru taxa de procesare pe adresa validare-expeditie.example. Linkul va rămâne funcțional doar câteva minute. Referință corespondență: 94705875."
+    }
+  ]
+}

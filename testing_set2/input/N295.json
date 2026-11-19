@@ -1,0 +1,51 @@
+{
+  "id": "N295",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Birou sancțiuni",
+    "address": "+40 2xx xxx 778",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vorbesc în numele unui serviciu public de constatare. Referință internă: 95131050."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "În registru apare o abatere ce poate atrage sancțiuni."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Voi reveni cu mai multe informații în cursul zilei."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    },
+    {
+      "n": 7,
+      "from": "sender",
+      "text": "Nu vă cer acum niciun document sau transfer."
+    },
+    {
+      "n": 8,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    }
+  ]
+}

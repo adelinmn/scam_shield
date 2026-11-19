@@ -1,0 +1,41 @@
+{
+  "id": "N316",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Serviciu verificare PC",
+    "address": "+40 7xx xxx 237",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt consultant la un centru de suport pentru calculatoare. Referință internă: 94436735."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Sistemul dumneavoastră ar putea fi infectat cu un program periculos."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Voi explica situația când putem vorbi. Nu vă solicit încă instalarea niciunui program."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

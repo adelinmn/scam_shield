@@ -1,0 +1,16 @@
+{
+  "id": "N303",
+  "channel": "sms",
+  "sender": {
+    "name": "Resurse umane externalizate",
+    "address": "selectie@posturi-remote.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Postul de operator de mesaje de acasă este disponibil fără experiență. Referință internă: 90285115. Garantăm venit lunar foarte mare și angajare imediată. Înainte de interviu expediați fotografia buletinului, CNP-ul și seria cardului. Dosarul trebuie depus astăzi, altfel pierdeți postul."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "N252",
+  "channel": "email",
+  "sender": {
+    "name": "Serviciu utilități locuințe",
+    "address": "alerte@facturi-acces.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactăm în numele serviciului de mentenanță al imobilului."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Alimentarea cu apă va fi întreruptă dacă soldul nu este reglat."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Plătiți acum taxa de reactivare de 1.430 lei prin formularul nostru. Nu anunțați administratorul, procedura este separată de asociație."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Am citit mesajul."
+    }
+  ]
+}

@@ -61,6 +61,7 @@ class ConversationTests(unittest.TestCase):
     def test_reuses_default_model(self):
         classifier = Mock()
         classifier.classify.return_value = dict.fromkeys(FLAG_DEFINITIONS, 0.0)
+        classifier.score_hypotheses.return_value = [{"FAMILY_EMERGENCY": 0.9, "OTHER": 0.2}]
         with patch("scam_detector.detector.FlagClassifier", return_value=classifier) as load:
             with patch("scam_detector.detector._default_detector", None):
                 first = analyze_scenario(self.scenario)

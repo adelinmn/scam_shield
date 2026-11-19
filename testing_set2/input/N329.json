@@ -1,0 +1,16 @@
+{
+  "id": "N329",
+  "channel": "email",
+  "sender": {
+    "name": "Birou impozite locale",
+    "address": "instiintari@taxe-control.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă informăm în numele serviciului local de taxe și impozite. Dacă dosarul nu este regularizat se emite o amendă suplimentară. Plătiți 145 lei folosind pagina taxe-control.example pentru anularea penalității. Termenul de soluționare expiră în 90 de minute."
+    }
+  ]
+}

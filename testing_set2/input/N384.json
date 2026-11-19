@@ -1,0 +1,16 @@
+{
+  "id": "N384",
+  "channel": "email",
+  "sender": {
+    "name": "Birou premii online",
+    "address": "winner@ridicare-premii.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Felicitări, ați fost desemnat câștigător al unui voucher mare. Referință internă: 98632147. Verificarea este necesară ca premiul să fie emis pe numele corect. Completați CNP-ul și datele cardului la formular-premii.example. Solicitarea trebuie finalizată în cursul zilei."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "N342",
+  "channel": "sms",
+  "sender": {
+    "name": "BancaDunarea",
+    "address": "0800 100 200",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "A fost inițiată o autentificare în serviciul de banking online. Codul unic pentru operațiunea proprie este 281148."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Puteți detalia?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Nu transmiteți codul altor persoane, indiferent ce pretind. Dacă nu recunoașteți operațiunea, apelați banca folosind numărul de pe card."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Înțeleg."
+    }
+  ]
+}

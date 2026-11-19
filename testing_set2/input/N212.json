@@ -1,0 +1,16 @@
+{
+  "id": "N212",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Microsoft Diagnostic",
+    "address": "+40 7xx xxx 171",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Sunt specialist de asistență Windows, iar dispozitivul a fost raportat ca fiind compromis. Referință internă: 93230590. Pentru diagnostic vom deschide o sesiune securizată. Instalați RustDesk și permiteți-mi controlul calculatorului. Acum introduceți parola de internet banking pentru validarea rambursării."
+    }
+  ]
+}

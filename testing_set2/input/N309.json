@@ -1,0 +1,16 @@
+{
+  "id": "N309",
+  "channel": "email",
+  "sender": {
+    "name": "Activare card",
+    "address": "confirmari@banca-confirmare.example",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Vă contactează departamentul de carduri al departamentul de conturi bancare. Accesul la card va fi oprit dacă validarea rămâne neterminată. Completați numărul integral al cardului și codul CVV în formularul de la card-validare.example. Vă rugăm să finalizați în cel mult 45 de minute."
+    }
+  ]
+}
