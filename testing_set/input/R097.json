@@ -1,0 +1,31 @@
+{
+  "id": "R097",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 151",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Mami, sunt Mihai. Mi s-a stricat telefonul și acesta e numărul nou."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Cine e?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Am o problemă personală și nu reușesc să intru în aplicație. Mă ajuți cu un transfer de 189 lei azi? Te rog, nu-i spune tatei și nu mă suna pe numărul vechi."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "A, bine, ce s-a întâmplat?"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "R028",
+  "channel": "sms",
+  "sender": {
+    "name": "Suport Windows",
+    "address": "+40 7xx xxx 319",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Suport tehnic: actualizarea s-a finalizat. Nu instalați programe de acces la distanță din mesaje necunoscute."
+    }
+  ]
+}

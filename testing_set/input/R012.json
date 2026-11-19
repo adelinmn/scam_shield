@@ -1,0 +1,16 @@
+{
+  "id": "R012",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 242",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Confirmare: plata dumneavoastră de 1.250 lei a fost înregistrată. Nu este necesară nicio acțiune."
+    }
+  ]
+}

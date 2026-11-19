@@ -1,0 +1,16 @@
+{
+  "id": "R083",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 570",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Te iubesc și am mare nevoie de ajutor. Trimite-mi urgent 2.760 lei, dar nu spune nimănui."
+    }
+  ]
+}

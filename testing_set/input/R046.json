@@ -1,0 +1,41 @@
+{
+  "id": "R046",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 164",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, acesta este un mesaj publicitar."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Au apărut produse noi în catalog."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Nu este necesară nicio acțiune din partea dumneavoastră."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Mulțumesc pentru informație."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "R048",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 444",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Profit garantat 300% fără risc! Depuneți 79 lei astăzi pentru investiție."
+    }
+  ]
+}

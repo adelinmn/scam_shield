@@ -1,0 +1,16 @@
+{
+  "id": "R011",
+  "channel": "sms",
+  "sender": {
+    "name": "CurierExpres",
+    "address": "+40 7xx xxx 350",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "CurierExpres: coletul nu poate fi livrat. Achitați taxa de 450 lei pe curierexpres-reprogramare.example."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "R089",
+  "channel": "whatsapp",
+  "sender": {
+    "name": "Ana",
+    "address": "+40 7xx xxx 256",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, Maria. Ce mai faci?"
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Totul este bine, tocmai am plecat spre casă."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Mulțumesc, ne auzim mai târziu."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Mulțumesc pentru informație."
+    }
+  ]
+}

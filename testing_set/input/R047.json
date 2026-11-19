@@ -1,0 +1,16 @@
+{
+  "id": "R047",
+  "channel": "sms",
+  "sender": {
+    "name": "ANAF",
+    "address": "+40 7xx xxx 737",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "ANAF: aveți o rambursare de 450 lei. Completați urgent datele cardului pe anaf-restituiri.example."
+    }
+  ]
+}

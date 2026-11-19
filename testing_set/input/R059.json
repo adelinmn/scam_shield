@@ -1,0 +1,16 @@
+{
+  "id": "R059",
+  "channel": "sms",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 957",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Promoție de weekend: avem reduceri la produse selectate. Ignorați mesajul dacă nu sunteți interesați."
+    }
+  ]
+}

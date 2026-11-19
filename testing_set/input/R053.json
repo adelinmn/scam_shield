@@ -1,0 +1,41 @@
+{
+  "id": "R053",
+  "channel": "sms",
+  "sender": {
+    "name": "ANAF",
+    "address": "+40 7xx xxx 128",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, sunt de la Casa de Pensii, pentru actualizarea dosarului."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Vești bune: pensia dumneavoastră va crește garantat cu 312 lei."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Despre ce dosar este vorba?"
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Pentru actualizare, spuneți-mi CNP-ul și numărul cardului. Vă trimit un cod SMS de confirmare, pe care mi-l comunicați."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Ce date trebuie să vă dau?"
+    }
+  ]
+}

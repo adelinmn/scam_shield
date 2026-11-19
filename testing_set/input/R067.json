@@ -1,0 +1,16 @@
+{
+  "id": "R067",
+  "channel": "sms",
+  "sender": {
+    "name": "Recrutare",
+    "address": "+40 7xx xxx 962",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, interviul pentru rolul discutat este marți la ora 11. Nu este nevoie de nicio taxă."
+    }
+  ]
+}

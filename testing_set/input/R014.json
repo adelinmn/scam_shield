@@ -1,0 +1,16 @@
+{
+  "id": "R014",
+  "channel": "sms",
+  "sender": {
+    "name": "MegaShop",
+    "address": "+40 7xx xxx 251",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "MegaShop: felicitări, sunteți câștigătorul unei tombole! Răspundeți DA pentru detalii."
+    }
+  ]
+}

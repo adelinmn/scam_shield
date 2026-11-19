@@ -1,0 +1,51 @@
+{
+  "id": "R032",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "Apelant necunoscut",
+    "address": "+40 7xx xxx 359",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, vă informăm despre statusul plății."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Am și câteva informații suplimentare despre această situație."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Plata a fost deja înregistrată în sistem."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Mulțumesc pentru informație."
+    },
+    {
+      "n": 7,
+      "from": "sender",
+      "text": "Nu este necesară nicio acțiune sau altă plată."
+    },
+    {
+      "n": 8,
+      "from": "reader",
+      "text": "O zi bună!"
+    }
+  ]
+}

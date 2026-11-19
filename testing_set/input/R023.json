@@ -1,0 +1,41 @@
+{
+  "id": "R023",
+  "channel": "chat",
+  "sender": {
+    "name": "Suport Windows",
+    "address": "+40 7xx xxx 202",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, de la suportul tehnic Windows vă sun. Computerul are un virus."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Ce problemă are calculatorul?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Instalați AnyDesk pentru a vă putea ajuta de la distanță."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Ce trebuie să fac?"
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Acum autentificați-vă în contul bancar ca să verificăm situația."
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "De ce trebuie să intru în contul bancar?"
+    }
+  ]
+}

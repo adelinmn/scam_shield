@@ -1,0 +1,22 @@
+{
+  "id": "E01",
+  "channel": "whatsapp",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 777",
+    "known_contact": false
+  },
+  "messages": [
+    { "n": 1, "from": "sender", "text": "Bună bunico, ăsta e numărul nou. Salvează-l te rog 😊" },
+    { "n": 2, "from": "reader", "text": "Cine ești?" },
+    { "n": 3, "from": "sender", "text": "Sunt Mihai, nepotul tău." },
+    { "n": 4, "from": "reader", "text": "Mihai? Ce s-a întâmplat?" },
+    { "n": 5, "from": "sender", "text": "Am avut un accident și trebuie să plătesc urgent 3.500 lei la service. Poți să-mi faci un transfer?" },
+    { "n": 6, "from": "sender", "text": "Te rog nu spune nimănui, nu vreau să se îngrijoreze părinții." }
+  ],
+  "expected": {
+    "verdict": "SCAM",
+    "scam_type": "FAMILY_EMERGENCY",
+    "first_alert": 5
+  }
+}

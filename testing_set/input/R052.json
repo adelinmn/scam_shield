@@ -1,0 +1,16 @@
+{
+  "id": "R052",
+  "channel": "sms",
+  "sender": {
+    "name": "Radu",
+    "address": "+40 7xx xxx 210",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună, sunt Andrei. Ne vedem duminică la prânz? Nu trebuie să aduci nimic."
+    }
+  ]
+}

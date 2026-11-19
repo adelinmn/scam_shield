@@ -1,0 +1,31 @@
+{
+  "id": "R084",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "ANAF",
+    "address": "+40 7xx xxx 168",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, sunt de la Casa de Pensii, pentru actualizarea dosarului."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Vești bune: pensia dumneavoastră va crește garantat cu 312 lei. Pentru actualizare, spuneți-mi CNP-ul și numărul cardului. Vă trimit un cod SMS de confirmare, pe care mi-l comunicați."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Despre ce dosar este vorba?"
+    }
+  ]
+}

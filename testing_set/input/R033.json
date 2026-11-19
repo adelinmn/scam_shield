@@ -1,0 +1,51 @@
+{
+  "id": "R033",
+  "channel": "chat",
+  "sender": {
+    "name": null,
+    "address": "+40 7xx xxx 262",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Mami, sunt Mihai. Mi s-a stricat telefonul și acesta e numărul nou."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Cine e?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Am o problemă personală și nu reușesc să intru în aplicație."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "A, bine, ce s-a întâmplat?"
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Mă ajuți cu un transfer de 79 lei azi?"
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Pentru ce ai nevoie de bani?"
+    },
+    {
+      "n": 7,
+      "from": "sender",
+      "text": "Te rog, nu-i spune tatei și nu mă suna pe numărul vechi."
+    },
+    {
+      "n": 8,
+      "from": "reader",
+      "text": "Mai bine te sun pe numărul vechi."
+    }
+  ]
+}

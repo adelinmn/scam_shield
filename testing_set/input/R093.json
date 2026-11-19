@@ -1,0 +1,41 @@
+{
+  "id": "R093",
+  "channel": "chat",
+  "sender": {
+    "name": "MegaShop",
+    "address": "+40 7xx xxx 383",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Bună ziua, vă scriem din partea MegaShop."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Despre ce tombolă vorbiți?"
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Avem o veste despre o tombolă."
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Cum am fost selectat?"
+    },
+    {
+      "n": 5,
+      "from": "sender",
+      "text": "Felicitări, sunteți câștigătorul unui premiu!"
+    },
+    {
+      "n": 6,
+      "from": "reader",
+      "text": "Există condiții?"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "R063",
+  "channel": "sms",
+  "sender": {
+    "name": "BancaDunarea",
+    "address": "0800 100 200",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Banca Dunărea: codul dumneavoastră de confirmare este 178272. Nu îl comunicați nimănui."
+    }
+  ]
+}

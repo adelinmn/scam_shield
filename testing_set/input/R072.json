@@ -1,0 +1,16 @@
+{
+  "id": "R072",
+  "channel": "sms",
+  "sender": {
+    "name": "CurierExpres",
+    "address": "0800 300 400",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "CurierExpres: coletul se livrează azi între 12:00 și 16:00. Ramburs 0 lei. Urmărire: curierexpres.ro/awb"
+    }
+  ]
+}

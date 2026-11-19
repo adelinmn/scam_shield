@@ -1,0 +1,16 @@
+{
+  "id": "R003",
+  "channel": "sms",
+  "sender": {
+    "name": "BancaDunarea",
+    "address": "+40 7xx xxx 343",
+    "known_contact": false
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "Banca Dunărea: contul a fost blocat. Pentru verificare accesați urgent, în 24 de ore, bancadunarea-verificare.example."
+    }
+  ]
+}

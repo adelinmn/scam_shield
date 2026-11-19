@@ -1,0 +1,31 @@
+{
+  "id": "R004",
+  "channel": "call_transcript",
+  "sender": {
+    "name": "CurierExpres",
+    "address": "0800 300 400",
+    "known_contact": true
+  },
+  "messages": [
+    {
+      "n": 1,
+      "from": "sender",
+      "text": "CurierExpres: coletul a intrat în procesare."
+    },
+    {
+      "n": 2,
+      "from": "reader",
+      "text": "Bună ziua."
+    },
+    {
+      "n": 3,
+      "from": "sender",
+      "text": "Coletul a plecat din depozit. Se livrează azi între 12:00 și 16:00. Urmărire: curierexpres.ro/awb"
+    },
+    {
+      "n": 4,
+      "from": "reader",
+      "text": "Am înțeles."
+    }
+  ]
+}
