@@ -22,12 +22,14 @@ FLAG_DEFINITIONS = {
     "RF_CHANNEL_SWITCH": 10,
 }
 FLAG_CONFIG_PATH = Path(__file__).with_name("flag_config.json")
+AGGREGATIONS = ("max", "mean", "top2", "top3")
 
 
 @dataclass(frozen=True)
 class FlagConfig:
     phrases: tuple[str, ...]
     threshold: float
+    aggregation: str = "max"
 
 
 def validate_threshold(flag: str, threshold: float) -> None:
@@ -55,18 +57,23 @@ def parse_phrases(code: str, phrases: object) -> tuple[str, ...]:
 
 
 @cache
-def load_flag_config() -> dict[str, FlagConfig]:
-    entries = read_config_json(FLAG_CONFIG_PATH)
+def load_flag_config(path: Path = FLAG_CONFIG_PATH) -> dict[str, FlagConfig]:
+    entries = read_config_json(path)
 
     if not isinstance(entries, dict) or entries.keys() != FLAG_DEFINITIONS.keys():
-        raise ValueError(f"{FLAG_CONFIG_PATH.name} must contain all 13 official flag codes.")
+        raise ValueError(f"{path.name} must contain all 13 official flag codes.")
 
     config = {}
     for code in FLAG_DEFINITIONS:
         entry = entries[code]
-        if not isinstance(entry, dict) or entry.keys() != {"phrases", "threshold"}:
-            raise ValueError(f"{code} must have phrases and threshold in {FLAG_CONFIG_PATH.name}.")
+        if not isinstance(entry, dict) or entry.keys() not in (
+            {"phrases", "threshold"}, {"phrases", "threshold", "aggregation"}
+        ):
+            raise ValueError(f"{code} must have phrases and threshold in {path.name}.")
         threshold = entry["threshold"]
         validate_threshold(code, threshold)
-        config[code] = FlagConfig(parse_phrases(code, entry["phrases"]), threshold)
+        aggregation = entry.get("aggregation", "max")
+        if aggregation not in AGGREGATIONS:
+            raise ValueError(f"Aggregation for {code} must be one of {', '.join(AGGREGATIONS)}.")
+        config[code] = FlagConfig(parse_phrases(code, entry["phrases"]), threshold, aggregation)
     return config

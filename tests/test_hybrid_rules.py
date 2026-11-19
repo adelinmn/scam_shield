@@ -77,6 +77,57 @@ class DeterministicRulesTests(unittest.TestCase):
             RuleStatus.CONFIRMED,
         )
 
+    def test_payment_evidence_distinguishes_requests_from_receipts(self):
+        for text, status in (
+            ("Factura pentru service a fost deja achitată.", RuleStatus.REJECTED),
+            ("Nu vă solicităm nicio taxă de înscriere.", RuleStatus.REJECTED),
+            ("Am achitat deja contravaloarea. Îmi trimiți dovada de plată?", RuleStatus.REJECTED),
+            ("Costul abonamentului este de 72 lei.", RuleStatus.UNKNOWN),
+            ("72 lei", RuleStatus.REJECTED),
+            ("Nu achita factura veche, dar virează 72 de lei pentru activare.", RuleStatus.CONFIRMED),
+            ("Îmi trimiți 72 lei săptămâna asta?", RuleStatus.CONFIRMED),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(self.inspect(single(text))["RF_PAYMENT_REQUEST"], status)
+
+    def test_protective_advice_does_not_cancel_a_separate_request_for_secrecy(self):
+        advice = "Nu dezvăluiți parola nimănui."
+        self.assertEqual(self.inspect(single(advice))["RF_SECRECY"], RuleStatus.REJECTED)
+        self.assertEqual(
+            self.inspect(single(advice + " Nu verifica la bancă."))["RF_SECRECY"], RuleStatus.CONFIRMED,
+        )
+
+    def test_relationship_pressure_uses_only_earlier_sender_turns(self):
+        data = scenario(
+            ("sender", "Dragul meu, sunt foarte speriată."),
+            ("reader", "Dacă mă iubești, trebuie să mă ajuți."),
+            ("sender", "Îmi transferi 70 lei pentru transport?"),
+        )
+        self.assertEqual(self.inspect(data)["RF_EMOTIONAL_PRESSURE"], RuleStatus.CONFIRMED)
+        data["messages"][0]["text"] = "Dragul meu, sper că ești bine."
+        self.assertNotEqual(self.inspect(data)["RF_EMOTIONAL_PRESSURE"], RuleStatus.CONFIRMED)
+
+    def test_urgency_distinguishes_a_deadline_from_a_schedule(self):
+        self.assertEqual(
+            self.inspect(single("Trebuie să virezi avansul până diseară."))["RF_URGENCY"],
+            RuleStatus.CONFIRMED,
+        )
+        self.assertNotEqual(
+            self.inspect(single("Programarea pentru recepție este astăzi, la ora 12."))["RF_URGENCY"],
+            RuleStatus.CONFIRMED,
+        )
+
+    def test_affiliation_requires_a_claim_and_can_carry_to_the_next_request(self):
+        request = ("sender", "Transferă 70 lei în contul indicat.")
+        for opening, confirmed in (
+            ("Lucrez în echipa de audit de la bancă.", True),
+            ("Am primit un mesaj de la bancă.", False),
+            ("Sunt client de la bancă.", False),
+        ):
+            with self.subTest(opening=opening):
+                status = self.inspect(scenario(("sender", opening), request))["RF_IMPERSONATION"]
+                self.assertEqual(status == RuleStatus.CONFIRMED, confirmed)
+
     def test_official_hostname_matching_and_phone_claims(self):
         for url, expected in (
             ("https://www.bancadunarea.ro/verifica", RuleStatus.REJECTED),
@@ -124,6 +175,16 @@ class DeterministicRulesTests(unittest.TestCase):
         bare_link = self.inspect(single("https://anaf-verificare-exemplu.test"))
         self.assertEqual(bare_link["RF_SUSPICIOUS_CONTACT"], RuleStatus.CONFIRMED)
         self.assertNotEqual(bare_link["RF_IMPERSONATION"], RuleStatus.CONFIRMED)
+
+    def test_typo_in_official_domain_and_credentials_on_an_unverified_form(self):
+        cases = (
+            ("Documentația actualizată este pe bancadunareea.ro", RuleStatus.CONFIRMED),
+            ("Citește recenzia pe blog-instrumente.test", RuleStatus.UNKNOWN),
+            ("Tastează parola la formular-inregistrare.test", RuleStatus.CONFIRMED),
+        )
+        for text, status in cases:
+            with self.subTest(text=text):
+                self.assertEqual(self.inspect(single(text))["RF_SUSPICIOUS_CONTACT"], status)
 
     def test_catalog_uses_earlier_sender_claim_but_ignores_reader_claim(self):
         text = "Acesta este site-ul nostru: portal-exemplu.test."
@@ -203,6 +264,18 @@ class AccountAlarmClassifier:
 
 
 class HybridIntegrationTests(unittest.TestCase):
+    def test_debug_explains_rule_override_without_storing_message_text(self):
+        detector = ScamDetector(AccountAlarmClassifier(), debug=True)
+        message = "Nu dezvăluiți parola nimănui. Detaliu privat 71453."
+        result = detector.analyze_scenario(single(message))
+        record = result["debug"]["flags"][1]["RF_SECRECY"]
+        self.assertEqual(record["model_score"], 1.0)
+        self.assertEqual(record["rule_status"], RuleStatus.REJECTED)
+        self.assertEqual(record["rule_reason"], "advice_to_protect_private_information")
+        self.assertFalse(record["final_decision"])
+        self.assertTrue(record["rule_changed_decision"])
+        self.assertNotIn("71453", json.dumps(result))
+
     def test_known_benign_evidence_blocks_even_maximal_neural_scores(self):
         class OverconfidentClassifier:
             def classify(self, text):

@@ -3,6 +3,7 @@
 import os
 from collections.abc import Mapping, Sequence
 from pathlib import Path
+from statistics import mean
 from threading import Lock
 
 from .flag_definitions import load_flag_config
@@ -13,6 +14,17 @@ class ModelSetupError(RuntimeError):
     """The local inference environment needs to be set up or repaired."""
 
 
+def aggregate_scores(scores: Sequence[float], method: str) -> float:
+    if method == "max":
+        return max(scores)
+    if method == "mean":
+        return mean(scores)
+    if method in {"top2", "top3"}:
+        count = int(method[-1])
+        return mean(sorted(scores, reverse=True)[:count])
+    raise ValueError(f"Unknown hypothesis aggregation: {method}")
+
+
 class FlagClassifier:
     def __init__(
         self,
@@ -20,7 +32,9 @@ class FlagClassifier:
         device: str | None = None,
         batch_size: int = 16,
     ) -> None:
-        self._flag_hypotheses = {code: config.phrases for code, config in load_flag_config().items()}
+        config = load_flag_config()
+        self._flag_hypotheses = {code: item.phrases for code, item in config.items()}
+        self._aggregations = {code: item.aggregation for code, item in config.items()}
         model_dir = Path(
             model_dir or os.environ.get("SCAM_SHIELD_MODEL_DIR") or DEFAULT_MODEL_DIR
         ).resolve()
@@ -76,7 +90,17 @@ class FlagClassifier:
         return self.classify_many([text])[0]
 
     def classify_many(self, texts: Sequence[str]) -> list[dict[str, float]]:
-        return self.score_hypotheses(texts, self._flag_hypotheses)
+        return [
+            self._aggregate_flags(row)
+            for row in self.score_phrase_groups(texts, self._flag_hypotheses)
+        ]
+
+    def classify_detailed(self, text: str) -> tuple[dict[str, float], dict[str, list[float]]]:
+        groups = self.score_phrase_groups([text], self._flag_hypotheses)[0]
+        return self._aggregate_flags(groups), groups
+
+    def _aggregate_flags(self, groups: Mapping[str, Sequence[float]]) -> dict[str, float]:
+        return {code: aggregate_scores(scores, self._aggregations[code]) for code, scores in groups.items()}
 
     def _check_hypothesis_lengths(self) -> None:
         # Reserve at least one premise token and the tokenizer's pair separators.
@@ -92,7 +116,16 @@ class FlagClassifier:
         self, texts: Sequence[str], hypotheses: Mapping[str, str | Sequence[str]]
     ) -> list[dict[str, float]]:
         """Score phrases independently and retain the highest score for each code."""
-        results: list[dict[str, float]] = [{} for _ in texts]
+        return [
+            {code: max(scores) for code, scores in row.items()}
+            for row in self.score_phrase_groups(texts, hypotheses)
+        ]
+
+    def score_phrase_groups(
+        self, texts: Sequence[str], hypotheses: Mapping[str, str | Sequence[str]]
+    ) -> list[dict[str, list[float]]]:
+        """Return each NLI score in the order of the configured phrases."""
+        results: list[dict[str, list[float]]] = [{} for _ in texts]
         pairs = [
             (index, code, hypothesis)
             for index in range(len(texts))
@@ -113,6 +146,5 @@ class FlagClassifier:
                 logits = self._model(**inputs).logits
                 scores = logits[:, self._nli_labels].softmax(dim=-1)[:, 1].tolist()
                 for (index, code, _), score in zip(batch, scores, strict=True):
-                    row = results[index]
-                    row[code] = max(row.get(code, 0.0), score)
+                    results[index].setdefault(code, []).append(score)
         return results

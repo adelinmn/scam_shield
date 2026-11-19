@@ -74,7 +74,7 @@
       "Expeditorul insistă că înțelegerea trebuie să rămână strict între cei doi interlocutori.",
       "Cineva îi spune destinatarului să nu contacteze direct instituția pentru confirmarea informațiilor."
     ],
-    "threshold": 0.255
+    "threshold": 0.9
   },
   "RF_TOO_GOOD": {
     "phrases": [
