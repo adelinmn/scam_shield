@@ -34,13 +34,32 @@
       </header>
       <div class="card inbox" id="inbox">
         <section id="inbox-list-pane" aria-labelledby="inbox-title">
-          <h2 id="inbox-title"></h2>
+          <div class="inbox-heading">
+            <h2 id="inbox-title"></h2>
+            <button class="button secondary" id="new-conversation" type="button">Conversație nouă</button>
+          </div>
           <p class="empty-state" id="channel-empty" hidden></p>
           <ul id="inbox-list" class="inbox-list"></ul>
         </section>
         <section id="inbox-detail" aria-label="Conținutul intrării selectate">
           <a class="back-link" id="back-to-inbox" href="#dashboard">Înapoi la listă</a>
           <div id="inbox-content"></div>
+          <form class="simulation-form" id="simulation-form" aria-labelledby="simulation-title" hidden>
+            <h3 id="simulation-title">Simulează un mesaj</h3>
+            <div class="simulation-role">
+              <label for="simulation-role">Scrie ca</label>
+              <select id="simulation-role" name="role">
+                <option value="sender">Expeditor</option>
+                <option value="reader">Destinatar</option>
+              </select>
+            </div>
+            <label class="simulation-label" for="simulation-message">Mesaj</label>
+            <textarea id="simulation-message" name="message" rows="3" dir="auto" required></textarea>
+            <div class="simulation-footer">
+              <button class="button primary" type="submit">Adaugă mesajul</button>
+              <p id="simulation-status" role="status" hidden></p>
+            </div>
+          </form>
         </section>
       </div>
     </section>
