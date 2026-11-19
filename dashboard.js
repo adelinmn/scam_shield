@@ -71,11 +71,21 @@ export function setupDashboard() {
       channel.textContent = channels[scenario.channel].title;
       channel.setAttribute("aria-label", `Deschide scenariul ${scenario.id} în ${channel.textContent}`);
 
+      const verdictDisplay = error ?? verdictBadge(result?.verdict, "technical");
+      let verdictCell = verdictDisplay;
       let firstAlert = "";
       if (result?.first_alert != null) {
+        const alertUrl = entryUrl(scenario, { alert: true });
+        const alertLink = document.createElement("a");
+        alertLink.className = "alert-verdict-link";
+        alertLink.href = alertUrl;
+        alertLink.setAttribute("aria-label", `${result.verdict}, deschide alerta pentru ${scenario.id}`);
+        alertLink.append(verdictDisplay);
+        verdictCell = alertLink;
+
         firstAlert = document.createElement("a");
         firstAlert.className = "channel-link";
-        firstAlert.href = entryUrl(scenario, { alert: true });
+        firstAlert.href = alertUrl;
         firstAlert.textContent = `Mesajul ${result.first_alert}`;
         firstAlert.setAttribute("aria-label",
           `Mergi la alerta de la mesajul ${result.first_alert} din scenariul ${scenario.id}, în ${channel.textContent}`);
@@ -83,7 +93,7 @@ export function setupDashboard() {
       const codes = [...new Set(result?.red_flags.map((flag) => flag.code))];
       const cells = [
         channel,
-        error ?? verdictBadge(result?.verdict, "technical"),
+        verdictCell,
         result?.scam_type ?? "—",
         result?.risk_score ?? "—",
         result ? firstAlert : "—",

@@ -1,5 +1,6 @@
 import { setupDashboard } from "./dashboard.js";
-import { channels, renderChannel } from "./channels.js";
+import { channels, entryUrl, renderChannel } from "./channels.js";
+import { verdictBadge } from "./result-view.js";
 
 let detectorModule;
 let warningModule;
@@ -79,12 +80,56 @@ const appSet = {
   latestImportKeys: [],
   importSummary: "",
 };
-let importQueue = Promise.resolve();
+let scenarioQueue = Promise.resolve();
 let openedAlertRoute;
+let simulationNumber = 0;
+let simulationTarget;
 const renderDashboard = setupDashboard();
 const navLinks = [...document.querySelectorAll("nav [data-view]")];
 const channelView = document.querySelector("#channel-view");
 const dashboard = document.querySelector("#dashboard-view");
+const simulationPanel = document.querySelector("#simulation-panel");
+const simulationMessages = [...simulationPanel.querySelectorAll("textarea")];
+const simulationSubmits = [...simulationPanel.querySelectorAll('button[type="submit"]')];
+const simulationStatus = document.querySelector("#simulation-status");
+
+function scenarioKey({ channel, id }) {
+  return `${channel}/${id}`;
+}
+
+function hasSender(scenario) {
+  return scenario.messages.some((message) => message.from === "sender");
+}
+
+function importPending() {
+  return appSet.loading || appSet.queued > 0;
+}
+
+function updateSimulationSubmits() {
+  for (const button of simulationSubmits) button.disabled = importPending();
+}
+
+function updateSimulator(channel, entry, drafting = false) {
+  const key = entry ? scenarioKey(entry.scenario) : drafting ? `${channel}/` : undefined;
+  if (simulationTarget?.key !== key) {
+    for (const message of simulationMessages) message.value = "";
+  }
+  simulationTarget = key === undefined ? undefined : { key, channel };
+  simulationPanel.hidden = !simulationTarget;
+  updateSimulationSubmits();
+
+  simulationStatus.replaceChildren();
+  if (importPending()) {
+    simulationStatus.textContent = "Așteaptă finalizarea importului.";
+  } else if (entry?.simulated) {
+    if (entry.loading) simulationStatus.textContent = "Se analizează mesajul expeditorului…";
+    else if (entry.error) simulationStatus.textContent = entry.error;
+    else if (entry.result) simulationStatus.append(verdictBadge(entry.result.verdict));
+    else if (hasSender(entry.scenario)) simulationStatus.textContent = "Analiza așteaptă conectarea detectorului.";
+    else simulationStatus.textContent = "Așteaptă primul mesaj al expeditorului.";
+  }
+  simulationStatus.hidden = !simulationStatus.hasChildNodes();
+}
 
 function formatImportSummary({ added, updated, invalid }) {
   const parts = [];
@@ -99,7 +144,7 @@ function renderImportStatus(entries) {
   summary.textContent = appSet.importSummary;
   summary.hidden = appSet.loading || !appSet.importSummary;
 
-  const pending = entries.filter((entry) => !entry.result && !entry.error).length;
+  const pending = entries.filter((entry) => !entry.result && !entry.error && !entry.loading && hasSender(entry.scenario)).length;
   const failed = entries.filter((entry) => entry.error).length;
   const status = document.querySelector("#dashboard-status");
 
@@ -142,7 +187,10 @@ function showView(focusDetail = false) {
     if (link.dataset.view === activeView) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   }
-  if (!isChannel) return;
+  if (!isChannel) {
+    updateSimulator();
+    return;
+  }
 
   let selectedId;
   try {
@@ -150,13 +198,20 @@ function showView(focusDetail = false) {
   } catch {
     selectedId = undefined;
   }
-  const alert = renderChannel(activeView, appSet.entries.values(), selectedId);
+  const alertHadFocus = document.activeElement?.matches("#inbox-content .first-alert");
+  const drafting = destination === "new" && !selectedId;
+  const { alert, entry } = renderChannel(activeView, appSet.entries.values(), selectedId, { drafting });
+  updateSimulator(activeView, entry, drafting);
   if (destination === "alert" && alert && openedAlertRoute !== route) {
     openedAlertRoute = route;
     alert.focus({ preventScroll: true });
     alert.scrollIntoView({ block: "start", inline: "nearest" });
+  } else if (destination === "alert" && alertHadFocus && alert) {
+    alert.focus({ preventScroll: true });
   } else if (focusDetail && selectedId) {
     document.querySelector("#inbox-content h2")?.focus();
+  } else if (focusDetail && drafting) {
+    document.querySelector("#simulation-sender").focus();
   }
 }
 
@@ -170,6 +225,7 @@ function renderDataset() {
 
 function enqueueImport(loadSources, { manual = false } = {}) {
   appSet.queued += 1;
+  updateSimulationSubmits();
   renderImportStatus([...appSet.entries.values()]);
 
   const task = async () => {
@@ -186,7 +242,7 @@ function enqueueImport(loadSources, { manual = false } = {}) {
         if (!source.name.toLowerCase().endsWith(".json")) continue;
         try {
           const scenario = await readScenario(source);
-          const key = `${scenario.channel}/${scenario.id}`;
+          const key = scenarioKey(scenario);
           if (!imported.has(key)) {
             const change = appSet.entries.has(key) ? "updated" : "added";
             counts[change] += 1;
@@ -223,7 +279,7 @@ function enqueueImport(loadSources, { manual = false } = {}) {
 
   // A rejected task must never poison the queue: one bad import used to make every
   // later upload silently do nothing.
-  importQueue = importQueue
+  scenarioQueue = scenarioQueue
     .then(task)
     .catch((error) => {
       appSet.failures.push(`Importul a eșuat: ${error?.message || error}`);
@@ -234,6 +290,72 @@ function enqueueImport(loadSources, { manual = false } = {}) {
       renderDataset();
     });
 }
+
+function newSimulation(channel) {
+  let id;
+  do {
+    simulationNumber += 1;
+    id = `SIM-${simulationNumber}`;
+  } while (appSet.entries.has(scenarioKey({ channel, id })));
+
+  return {
+    id,
+    channel,
+    sender: { name: `Contact simulat ${simulationNumber}`, address: null, known_contact: false },
+    messages: [],
+  };
+}
+
+document.querySelector("#new-conversation").addEventListener("click", () => {
+  const [channel] = location.hash.slice(1).split("/");
+  if (Object.hasOwn(channels, channel)) location.hash = `#${channel}//new`;
+});
+
+simulationPanel.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!simulationTarget || importPending()) return;
+
+  const form = event.target;
+  const simulationMessage = form.elements.namedItem("message");
+  const text = simulationMessage.value.trim();
+  if (!text) {
+    simulationStatus.textContent = "Scrie un mesaj înainte de a-l adăuga.";
+    simulationStatus.hidden = false;
+    simulationMessage.focus();
+    return;
+  }
+
+  const current = appSet.entries.get(simulationTarget.key);
+  const previous = current?.scenario ?? newSimulation(simulationTarget.channel);
+  const from = form.dataset.role;
+  const n = (previous.messages.at(-1)?.n ?? 0) + 1;
+  const scenario = { ...previous, messages: [...previous.messages, { n, from, text }] };
+  const key = scenarioKey(scenario);
+  const entry = { ...current, scenario, simulated: true };
+
+  if (from === "sender") {
+    entry.loading = true;
+    entry.error = undefined;
+    entry.analysisSnapshot = scenario;
+    scenarioQueue = scenarioQueue.then(async () => {
+      const result = await analyze(scenario);
+      const latest = appSet.entries.get(key);
+      // Keep replies added during analysis and let the newest sender turn own the result.
+      if (latest?.analysisSnapshot === scenario) {
+        appSet.entries.set(key, { ...result, scenario: latest.scenario, simulated: true });
+        renderDataset();
+      }
+    });
+  }
+
+  appSet.entries.delete(key);
+  appSet.entries.set(key, entry);
+  simulationMessage.value = "";
+  simulationTarget.key = key;
+  history.replaceState(null, "", entryUrl(scenario));
+  renderDataset();
+  simulationMessage.focus();
+});
 
 async function validationSources() {
   const response = await fetch("./api/validation-set");

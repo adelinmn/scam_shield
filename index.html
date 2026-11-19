@@ -34,13 +34,35 @@
       </header>
       <div class="card inbox" id="inbox">
         <section id="inbox-list-pane" aria-labelledby="inbox-title">
-          <h2 id="inbox-title"></h2>
+          <div class="inbox-heading">
+            <h2 id="inbox-title"></h2>
+            <button class="button secondary" id="new-conversation" type="button">Conversație nouă</button>
+          </div>
           <p class="empty-state" id="channel-empty" hidden></p>
           <ul id="inbox-list" class="inbox-list"></ul>
         </section>
         <section id="inbox-detail" aria-label="Conținutul intrării selectate">
           <a class="back-link" id="back-to-inbox" href="#dashboard">Înapoi la listă</a>
           <div id="inbox-content"></div>
+          <section class="simulation-panel" id="simulation-panel" aria-label="Simulator de mesaje" hidden>
+            <div class="simulation-composers">
+              <form class="simulation-composer" data-role="sender">
+                <label for="simulation-sender">Interlocutor</label>
+                <div class="simulation-input">
+                  <textarea id="simulation-sender" name="message" rows="1" dir="auto" placeholder="Scrie un mesaj…" required></textarea>
+                  <button class="button secondary simulation-send" type="submit" aria-label="Trimite ca interlocutor">Trimite</button>
+                </div>
+              </form>
+              <form class="simulation-composer" data-role="reader">
+                <label for="simulation-reader">Tu</label>
+                <div class="simulation-input">
+                  <textarea id="simulation-reader" name="message" rows="1" dir="auto" placeholder="Scrie un mesaj…" required></textarea>
+                  <button class="button primary simulation-send" type="submit" aria-label="Trimite replica ta">Trimite</button>
+                </div>
+              </form>
+            </div>
+            <p id="simulation-status" role="status" hidden></p>
+          </section>
         </section>
       </div>
     </section>
