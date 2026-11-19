@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scam Shield</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Sari la conținut</a>
+  <aside class="sidebar">
+    <a class="brand" href="#dashboard">
+      <span class="shield" aria-hidden="true"></span>
+      <span>Scam Shield</span>
+    </a>
+    <nav aria-label="Meniu principal">
+      <a href="#dashboard" data-view="dashboard" aria-current="page">Dashboard</a>
+      <div class="channel-nav" aria-label="Aplicații">
+        <a href="#whatsapp" data-view="whatsapp">WhatsApp</a>
+        <a href="#sms" data-view="sms">SMS</a>
+        <a href="#email" data-view="email">E-mail</a>
+        <a href="#call_transcript" data-view="call_transcript">Apeluri</a>
+        <a href="#chat" data-view="chat">Chat</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main id="main" tabindex="-1">
+    <section id="channel-view" aria-labelledby="channel-title" hidden>
+      <header class="page-header channel-header">
+        <h1 id="channel-title" tabindex="-1"></h1>
+        <p id="channel-description"></p>
+      </header>
+      <div class="card inbox" id="inbox">
+        <section id="inbox-list-pane" aria-labelledby="inbox-title">
+          <h2 id="inbox-title"></h2>
+          <p class="empty-state" id="channel-empty" hidden></p>
+          <ul id="inbox-list" class="inbox-list"></ul>
+        </section>
+        <section id="inbox-detail" aria-label="Conținutul intrării selectate">
+          <a class="back-link" id="back-to-inbox" href="#dashboard">Înapoi la listă</a>
+          <div id="inbox-content"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="dashboard-view" aria-labelledby="dashboard-title">
+      <header class="page-header page-actions">
+        <div>
+          <h1 id="dashboard-title">Dashboard</h1>
+          <p>Alerte și rezultate din toate aplicațiile.</p>
+        </div>
+        <div class="actions">
+          <button class="button primary" type="button" id="open-batch">Încarcă JSON</button>
+          <button class="button secondary" type="button" id="open-folder">Încarcă folder</button>
+          <input id="batch-files" type="file" accept=".json,application/json" multiple hidden>
+          <input id="batch-folder" type="file" webkitdirectory multiple hidden>
+        </div>
+      </header>
+
+      <p id="import-summary" class="import-summary" role="status" hidden></p>
+      <p id="dashboard-status" class="import-status" role="status" hidden></p>
+      <ul id="dashboard-errors" class="feedback error-list" aria-label="Probleme la încărcare" hidden></ul>
+
+      <div class="scope-filters" role="group" aria-label="Set de scenarii" aria-controls="dashboard-table">
+        <button class="button secondary" type="button" data-scope="all" aria-pressed="true">Toate importurile</button>
+        <button class="button secondary" type="button" data-scope="latest" aria-pressed="false" disabled>Ultimul import</button>
+      </div>
+
+      <div class="summary" role="group" aria-label="Filtrează după verdict" aria-controls="dashboard-table">
+        <button class="summary-filter" type="button" data-verdict="all" aria-pressed="true">
+          <span class="summary-label">Toate scenariile</span><span class="summary-count" id="count-total">0</span>
+        </button>
+        <button class="summary-filter" type="button" data-verdict="SCAM" aria-pressed="false">
+          <span class="summary-label"><span class="summary-mark scam" aria-hidden="true">!</span> Scam</span>
+          <span class="summary-count" id="count-scam">0</span>
+        </button>
+        <button class="summary-filter" type="button" data-verdict="SUSPICIOUS" aria-pressed="false">
+          <span class="summary-label"><span class="summary-mark suspicious" aria-hidden="true">?</span> De verificat</span>
+          <span class="summary-count" id="count-suspicious">0</span>
+        </button>
+        <button class="summary-filter" type="button" data-verdict="SAFE" aria-pressed="false">
+          <span class="summary-label"><span class="summary-mark safe" aria-hidden="true">✓</span> În regulă</span>
+          <span class="summary-count" id="count-safe">0</span>
+        </button>
+      </div>
+
+      <section aria-labelledby="results-title">
+        <div class="results-heading">
+          <h2 id="results-title">Rezultate pe scenarii</h2>
+          <p id="results-count" role="status" hidden></p>
+        </div>
+        <p id="dashboard-empty" class="card dashboard-empty">Niciun scenariu încărcat.</p>
+        <div class="card table-scroll" id="dashboard-table" role="region" aria-labelledby="results-title" tabindex="0" hidden>
+          <table aria-labelledby="results-title">
+            <thead><tr>
+              <th scope="col">ID</th><th scope="col">Canal</th><th scope="col">Verdict</th><th scope="col">Tip de fraudă</th>
+              <th scope="col">Scor</th><th scope="col">Prima alertă</th><th scope="col">Indicii</th>
+            </tr></thead>
+            <tbody id="dashboard-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="details" aria-labelledby="details-title">
+    <header class="dialog-header">
+      <h2 id="details-title">Detaliile scenariului</h2>
+      <form method="dialog"><button class="button secondary" autofocus>Închide</button></form>
+    </header>
+    <div id="details-content"></div>
+  </dialog>
+</body>
+</html>
